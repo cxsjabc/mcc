@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ver.h": "c",
+			"time.h": "c"
+		}
+	}
+}
