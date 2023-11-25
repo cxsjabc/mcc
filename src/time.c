@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "mcc/time.h"
 
 static const char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};

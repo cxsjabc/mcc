@@ -8,4 +8,6 @@
 
 #define VERSION MAJOR "." MINOR
 
+const char *gen_build_ver();
+
 #endif

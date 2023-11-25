@@ -1,11 +1,21 @@
 CUR_DIR = .
 
+CC = gcc
 C_INCLUDES = -I $(CUR_DIR)/inc
 C_FLAGS = $(C_INCLUDES)
+C_FLAGS += -Wall -Werror -g
 
-all: src/main.o
-	gcc -o mcc src/main.o $(C_FLAGS)
+SRCDIR = src
 
-src/main.o: src/main.c
-	# echo "CUR_DIR: ${CUR_DIR}, C_FLAGS: $(C_FLAGS)"
-	gcc -c src/main.c -o src/main.o $(C_FLAGS)
+SRCS := $(wildcard $(SRCDIR)/*.c)
+# $(warning "$(SRCS)")
+OBJS := $(patsubst %.c,%.o, $(SRCS))
+# $(warning "$(OBJS)")
+
+%.o : %.c
+	$(CC) $(C_FLAGS) -c $< -o $@ 
+
+all: $(OBJS)
+	$(CC) -o mcc $(OBJS) $(C_FLAGS)
+
+mcc: all
