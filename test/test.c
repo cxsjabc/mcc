@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
 	always("Test starting...\n");
     test_type();
+    test_string();
 	
 	return 0;
 }

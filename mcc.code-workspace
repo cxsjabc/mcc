@@ -10,7 +10,9 @@
 			"time.h": "c",
 			"stdio.h": "c",
 			"log.h": "c",
-			"type.h": "c"
+			"type.h": "c",
+			"mem.h": "c",
+			"error.h": "c"
 		}
 	}
 }

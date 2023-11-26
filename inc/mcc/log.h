@@ -1,6 +1,8 @@
 #ifndef LOG_H
 #define LOG_H
 
+#include <stdlib.h>
+
 #ifndef NO_DEBUG
 #define NO_DEBUG 0
 #endif
@@ -17,7 +19,7 @@
 #define LOG_INFO(...)   do { if (LOG_LEVEL <= LOG_LEVEL_INFO)  log_print(__VA_ARGS__); } while(0)
 #define LOG_WARN(...)   do { if (LOG_LEVEL <= LOG_LEVEL_WARN)  log_print(__VA_ARGS__); } while(0)
 #define LOG_ERROR(...)  do { if (LOG_LEVEL <= LOG_LEVEL_ERROR)  log_print(__VA_ARGS__); } while(0)
-#define LOG_FATAL(...)  do { if (LOG_LEVEL <= LOG_LEVEL_FATAL)  log_print(__VA_ARGS__); } while(0)
+#define LOG_FATAL(...)  do { if (LOG_LEVEL <= LOG_LEVEL_FATAL)  log_print(__VA_ARGS__); abort(); } while(0)
 
 #define LOG_LEVEL   LOG_LEVEL_DEBUG
 

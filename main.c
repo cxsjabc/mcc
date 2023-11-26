@@ -6,9 +6,12 @@
 #include "mcc/args.h"
 #include "mcc/help.h"
 #include "mcc/log.h"
+#include "mcc/error.h"
 
 int main(int argc, char *argv[])
 {
+	int r;
+
 	always("Mcc ver: %s\n", VERSION);
 
 	if (argc < 2) {
@@ -16,7 +19,9 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	parse_args(--argc, ++argv);
+	r = parse_args(--argc, ++argv);
+	if (r != ERR_NONE)
+        return r;
 
 	if (is_show_build_version)
 		always("Build version: %s\n", gen_build_ver());
