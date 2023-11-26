@@ -12,7 +12,8 @@
 			"log.h": "c",
 			"type.h": "c",
 			"mem.h": "c",
-			"error.h": "c"
+			"error.h": "c",
+			"string.h": "c"
 		}
 	}
 }
