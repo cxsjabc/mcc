@@ -1,3 +1,5 @@
+#define NO_DEBUG 1
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -5,6 +7,7 @@
 #include "mcc/ver.h"
 #include "mcc/time.h"
 #include "mcc/string.h"
+#include "mcc/log.h"
 
 const char *gen_build_ver()
 {
@@ -22,7 +25,7 @@ const char *gen_build_ver()
     strcpy(build_date_copy, build_date);
     strcpy(build_time_copy, build_time);
 
-    // printf("date: %s, time: %s\n", build_date_copy, build_time_copy);
+    debug("date: %s, time: %s\n", build_date_copy, build_time_copy);
     // get month string
     len = get_string_until_char(build_date_copy, &pstart, ' ');
     if (len <= 0) {
