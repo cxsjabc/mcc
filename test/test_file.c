@@ -12,7 +12,7 @@
 
 void test_file()
 {
-	const char *f1 = "./test1.c", *f2 = "/test2.cpp";
+	const char *f1 = "./test1.c", *f2 = "/test2.cpp", *f3 = "test3.asm";
     const char *ext, *file;
     int r;
 
@@ -30,6 +30,8 @@ void test_file()
     assert(strcmp(file, "test1.c") == 0);
     file = get_file_name(f2);
     assert(strcmp(file, "test2.cpp") == 0);
+    file = get_file_name(f3);
+    assert(strcmp(file, "test3.asm") == 0);
 
 	return;
 }

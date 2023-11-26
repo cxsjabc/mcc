@@ -28,7 +28,7 @@ const char *get_file_name(const char *path)
 {
     const char *file = strrchr(path, '/');
     if (file == NULL)
-        return "";
+        return path;
     else
         return file + 1;
 }
