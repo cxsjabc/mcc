@@ -32,4 +32,9 @@
 #define error err
 #define always log_print
 
+#define LOG_HERE  do { log_print("[%s:%d]\n", __FILE__, __LINE__); } while(0)
+#define LOG_HERE_ARGS(fmt, ...) do { log_print("[%s:%d] " fmt, __FILE__, __LINE__, ##__VA_ARGS__); } while(0)
+
+#define LH LOG_HERE
+
 #endif

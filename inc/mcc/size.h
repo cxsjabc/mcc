@@ -2,7 +2,6 @@
 #define SIZE_H
 
 // This is compiler-dependent.
-#define CHAR_BIT 8
 
 #define BOOL_SIZE 1
 #define CHAR_SIZE 1

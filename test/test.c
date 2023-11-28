@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-	always("Test starting...\n");
+	always("Test starting.\n");
 
 #if ENABLE_TEST_TYPE
     test_type();
@@ -21,5 +21,10 @@ int main(int argc, char *argv[])
     test_file();
 #endif    
 	
+#if ENABLE_TEST_KEYWORD
+    test_keyword();
+#endif
+
+    always("Test end.\n");
 	return 0;
 }
