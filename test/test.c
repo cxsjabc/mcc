@@ -25,6 +25,10 @@ int main(int argc, char *argv[])
     test_keyword();
 #endif
 
+#if ENABLE_TEST_ID
+    test_id();
+#endif
+
     always("Test end.\n");
 	return 0;
 }

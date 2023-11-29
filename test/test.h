@@ -4,11 +4,13 @@
 #define ENABLE_TEST_TYPE 0
 #define ENABLE_TEST_STRING 0
 #define ENABLE_TEST_FILE 0
-#define ENABLE_TEST_KEYWORD 1
+#define ENABLE_TEST_KEYWORD 0
+#define ENABLE_TEST_ID 1
 
 void test_type();
 void test_string();
 void test_file();
 void test_keyword();
+void test_id();
 
 #endif
