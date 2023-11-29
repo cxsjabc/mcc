@@ -1,5 +1,5 @@
 
 *.o
 *.exe
-mcc
-mcc_test
+./mcc.exe
+./mcc_test.exe
