@@ -3,10 +3,10 @@
 
 #define ENABLE_TEST_TYPE 0
 #define ENABLE_TEST_STRING 0
-#define ENABLE_TEST_FILE 0
+#define ENABLE_TEST_FILE 1
 #define ENABLE_TEST_KEYWORD 0
 #define ENABLE_TEST_ID 0
-#define ENABLE_TEST_TOKEN 1
+#define ENABLE_TEST_TOKEN 0
 
 void test_type();
 void test_string();

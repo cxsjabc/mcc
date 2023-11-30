@@ -10,6 +10,15 @@
 #include "mcc/error.h"
 #include "mcc/file.h"
 
+void test_read_file()
+{
+    char *s = read_file("./test/1.source");
+    assert(s != NULL);
+
+    always("file source: |%s|\n", s);
+    free(s);
+}
+
 void test_file()
 {
 	const char *f1 = "./test1.c", *f2 = "/test2.cpp", *f3 = "test3.asm";
@@ -32,6 +41,8 @@ void test_file()
     assert(strcmp(file, "test2.cpp") == 0);
     file = get_file_name(f3);
     assert(strcmp(file, "test3.asm") == 0);
+
+    test_read_file();
 
 	return;
 }

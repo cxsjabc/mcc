@@ -3,3 +3,4 @@
 *.exe
 ./mcc.exe
 ./mcc_test.exe
+*.stackdump

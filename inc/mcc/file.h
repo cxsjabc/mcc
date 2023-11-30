@@ -8,4 +8,6 @@ int is_directory(const char *path);
 const char *get_file_name(const char *path);
 const char *get_file_extension(const char *path);
 
+char *read_file(const char *path);
+
 #endif
