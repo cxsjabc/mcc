@@ -1,6 +1,6 @@
-#ifndef TOKEN_INTERNAL_H
-#define TOKEN_INTERNAL_H
+// ** Never add #ifndef/#ifdef, because it will be included more than once. **
 
+// keywords
 DEF_TOK(TOK_AUTO, "auto")
 DEF_TOK(TOK_BREAK, "break")
 DEF_TOK(TOK_CASE, "case")
@@ -34,4 +34,8 @@ DEF_TOK(TOK_VOID, "void")
 DEF_TOK(TOK_VOLATILE, "volatile")
 DEF_TOK(TOK_WHILE, "while")
 
-#endif
+// identifiers
+DEF_TOK(TOK_IDENTIFIER, "identifier")
+
+// preprocess token
+DEF_TOK(TOK_PREPROCESS, "#")

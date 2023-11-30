@@ -29,6 +29,10 @@ int main(int argc, char *argv[])
     test_id();
 #endif
 
+#if ENABLE_TEST_TOKEN
+    test_token();
+#endif
+
     always("Test end.\n");
 	return 0;
 }
