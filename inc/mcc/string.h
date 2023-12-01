@@ -25,4 +25,6 @@ int get_string_until_char(const char *s, char **pstart, char delim);
 
 int copy_ignore_char(char *d, const char *s, const int size, const char ignore);
 
+void skip_blanks(char **pp);
+
 #endif

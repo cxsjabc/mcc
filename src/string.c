@@ -136,3 +136,8 @@ int copy_ignore_char(char *d, const char *s, const int size, const char ignore)
     }
     return i;
 }
+
+void skip_blanks(char **pp)
+{
+    // TODO
+}
