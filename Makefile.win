@@ -1,12 +1,41 @@
+# Please execute make in msvc command line environment if use MSVC.
 # Usage:
-#  make
-#  make test
+#  make -f Makefile.win
+#  make -f Makefile.win test
 #
-#  make clean
-#  make clean_test
+#  make -f Makefile.win clean
+#  make -f Makefile.win clean_test
 
 CUR_DIR = .
 
+USE_MSVC = 0
+
+C_INCLUDES = -I $(CUR_DIR)/inc
+C_FLAGS = $(C_INCLUDES)
+
+SRC_DIR = src
+SRCS := $(wildcard $(SRC_DIR)/*.c)
+
+# MSVC
+ifeq (1, $(USE_MSVC))
+# 0. cl.exe
+CC = cl.exe
+LINK = link.exe
+
+MAIN_OBJ = main.obj
+OUT_FILE = mcc.exe
+
+OBJS := $(patsubst %.c,%.obj, $(SRCS))
+
+%.obj : %.c
+	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
+
+all: $(OBJS) $(MAIN_OBJ)
+	$(LINK) /out:$(OUT_FILE) $(OBJS) $(MAIN_OBJ)
+
+clean:
+	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+else
 # not MSVC
 # 1. use gcc.exe
 CC = gcc
@@ -21,15 +50,10 @@ CC = gcc
 
 # 5. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type)
 
-C_INCLUDES = -I $(CUR_DIR)/inc
-C_FLAGS = $(C_INCLUDES)
-C_FLAGS += -Wall -Werror -g
-
-SRC_DIR = src
-SRCS := $(wildcard $(SRC_DIR)/*.c)
-
 MAIN_OBJ = main.o
 OUT_FILE = mcc
+
+C_FLAGS += -Wall -Werror -g
 
 OBJS := $(patsubst %.c,%.o, $(SRCS))
 
@@ -41,6 +65,7 @@ all: $(OBJS) $(MAIN_OBJ)
 
 clean:
 	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+endif
 
 mcc: all
 
@@ -48,6 +73,19 @@ mcc: all
 TEST_DIR = test
 TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
 
+ifeq (1, $(USE_MSVC))
+# MSVC
+TEST_OBJS := $(patsubst %.c,%.obj, $(TEST_SRCS))
+TEST_OUT = mcc_test.exe
+
+test: $(OBJS) $(TEST_OBJS)
+	$(LINK) /out:$(TEST_OUT) $(TEST_OBJS) $(OBJS)
+
+clean_test:
+	rm -rf $(TEST_OBJS) $(TEST_OUT)
+
+else
+# not MSVC
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
 TEST_OUT = mcc_test
 
@@ -56,3 +94,5 @@ test: $(OBJS) $(TEST_OBJS)
 
 clean_test:
 	rm -rf $(TEST_OBJS) $(TEST_OUT)
+
+endif
