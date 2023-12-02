@@ -66,7 +66,7 @@ char *read_file(const char *path)
 
     r = fread(buffer, 1, size, file);
     if (r != size) {
-        //error("Read file buffer error, fread return the wrong size: %ul(expect: %ld)\n", r, size);
+        error("Read file buffer error, fread return the wrong size: %zu(expect: %ld)\n", r, size);
         free(buffer);
         fclose(file);
         return NULL;
