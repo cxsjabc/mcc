@@ -1,6 +1,9 @@
 
 *.o
 *.exe
+
 ./mcc.exe
 ./mcc_test.exe
 *.stackdump
+mcc
+mcc_test
