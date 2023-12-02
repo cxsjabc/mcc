@@ -6,5 +6,5 @@
 ./mcc.exe
 ./mcc_test.exe
 *.stackdump
-mcc
-mcc_test
+./mcc
+./mcc_test

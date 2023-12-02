@@ -33,6 +33,10 @@ int main(int argc, char *argv[])
     test_token();
 #endif
 
+#if ENABLE_TEST_MEM_BUF
+    test_mem_buf();
+#endif
+
     always("Test end.\n");
 	return 0;
 }
