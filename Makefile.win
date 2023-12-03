@@ -8,7 +8,7 @@
 
 CUR_DIR = .
 
-USE_MSVC = 1
+USE_MSVC = 0
 
 C_INCLUDES = -I $(CUR_DIR)/inc
 C_FLAGS = $(C_INCLUDES)

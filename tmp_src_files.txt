@@ -1,0 +1,15 @@
+OBJS= \
+src/args.obj \
+src/array.obj \
+src/file.obj \
+src/help.obj \
+src/id.obj \
+src/keyword.obj \
+src/lex.obj \
+src/mem_buf.obj \
+src/string.obj \
+src/time.obj \
+src/token.obj \
+src/type.obj \
+src/ver.obj \
+
