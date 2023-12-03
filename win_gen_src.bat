@@ -5,6 +5,12 @@
  
  echo OBJS= \>> %TMP_SRC_FILES%
  
- for %%i in (src/*.c) do @echo src/%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
+ for %%i in (src/*.c) do @echo src\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
+ 
+ echo.>> %TMP_SRC_FILES%
+
+echo TEST_OBJS= \>> %TMP_SRC_FILES%
+ 
+ for %%i in (test/*.c) do @echo test\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
  
  echo.>> %TMP_SRC_FILES%

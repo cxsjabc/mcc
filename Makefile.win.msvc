@@ -32,8 +32,8 @@ LINK = link.exe
 MAIN_OBJ = main.obj
 OUT_FILE = mcc.exe
 
-#SRCS = src/type.c
-#OBJS = src/type.obj src/args.obj
+#SRCS = src\type.c
+#OBJS = src\type.obj src\args.obj
 
 %.obj : %.c
 	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
@@ -46,7 +46,7 @@ all: $(OBJS) $(MAIN_OBJ)
 	$(LINK) /out:$(OUT_FILE) $(OBJS) $(MAIN_OBJ)
 
 clean:
-	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+	del $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
 !endif
 
 mcc: all
@@ -56,13 +56,13 @@ TEST_DIR = test
 
 !ifdef USE_MSVC
 # MSVC
-TEST_SRCS = test/test.c
-TEST_OBJS = test/test.obj #$(patsubst %.c,%.obj, $(TEST_SRCS))
+TEST_SRCS = test\test.c
+#TEST_OBJS = test\test.obj #$(patsubst %.c,%.obj, $(TEST_SRCS))
 TEST_OUT = mcc_test.exe
 
 test: $(OBJS) $(TEST_OBJS)
 	$(LINK) /out:$(TEST_OUT) $(TEST_OBJS) $(OBJS)
 
 clean_test:
-	rm -rf $(TEST_OBJS) $(TEST_OUT)
+	del $(TEST_OBJS) $(TEST_OUT)
 !endif
