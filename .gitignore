@@ -8,3 +8,7 @@
 *.stackdump
 ./mcc
 ./mcc_test
+
+*.ilk
+*.pdb
+mcc_test
