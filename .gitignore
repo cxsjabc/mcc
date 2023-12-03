@@ -20,3 +20,6 @@ mcc.dir
 .vs
 CMakeCache.txt
 cmake/cmake_install.cmake
+cmake/ALL_BUILD.vcxproj
+cmake/ZERO_CHECK.vcxproj
+cmake/mcc.vcxproj
