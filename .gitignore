@@ -19,3 +19,4 @@ Debug
 mcc.dir
 .vs
 CMakeCache.txt
+cmake/cmake_install.cmake
