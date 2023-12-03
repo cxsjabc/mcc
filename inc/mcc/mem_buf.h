@@ -28,7 +28,9 @@ typedef struct mem_buf
 
 MemBuf init_mem_buf(int size);
 void *alloc_mem_buf(MemBuf buf, int size);
-MemChunk alloc_mem_chunk(int size);
+void free_mem_buf(MemBuf buf);
 void dump_mem_buf(MemBuf buf);
+
+MemChunk alloc_mem_chunk(int size);
 
 #endif

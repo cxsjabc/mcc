@@ -45,6 +45,10 @@ void test_mem_buf()
 
     dump_mem_buf(buf);
 
+    LHD;
+    free_mem_buf(buf);
+    dump_mem_buf(buf);
+
     // always("%s all pass.\n", __func__);
 	return;
 }
