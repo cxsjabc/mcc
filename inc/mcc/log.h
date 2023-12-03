@@ -16,6 +16,7 @@
 #define log_print printf
 
 #define LOG_DEBUG(...)  do { if (!NO_DEBUG && LOG_LEVEL <= LOG_LEVEL_DEBUG)  log_print(__VA_ARGS__); } while(0)
+#define LOG_HERE_DEBUG  do { if (!NO_DEBUG && LOG_LEVEL <= LOG_LEVEL_DEBUG) log_print("[%s:%d]\n", __FILE__, __LINE__); } while(0)
 #define LOG_INFO(...)   do { if (LOG_LEVEL <= LOG_LEVEL_INFO)  log_print(__VA_ARGS__); } while(0)
 #define LOG_WARN(...)   do { if (LOG_LEVEL <= LOG_LEVEL_WARN)  log_print(__VA_ARGS__); } while(0)
 #define LOG_ERROR(...)  do { if (LOG_LEVEL <= LOG_LEVEL_ERROR)  log_print(__VA_ARGS__); } while(0)
@@ -36,5 +37,6 @@
 #define LOG_HERE_ARGS(fmt, ...) do { log_print("[%s:%d] " fmt, __FILE__, __LINE__, ##__VA_ARGS__); } while(0)
 
 #define LH LOG_HERE
+#define LHD LOG_HERE_DEBUG
 
 #endif

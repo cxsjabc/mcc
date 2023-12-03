@@ -18,32 +18,33 @@ void test_mem_buf()
     void *p, *p1, *p2, *p3;
 
     buf = init_mem_buf(0);
-    LH;
+    LHD;
     dump_mem_buf(buf);
     assert(buf);
 
     p = alloc_mem_buf(buf, 12);
+    LHD;
     dump_mem_buf(buf);
     assert(p);
-    LH;
+    LHD;
 
     p1 = alloc_mem_buf(buf, 4096);
     dump_mem_buf(buf);
     assert(p1);
-    LH;
+    LHD;
 
     p2 = alloc_mem_buf(buf, 234);
     dump_mem_buf(buf);
     assert(p2);
-    LH;
+    LHD;
 
     p3 = alloc_mem_buf(buf, 128);
     dump_mem_buf(buf);
     assert(p3);
-    LH;
+    LHD;
 
     dump_mem_buf(buf);
 
-    always("%s all pass.\n", __func__);
+    // always("%s all pass.\n", __func__);
 	return;
 }

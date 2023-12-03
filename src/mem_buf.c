@@ -1,4 +1,4 @@
-#define NO_DEBUG 0
+#define NO_DEBUG 1
 
 #include <assert.h>
 #include <stdio.h>
@@ -43,10 +43,12 @@ void *alloc_mem_buf(MemBuf buf, int size)
 
     chk = buf->avail;
     if (chk == NULL) {
-        LH;
+        LHD;
         chk = alloc_mem_chunk(size);
         assert(chk);
         r = chk->data;
+        chk->avail = chk->data + size;
+
         buf->head.next = chk;
         buf->avail = chk;
     } else {
@@ -54,16 +56,18 @@ void *alloc_mem_buf(MemBuf buf, int size)
         unsigned char *avail = chk->avail;
         unsigned int chk_size = chk->size;
         if (data + chk_size - avail >= size) {
-            LH;
+            LHD;
             r = chk->avail;
             chk->avail += size;
         } else {
-            LH;
+            LHD;
             chk = alloc_mem_chunk(size);
             assert(chk);
             r = chk->data;
             chk->avail = chk->data + size;
+
             buf->avail->next = chk;
+            buf->avail = chk;
         }
     }
 
@@ -74,7 +78,7 @@ MemChunk alloc_mem_chunk(int size)
 {
     MemChunk chk;
 
-    size = (size + PAGE_SIZE) & ~(PAGE_SIZE - 1);
+    size = (size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
     chk = (MemChunk)malloc(sizeof(struct mem_chunk));
     if (chk == NULL)
@@ -90,14 +94,32 @@ MemChunk alloc_mem_chunk(int size)
     return chk;
 }
 
+void free_mem_buf(MemBuf buf)
+{
+    MemChunk chk = buf->head.next;
+
+    while (chk) {
+        MemChunk next = chk->next;
+        free(chk->data);
+        free(chk);
+        chk = next;
+    }
+    buf->head.next = NULL;
+    buf->avail = NULL;
+}
+
 void dump_mem_buf(MemBuf buf)
 {
     MemChunk head = &buf->head;
-    LH;
-    while(head->next) {
-        LH;
-        debug("MemChunk start(%p), size(%u), avail(%p), next(%p)\n", head->data, head->size, head->avail, head->next);
-        head = head->next;
+    MemChunk chk = head->next;
+
+    if (!chk)
+        debug("MemChunk: NULL.\n");
+
+    while(chk) {
+        LHD;
+        debug("MemChunk start(%p), size(%u), avail(%p), next(%p)\n", chk->data, chk->size, chk->avail, chk->next);
+        chk = chk->next;
     }
     if (buf->avail) {
         MemChunk chk = buf->avail;
