@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{DC84C81A-3621-3FC2-823B-FD01624D3710}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>mcc</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">H:\xichen\sources\mcc\cmake\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mcc.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">mcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">H:\xichen\sources\mcc\cmake\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mcc.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">mcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">H:\xichen\sources\mcc\cmake\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">mcc.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">mcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">H:\xichen\sources\mcc\cmake\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">mcc.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">mcc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>H:/xichen/sources/mcc/cmake/Debug/mcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>H:/xichen/sources/mcc/cmake/Debug/mcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>H:/xichen/sources/mcc/cmake/Release/mcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>H:/xichen/sources/mcc/cmake/Release/mcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>H:/xichen/sources/mcc/cmake/MinSizeRel/mcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>H:/xichen/sources/mcc/cmake/MinSizeRel/mcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>H:\xichen\sources\mcc\cmake\..\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>H:/xichen/sources/mcc/cmake/RelWithDebInfo/mcc.lib</ImportLibrary>
+      <ProgramDataBaseFile>H:/xichen/sources/mcc/cmake/RelWithDebInfo/mcc.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="H:\xichen\sources\mcc\cmake\CMakelists.txt">
+      <StdOutEncoding>UTF-8</StdOutEncoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule H:/xichen/sources/mcc/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+D:\android\sdk\cmake\3.18.1\bin\cmake.exe -SH:/xichen/sources/mcc/cmake -BH:/xichen/sources/mcc/cmake --check-stamp-file H:/xichen/sources/mcc/cmake/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeRCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCXXCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeRCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">H:\xichen\sources\mcc\cmake\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule H:/xichen/sources/mcc/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+D:\android\sdk\cmake\3.18.1\bin\cmake.exe -SH:/xichen/sources/mcc/cmake -BH:/xichen/sources/mcc/cmake --check-stamp-file H:/xichen/sources/mcc/cmake/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeRCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCXXCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeRCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">H:\xichen\sources\mcc\cmake\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule H:/xichen/sources/mcc/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+D:\android\sdk\cmake\3.18.1\bin\cmake.exe -SH:/xichen/sources/mcc/cmake -BH:/xichen/sources/mcc/cmake --check-stamp-file H:/xichen/sources/mcc/cmake/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeRCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCXXCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeRCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">H:\xichen\sources\mcc\cmake\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule H:/xichen/sources/mcc/cmake/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+D:\android\sdk\cmake\3.18.1\bin\cmake.exe -SH:/xichen/sources/mcc/cmake -BH:/xichen/sources/mcc/cmake --check-stamp-file H:/xichen/sources/mcc/cmake/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCXXInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeCommonLanguageInclude.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeGenericSystem.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeInitializeConfigs.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeLanguageInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeRCInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInformation.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\CMakeSystemSpecificInitialize.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Compiler\MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-C.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC-CXX.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows-MSVC.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\Windows.cmake;D:\android\sdk\cmake\3.18.1\share\cmake-3.18\Modules\Platform\WindowsPaths.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeCXXCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeRCCompiler.cmake;H:\xichen\sources\mcc\cmake\CMakeFiles\3.18.1-g262b901-dirty\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">H:\xichen\sources\mcc\cmake\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="H:\xichen\sources\mcc\src\args.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\array.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\file.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\help.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\id.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\keyword.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\lex.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\mem_buf.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\string.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\time.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\token.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\type.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\src\ver.c" />
+    <ClCompile Include="H:\xichen\sources\mcc\main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="H:\xichen\sources\mcc\cmake\ZERO_CHECK.vcxproj">
+      <Project>{2123E3A7-9A66-3498-A482-E8C2D8B0F1AB}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.18)
+
+project(mcc)
+
+set(CMAKE_CXX_FLAGS "")
+
+include_directories(../inc)
+aux_source_directory(../src DIR_SRCS)
+
+add_executable(mcc ${DIR_SRCS} ../main.c)

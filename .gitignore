@@ -12,3 +12,9 @@
 *.ilk
 *.pdb
 mcc_test
+
+# cmake
+CMakeFiles
+Debug
+mcc.dir
+.vs
