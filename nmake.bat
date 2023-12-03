@@ -17,6 +17,7 @@ if "%1" == "" (
     nmake.exe -f Makefile.win.msvc clean
 )  else if "%1" == "test" (
     win_gen_src.bat
+
     nmake.exe -f Makefile.win.msvc test
 ) else if "%1" == "clean_test" (
     nmake.exe -f Makefile.win.msvc clean_test

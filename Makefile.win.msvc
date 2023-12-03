@@ -11,7 +11,7 @@ CUR_DIR = .
 USE_MSVC = 1
 
 !ifdef COMSPEC
-!message "make: $(MAKE)"
+!message "nmake is: $(MAKE)"
 !INCLUDE tmp_src_files.txt
 !else
 !message "make: $(MAKE)"
