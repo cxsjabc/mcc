@@ -8,7 +8,9 @@
 CUR_DIR = .
 
 # not MSVC
-# 1. use gcc.exe
+# 0. Use clang
+# CC = clang
+# 1. Use gcc.exe
 CC = gcc
 # 2. Winows 64bit: use Mingw gcc generate 32bit program (>= 10.2.0)
 # CC = i686-w64-mingw32-gcc.exe
