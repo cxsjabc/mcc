@@ -16,7 +16,11 @@ typedef struct mem_info
     unsigned char *addr;
     unsigned int size;
     unsigned int used;
+
     MemChunk chunk; // pointer to the chunk
+
+    struct mem_info *prev;
+    struct mem_info *next;
 } *MemInfo;
 
 typedef struct mem_buf
@@ -32,5 +36,17 @@ void free_mem_buf(MemBuf buf);
 void dump_mem_buf(MemBuf buf);
 
 MemChunk alloc_mem_chunk(int size);
+
+MemInfo alloc_mem_info();
+void dump_mem_info(MemBuf buf);
+
+#define UPDATE_MEM_INFO_PREV_NEXT(mi) \
+    if (buf->info.prev) { \
+        buf->info.prev->next = mi; \
+        mi->prev = buf->info.prev; \
+        buf->info.prev = mi; \
+    } \
+    else \
+        buf->info.prev = buf->info.next = mi;
 
 #endif

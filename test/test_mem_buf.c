@@ -1,4 +1,4 @@
-#define NO_DEBUG 1
+#define NO_DEBUG 0
 
 #include <assert.h>
 #include <stdio.h>
