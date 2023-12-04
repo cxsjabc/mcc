@@ -3,12 +3,17 @@
 
 #define PAGE_SIZE 4096
 
+struct mem_info;
+
 typedef struct mem_chunk
 {
     unsigned char *data; // pointer to data
     unsigned int size; // size of data
     unsigned char *avail;
+
     struct mem_chunk *next; // pointer to next chunk
+
+    struct mem_info *active_meminfo;
 } *MemChunk;
 
 typedef struct mem_info
@@ -27,6 +32,7 @@ typedef struct mem_buf
 {
     MemChunk avail;
     struct mem_chunk head;
+
     struct mem_info meminfo;
 } *MemBuf;
 
@@ -39,6 +45,8 @@ MemChunk alloc_mem_chunk(int size);
 
 MemInfo alloc_mem_info();
 void dump_mem_info(MemBuf buf);
+
+MemInfo search_unused_mem_info(MemBuf buf, int size);
 
 unsigned int get_mem_buf_total_size(MemBuf buf);
 unsigned int get_mem_buf_used_size(MemBuf buf);
