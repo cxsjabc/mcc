@@ -25,7 +25,7 @@ MemBuf init_mem_buf(int size)
     buf->head.data = NULL;
     buf->head.next = NULL;
 
-    buf->info.next = buf->info.prev = NULL;
+    buf->meminfo.next = buf->meminfo.prev = NULL;
 
     if (size > 0) {
         MemInfo mi;
@@ -35,7 +35,7 @@ MemBuf init_mem_buf(int size)
         buf->head.next = chk;
         buf->avail = chk;
 
-        mi = alloc_mem_info(chk->data, size, 0, chk, &buf->info, NULL);
+        mi = alloc_mem_info(chk->data, size, 0, chk, &buf->meminfo, NULL);
         assert(mi);
         UPDATE_MEM_INFO_PREV_NEXT(mi);
     }
@@ -60,16 +60,18 @@ void *alloc_mem_buf(MemBuf buf, int size)
         buf->head.next = chk;
         buf->avail = chk;
 
-        mi = alloc_mem_info(chk->data, size, 1, chk, &buf->info, NULL);
+        mi = alloc_mem_info(chk->data, size, 1, chk, &buf->meminfo, NULL);
         assert(mi);
         UPDATE_MEM_INFO_PREV_NEXT(mi);
+        dump_mem_buf(buf);
 
         if (chk->size > size) {
             MemInfo mi1;
-            mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->info, NULL);
+            mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->meminfo, NULL);
             assert(mi1);
 
             UPDATE_MEM_INFO_PREV_NEXT(mi1);
+            dump_mem_buf(buf);
         }
     } else {
         unsigned char *data = chk->data;
@@ -80,16 +82,18 @@ void *alloc_mem_buf(MemBuf buf, int size)
             r = chk->avail;
             chk->avail += size;
 
-            mi = alloc_mem_info(r, size, 1, chk, &buf->info, NULL);
+            mi = alloc_mem_info(r, size, 1, chk, &buf->meminfo, NULL);
             assert(mi);
             UPDATE_MEM_INFO_PREV_NEXT(mi);
+            dump_mem_buf(buf);
 
             if (data + chk_size - avail > size) {
                 MemInfo mi1;
-                mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->info, NULL);
+                mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->meminfo, NULL);
                 assert(mi1);
 
                 UPDATE_MEM_INFO_PREV_NEXT(mi1);
+                dump_mem_buf(buf);
             }
         } else {
             LHD;
@@ -101,16 +105,18 @@ void *alloc_mem_buf(MemBuf buf, int size)
             buf->avail->next = chk;
             buf->avail = chk;
 
-            mi = alloc_mem_info(chk->data, size, 1, chk, &buf->info, NULL);
+            mi = alloc_mem_info(chk->data, size, 1, chk, &buf->meminfo, NULL);
             assert(mi);
             UPDATE_MEM_INFO_PREV_NEXT(mi);
+            dump_mem_buf(buf);
 
             if (chk->size > size) {
                 MemInfo mi1;
-                mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->info, NULL);
+                mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->meminfo, NULL);
                 assert(mi1);
 
                 UPDATE_MEM_INFO_PREV_NEXT(mi1);
+                dump_mem_buf(buf);
             }
         }
     }
@@ -170,6 +176,47 @@ void free_mem_buf(MemBuf buf)
     buf->avail = NULL;
 }
 
+unsigned int get_mem_buf_total_size(MemBuf buf)
+{
+    unsigned int size = 0;
+    MemChunk mc = &buf->head;
+
+    mc = mc->next;
+    while (mc) {
+        size += mc->size;
+        mc = mc->next;
+    }
+    return size;
+}
+
+unsigned int get_mem_buf_used_size(MemBuf buf)
+{
+    unsigned int used_size = 0;
+    MemInfo mi = &buf->meminfo;
+
+    mi = mi->next;
+    while (mi) {
+        if (mi->used)
+            used_size += mi->size;
+        mi = mi->next;
+    }
+    return used_size;
+}
+
+unsigned int get_mem_buf_unused_size(MemBuf buf)
+{
+    unsigned int unused_size = 0;
+    MemInfo mi = &buf->meminfo;
+
+    mi = mi->next;
+    while (mi) {
+        if (!mi->used)
+            unused_size += mi->size;
+        mi = mi->next;
+    }
+    return unused_size;
+}
+
 void dump_mem_buf(MemBuf buf)
 {
     MemChunk head = &buf->head;
@@ -179,13 +226,12 @@ void dump_mem_buf(MemBuf buf)
         debug("MemChunk: NULL.\n");
 
     while(chk) {
-        LHD;
-        debug("MemChunk start(%p), size(%u), avail(%p), next(%p)\n", chk->data, chk->size, chk->avail, chk->next);
+        debug("MemChunk(%p) start(%p), size(%u), avail(%p), next(%p)\n", chk, chk->data, chk->size, chk->avail, chk->next);
         chk = chk->next;
     }
     if (buf->avail) {
         MemChunk chk = buf->avail;
-        debug("\tAvailable MemChunk start(%p), size(%u), avail(%p), next(%p)\n", chk->data, chk->size, chk->avail, chk->next);
+        debug("\tAvailable MemChunk(%p) start(%p), size(%u), avail(%p), next(%p)\n", chk, chk->data, chk->size, chk->avail, chk->next);
     }
 
     dump_mem_info(buf);
@@ -193,15 +239,13 @@ void dump_mem_buf(MemBuf buf)
 
 void dump_mem_info(MemBuf buf)
 {
-    MemInfo mi = &buf->info;
+    MemInfo mi = &buf->meminfo;
     MemInfo p = mi->next;
 
-    if (!p)
-        debug("MemInfo: NULL.\n");
+    debug("MemInfo(Head: %p, prev: %p, next: %p): %s.\n", mi, mi->prev, mi->next, p == NULL ? "NULL" : "not NULL");
 
     while(p) {
-        LHD;
-        debug("MemInfo addr(%p), size(%u), used(%d), prev(%p), next(%p)\n", p->addr, p->size, p->used, p->prev, p->next);
+        debug("MemInfo(%p) addr(%p), size(%u), used(%d), prev(%p), next(%p)\n", p, p->addr, p->size, p->used, p->prev, p->next);
         p = p->next;
     }
 }

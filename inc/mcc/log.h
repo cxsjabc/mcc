@@ -45,4 +45,6 @@
 #define LH LOG_HERE
 #define LHD LOG_HERE_DEBUG
 
+#define LOGD(val)  do { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(#val "%d\n", (val)); } while(0)
+
 #endif
