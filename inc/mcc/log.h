@@ -42,6 +42,20 @@
 #define error err
 #define always log_print
 
+#define LOG_DEBUG_NO_FILE_LINE(...)  do { if (!NO_DEBUG && LOG_LEVEL <= LOG_LEVEL_DEBUG)  { log_print(__VA_ARGS__); } } while(0)
+#define LOG_INFO_NO_FILE_LINE(...)   do { if (LOG_LEVEL <= LOG_LEVEL_INFO)  { log_print(__VA_ARGS__); } } while(0)
+#define LOG_WARN_NO_FILE_LINE(...)   do { if (LOG_LEVEL <= LOG_LEVEL_WARN)  { log_print(__VA_ARGS__); } } while(0)
+#define LOG_ERROR_NO_FILE_LINE(...)  do { if (LOG_LEVEL <= LOG_LEVEL_ERROR) { log_print(__VA_ARGS__); } } while(0)
+#define LOG_FATAL_NO_FILE_LINE(...)  do { if (LOG_LEVEL <= LOG_LEVEL_FATAL) { log_print(__VA_ARGS__); abort(); } } while(0)
+
+#define debug_nofl LOG_DEBUG_NO_FILE_LINE
+#define info_nofl  LOG_INFO_NO_FILE_LINE
+#define warn_nofl  LOG_WARN_NO_FILE_LINE
+#define err_nofl   LOG_ERROR_NO_FILE_LINE
+#define fatal_nofl LOG_FATAL_NO_FILE_LINE
+
+#define error_nofl err_nofl
+
 #define LH LOG_HERE
 #define LHD LOG_HERE_DEBUG
 
