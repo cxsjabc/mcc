@@ -9,6 +9,7 @@
 ./mcc
 ./mcc_test
 mcc
+!mcc/
 
 *.ilk
 *.pdb

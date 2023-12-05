@@ -49,20 +49,30 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 {
     MemChunk chk;
     void *r;
+    const int orig_size = size;
+
+    (void)orig_size;    // make compiler shut up
 
     chk = buf->avail;
+#if ENABLE_MEM_DEBUG
+    size += CHK_MEM_BLOCK_MAGIC_SIZE;
+#endif
+
     if (chk == NULL) {
         LHD;
         chk = alloc_mem_chunk(size);
         assert(chk);
         r = chk->data;
         chk->avail = chk->data + size;
+#if ENABLE_MEM_DEBUG
+        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+#endif
 
         buf->head.next = chk;
         buf->avail = chk;
 
 #if ENABLE_MEM_INFO
-        ALLOC_MEM_INFO(chk, chk->data, size, 1);
+        ALLOC_MEM_INFO(chk, chk->data, orig_size, 1);
 
         if (chk->size > size)
             ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
@@ -76,14 +86,19 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 
         // search unused mem info
         if (size >= sizeof(struct mem_info) * 2 && (mi = search_unused_mem_info(buf, size))) {
-            unsigned int orig_size = mi->size;
+            unsigned int mi_orig_size = mi->size;
+            LHD;
             r = mi->addr;
             mi->used = 1;
-            mi->size = size;
-            
-            if (orig_size > size) {
+            mi->size = orig_size;
+#if ENABLE_MEM_DEBUG
+        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+#endif
+
+            if (mi_orig_size > size) {
                 MemInfo mi1, mi2;
-                mi1 = alloc_mem_info(r + size, orig_size - size, 0, chk, NULL, NULL);
+                LHD;
+                mi1 = alloc_mem_info(r, mi_orig_size - size, 0, chk, NULL, NULL);
                 assert(mi1);
                 
                 mi2 = mi->next;
@@ -100,9 +115,12 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             MemInfo active_meminfo;
             unsigned remain_size;
 #endif
-
+            LHD;
             r = chk->avail;
             chk->avail += size;
+#if ENABLE_MEM_DEBUG
+        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+#endif
 
 #if ENABLE_MEM_INFO
             active_meminfo = chk->active_meminfo;
@@ -120,11 +138,15 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             r = chk->data;
             chk->avail = chk->data + size;
 
+#if ENABLE_MEM_DEBUG
+        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+#endif
+
             buf->avail->next = chk;
             buf->avail = chk;
 
 #if ENABLE_MEM_INFO
-            ALLOC_MEM_INFO(chk, chk->data, size, 1);
+            ALLOC_MEM_INFO(chk, chk->data, orig_size, 1);
 
             if (chk->size > size)
                 ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
@@ -152,11 +174,11 @@ MemInfo search_unused_mem_info(MemBuf buf, int size)
 MemChunk alloc_mem_chunk(int size)
 {
     MemChunk chk;
-    int orig_size = size;
 
 #if ENABLE_MEM_DEBUG
     size += CHK_MAGIC_SIZE;
 #endif
+
     size = (size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
     chk = (MemChunk)mcc_malloc(sizeof(struct mem_chunk));
@@ -168,10 +190,11 @@ MemChunk alloc_mem_chunk(int size)
         mcc_free(chk);
         return NULL;
     }
-    chk->size = orig_size;
+    chk->size = size;
     chk->next = NULL;
 
 #if ENABLE_MEM_DEBUG
+    chk->size -= CHK_MAGIC_SIZE;
     UPDATE_CHK_MAGIC(chk->data, chk->size);
 #endif
     return chk;
@@ -248,8 +271,12 @@ unsigned int get_mem_buf_used_size(MemBuf buf)
 
     mi = mi->next;
     while (mi) {
-        if (mi->used)
+        if (mi->used) {
             used_size += mi->size;
+#if ENABLE_MEM_DEBUG
+            used_size += CHK_MEM_BLOCK_MAGIC_SIZE;
+#endif
+        }
         mi = mi->next;
     }
     return used_size;

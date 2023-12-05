@@ -3,8 +3,8 @@
 
 #define PAGE_SIZE 4096
 
-#define ENABLE_MEM_INFO 0
-#define ENABLE_MEM_DEBUG 1
+#define ENABLE_MEM_INFO 1
+#define ENABLE_MEM_DEBUG 0
 
 #if ENABLE_MEM_DEBUG
 #define CHK_MAGIC_PREFIX    0xFEFF
@@ -20,15 +20,37 @@
 
 #define UPDATE_CHK_MAGIC(addr, size) \
 { \
+    void *addr1 = addr; \
     *(unsigned short *)(addr) = CHK_MAGIC_PREFIX; \
-    (addr) += CHK_MAGIC_PREFIX_SIZE; \
+    (addr1) += CHK_MAGIC_PREFIX_SIZE; \
+    (addr) = addr1; \
     *(unsigned short *)((unsigned char *)addr + size) = CHK_MAGIC_SUFFIX; \
 }
 
 #define GET_CHK_MAGIC_PREFIX(chk) \
-    (*(unsigned short *)((unsigned char *)(((chk)->data) - CHK_MAGIC_PREFIX_SIZE)))
+    (* (unsigned short *) ( (unsigned char *)((chk)->data) - CHK_MAGIC_PREFIX_SIZE))
 #define GET_CHK_MAGIC_SUFFIX(chk) \
-    (*(unsigned short *)((unsigned char *)(((chk)->data) + ((chk)->size))))
+    (* (unsigned short *) ( (unsigned char *)((chk)->data) + ((chk)->size) ))
+
+#define UPDATE_MEM_BLOCK_MAGIC(addr, size) \
+{ \
+    void *addr1 = addr; \
+    *(unsigned short *)(addr) = CHK_MEM_BLOCK_MAGIC_PREFIX; \
+    (addr1) += CHK_MEM_BLOCK_MAGIC_PREFIX_SIZE; \
+    (addr) = addr1; \
+    *(unsigned short *)((unsigned char *)addr + size) = CHK_MEM_BLOCK_MAGIC_SUFFIX; \
+}
+
+#define GET_MEM_BLOCK_MAGIC_PREFIX(addr) \
+    (* (unsigned short *) ( (unsigned char *)(addr) - CHK_MEM_BLOCK_MAGIC_PREFIX_SIZE ) )
+#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr) \
+    (* (unsigned short *) ( (unsigned char *)((chk)->data) + ((chk)->size) ))
+
+#else
+#define GET_CHK_MAGIC_PREFIX(chk) 0x0
+#define GET_CHK_MAGIC_SUFFIX(chk) 0x0
+#define GET_MEM_BLOCK_MAGIC_PREFIX(addr) 0x0
+#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr) 0x0
 #endif
 
 struct mem_info;
