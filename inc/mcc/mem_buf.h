@@ -6,6 +6,31 @@
 #define ENABLE_MEM_INFO 0
 #define ENABLE_MEM_DEBUG 1
 
+#if ENABLE_MEM_DEBUG
+#define CHK_MAGIC_PREFIX    0xFEFF
+#define CHK_MAGIC_SUFFIX    0xFFFE
+#define CHK_MAGIC_PREFIX_SIZE 2
+#define CHK_MAGIC_SUFFIX_SIZE 2
+#define CHK_MAGIC_SIZE      4
+#define CHK_MEM_BLOCK_MAGIC_PREFIX 0xDEAD
+#define CHK_MEM_BLOCK_MAGIC_SUFFIX 0xDAED
+#define CHK_MEM_BLOCK_MAGIC_PREFIX_SIZE 2
+#define CHK_MEM_BLOCK_MAGIC_SUFFIX_SIZE 2
+#define CHK_MEM_BLOCK_MAGIC_SIZE   4
+
+#define UPDATE_CHK_MAGIC(addr, size) \
+{ \
+    *(unsigned short *)(addr) = CHK_MAGIC_PREFIX; \
+    (addr) += CHK_MAGIC_PREFIX_SIZE; \
+    *(unsigned short *)((unsigned char *)addr + size) = CHK_MAGIC_SUFFIX; \
+}
+
+#define GET_CHK_MAGIC_PREFIX(chk) \
+    (*(unsigned short *)((unsigned char *)(((chk)->data) - CHK_MAGIC_PREFIX_SIZE)))
+#define GET_CHK_MAGIC_SUFFIX(chk) \
+    (*(unsigned short *)((unsigned char *)(((chk)->data) + ((chk)->size))))
+#endif
+
 struct mem_info;
 
 typedef struct mem_chunk
@@ -16,7 +41,9 @@ typedef struct mem_chunk
 
     struct mem_chunk *next; // pointer to next chunk
 
+#if ENABLE_MEM_INFO
     struct mem_info *active_meminfo;
+#endif
 } *MemChunk;
 
 #if ENABLE_MEM_INFO
@@ -44,7 +71,7 @@ typedef struct mem_buf
 } *MemBuf;
 
 MemBuf init_mem_buf(int size);
-void *alloc_mem_buf(MemBuf buf, int size);
+void *alloc_from_mem_buf(MemBuf buf, int size);
 void free_mem_buf(MemBuf buf);
 void dump_mem_buf(MemBuf buf);
 

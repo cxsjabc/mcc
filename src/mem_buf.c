@@ -45,7 +45,7 @@ MemBuf init_mem_buf(int size)
     return buf;
 }
 
-void *alloc_mem_buf(MemBuf buf, int size)
+void *alloc_from_mem_buf(MemBuf buf, int size)
 {
     MemChunk chk;
     void *r;
@@ -152,7 +152,11 @@ MemInfo search_unused_mem_info(MemBuf buf, int size)
 MemChunk alloc_mem_chunk(int size)
 {
     MemChunk chk;
+    int orig_size = size;
 
+#if ENABLE_MEM_DEBUG
+    size += CHK_MAGIC_SIZE;
+#endif
     size = (size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
     chk = (MemChunk)mcc_malloc(sizeof(struct mem_chunk));
@@ -164,8 +168,12 @@ MemChunk alloc_mem_chunk(int size)
         mcc_free(chk);
         return NULL;
     }
-    chk->size = size;
+    chk->size = orig_size;
     chk->next = NULL;
+
+#if ENABLE_MEM_DEBUG
+    UPDATE_CHK_MAGIC(chk->data, chk->size);
+#endif
     return chk;
 }
 
@@ -198,6 +206,9 @@ void free_mem_buf(MemBuf buf)
 
     while (chk) {
         MemChunk next = chk->next;
+#if ENABLE_MEM_DEBUG
+        chk->data -= CHK_MAGIC_PREFIX_SIZE;
+#endif
         mcc_free(chk->data);
         mcc_free(chk);
         chk = next;
@@ -283,14 +294,22 @@ void dump_mem_buf(MemBuf buf)
         debug("MemChunk: NULL.\n");
 
     while(chk) {
-        debug("MemChunk(%p) start(%p), size(%u), avail(%p), next(%p), active_meminfo: (%p)\n",
-              chk, chk->data, chk->size, chk->avail, chk->next, chk->active_meminfo);
+        debug("MemChunk(%p) start(%p), size(%u), avail(%p), next(%p), magic_pre:(%x), magic_suffix(%x)",
+              chk, chk->data, chk->size, chk->avail, chk->next, GET_CHK_MAGIC_PREFIX(chk), GET_CHK_MAGIC_SUFFIX(chk));
+#if ENABLE_MEM_INFO
+        debug_nofl(", active_meminfo: (%p)", chk->active_meminfo);
+#endif
+        debug_nofl("\n");
         chk = chk->next;
     }
     if (buf->avail) {
         MemChunk chk = buf->avail;
-        debug("\tAvailable MemChunk(%p) start(%p), size(%u), avail(%p), next(%p), active_meminfo(%p)\n",
-              chk, chk->data, chk->size, chk->avail, chk->next, chk->active_meminfo);
+        debug("\tAvailable MemChunk(%p) start(%p), size(%u), avail(%p), next(%p), magic_pre:(%x), magic_suffix(%x)",
+              chk, chk->data, chk->size, chk->avail, chk->next, GET_CHK_MAGIC_PREFIX(chk), GET_CHK_MAGIC_SUFFIX(chk));
+#if ENABLE_MEM_INFO
+        debug_nofl(", active_meminfo: (%p)", chk->active_meminfo);
+#endif
+        debug_nofl("\n");
     }
 
 #if ENABLE_MEM_INFO

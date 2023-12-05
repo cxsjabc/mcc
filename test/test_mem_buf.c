@@ -26,7 +26,7 @@ void test_mem_buf()
 #endif
 
     LHD;
-    p = alloc_mem_buf(buf, 12);
+    p = alloc_from_mem_buf(buf, 12);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf);
@@ -34,7 +34,7 @@ void test_mem_buf()
 #endif
 
     LHD;
-    p1 = alloc_mem_buf(buf, 4096);
+    p1 = alloc_from_mem_buf(buf, 4096);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
@@ -42,7 +42,7 @@ void test_mem_buf()
 #endif
 
     LHD;
-    p2 = alloc_mem_buf(buf, 234);
+    p2 = alloc_from_mem_buf(buf, 234);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
@@ -50,7 +50,7 @@ void test_mem_buf()
 #endif
 
     LHD;
-    p3 = alloc_mem_buf(buf, 128);
+    p3 = alloc_from_mem_buf(buf, 128);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
