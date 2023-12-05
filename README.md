@@ -1,15 +1,16 @@
 # mcc
 
 #### 介绍
-1 *nix:
+# *nix:
+## Ubuntu 22.04 WSL
 make: build a mcc compiler.
 make clean: clean the mcc compiler.
 
 make test: test the mcc compiler.
 make clean_test: clean the test files.
 
-2 Windows:
-  2.1 MSVC cl.exe
+# Windows:
+  2.1 MSVC cl.exe (Verified pass on VS2019)
     Precondition: Command Line environment in MSVC.
       Method1: Use nmake.bat.
         nmake or nmake mcc
@@ -23,6 +24,7 @@ make clean_test: clean the test files.
             make -f Makefile.win clean
             make -f Makefile.win clean_test
 
+      Note: Not support Visual Stuio C++ 6.0(not support __VA_ARGS__).
   2.2 MinGW gcc
     make -f Makefile.win
     make -f Makefile.win test
@@ -30,11 +32,11 @@ make clean_test: clean the test files.
     make -f Makefile.win clean
     make -f Makefile.win clean_test
 
-3 macOS
+# macOS
   Clang or Gcc.
-  Usually, macOS gcc is a symbol link to clang.
+   - Usually, macOS gcc is a symbol link to clang.
   3.1 Clang (>= Apple clang version 13.0.0 (clang-1300.0.27.3))
-    make
+    Build command: make
 
 #### 软件架构
 
