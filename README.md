@@ -2,7 +2,8 @@
 
 #### 介绍
 # *nix:
-## Ubuntu 22.04 WSL
+## Ubuntu 22.04 or Ubuntu 22.04 WSL
+  1 Gcc (>= 11.2.0)
 make: build a mcc compiler.
 make clean: clean the mcc compiler.
 
