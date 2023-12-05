@@ -14,7 +14,8 @@
 			"mem.h": "c",
 			"error.h": "c",
 			"string.h": "c",
-			"size.h": "c"
+			"size.h": "c",
+			"id.h": "c"
 		}
 	}
 }

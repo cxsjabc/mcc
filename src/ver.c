@@ -32,6 +32,7 @@ const char *gen_build_ver()
         fprintf(stderr, "Failed to get build month string.\n");
         return NULL;
     }
+    debug("month: %s, len: %d\n", pstart, len);
 
     pstart[len] = '\0';
     // translate month string to month interger
@@ -44,7 +45,7 @@ const char *gen_build_ver()
     // get day
     len = get_string_until_char(pstart + len + 1, &pstart, ' ');
     if (len <= 0) {
-        fprintf(stderr, "Failed to get build day string.\n");
+        fprintf(stderr, "Failed to get build day string, len(%d), p(%p, %c).\n", len, pstart, *pstart);
         return NULL;
     }
     pstart[len] = '\0';
@@ -53,7 +54,7 @@ const char *gen_build_ver()
     // get year
     len = get_string_until_char(pstart + len + 1, &pstart, ' ');
     if (len <= 0) {
-        fprintf(stderr, "Failed to get build day string.\n");
+        fprintf(stderr, "Failed to get build year string.\n");
         return NULL;
     }
     pstart[len] = '\0';

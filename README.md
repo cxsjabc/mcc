@@ -30,6 +30,12 @@ make clean_test: clean the test files.
     make -f Makefile.win clean
     make -f Makefile.win clean_test
 
+3 macOS
+  Clang or Gcc.
+  Usually, macOS gcc is a symbol link to clang.
+  3.1 Clang (>= Apple clang version 13.0.0 (clang-1300.0.27.3))
+    make
+
 #### 软件架构
 
 

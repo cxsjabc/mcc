@@ -6,6 +6,7 @@
 #include "mcc/string.h"
 #include "mcc/mem.h"
 #include "mcc/error.h"
+#include "mcc/id.h"
 
 PCstr alloc_cstr(const int maxlen)
 {
@@ -103,9 +104,11 @@ void replace_string_with(char *s, const char orig, const char dest)
 
 int get_string_until_char(const char *s, char **pstart, char delim)
 {
-    char *p = (char *)s;
+    char *p = (char *)s, *p1 = (char *)s;
     int len;
 
+    skip_blanks(&p1);
+    p = p1;
     if (*p != delim)
         *pstart = p, len = 1, ++p;
     else
@@ -139,5 +142,8 @@ int copy_ignore_char(char *d, const char *s, const int size, const char ignore)
 
 void skip_blanks(char **pp)
 {
-    // TODO
+    char *s = *pp;
+    while (is_whitespace(*s))
+        ++s;
+    *pp = s;
 }
