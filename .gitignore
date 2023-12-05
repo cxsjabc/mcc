@@ -24,3 +24,4 @@ cmake/cmake_install.cmake
 cmake/ALL_BUILD.vcxproj
 cmake/ZERO_CHECK.vcxproj
 cmake/mcc.vcxproj
+cmake/Makefile
