@@ -3,6 +3,9 @@
 
 #define PAGE_SIZE 4096
 
+#define ENABLE_MEM_INFO 0
+#define ENABLE_MEM_DEBUG 1
+
 struct mem_info;
 
 typedef struct mem_chunk
@@ -16,6 +19,7 @@ typedef struct mem_chunk
     struct mem_info *active_meminfo;
 } *MemChunk;
 
+#if ENABLE_MEM_INFO
 typedef struct mem_info
 {
     unsigned char *addr;
@@ -27,13 +31,16 @@ typedef struct mem_info
     struct mem_info *prev;
     struct mem_info *next;
 } *MemInfo;
+#endif
 
 typedef struct mem_buf
 {
     MemChunk avail;
     struct mem_chunk head;
 
+#if ENABLE_MEM_INFO
     struct mem_info meminfo;
+#endif    
 } *MemBuf;
 
 MemBuf init_mem_buf(int size);
@@ -43,16 +50,20 @@ void dump_mem_buf(MemBuf buf);
 
 MemChunk alloc_mem_chunk(int size);
 
+#if ENABLE_MEM_INFO
 MemInfo alloc_mem_info();
 void dump_mem_info(MemBuf buf);
 
 MemInfo search_unused_mem_info(MemBuf buf, int size);
+#endif
 
 unsigned int get_mem_buf_total_size(MemBuf buf);
+#define BUF_TOTAL_SIZE(buf) get_mem_buf_total_size(buf)
+
+#if ENABLE_MEM_INFO
 unsigned int get_mem_buf_used_size(MemBuf buf);
 unsigned int get_mem_buf_unused_size(MemBuf buf);
 
-#define BUF_TOTAL_SIZE(buf) get_mem_buf_total_size(buf)
 #define BUF_USED_SIZE(buf) get_mem_buf_used_size(buf)
 #define BUF_UNUSED_SIZE(buf) get_mem_buf_unused_size(buf)
 
@@ -61,11 +72,21 @@ unsigned int get_mem_buf_unused_size(MemBuf buf);
 
 #define UPDATE_MEM_INFO_PREV_NEXT(mi) \
     if (buf->meminfo.prev) { \
-        buf->meminfo.prev->next = mi; \
-        mi->prev = buf->meminfo.prev; \
-        buf->meminfo.prev = mi; \
+        buf->meminfo.prev->next = (mi); \
+        (mi)->prev = buf->meminfo.prev; \
+        buf->meminfo.prev = (mi); \
     } \
     else \
-        buf->meminfo.prev = buf->meminfo.next = mi;
+        buf->meminfo.prev = buf->meminfo.next = (mi), (mi)->prev = &buf->meminfo;
+
+#define ALLOC_MEM_INFO(chk, addr, size, used) \
+{ \
+    MemInfo mi; \
+    mi = alloc_mem_info((addr), (size), (used), (chk), NULL, NULL); \
+    assert(mi); \
+    UPDATE_MEM_INFO_PREV_NEXT(mi); \
+    (chk)->active_meminfo = mi; \
+}
+#endif
 
 #endif

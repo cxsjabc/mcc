@@ -10,6 +10,7 @@
 #include "mcc/error.h"
 #include "mcc/log.h"
 #include "mcc/size.h"
+#include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
 MemBuf init_mem_buf(int size)
@@ -17,7 +18,7 @@ MemBuf init_mem_buf(int size)
     MemBuf buf;
     MemChunk chk;
 
-    buf = (MemBuf)malloc(sizeof(struct mem_buf));
+    buf = (MemBuf)mcc_malloc(sizeof(struct mem_buf));
     if (buf == NULL)
         return NULL;
 
@@ -25,21 +26,20 @@ MemBuf init_mem_buf(int size)
     buf->head.data = NULL;
     buf->head.next = NULL;
 
+#if ENABLE_MEM_INFO
     buf->meminfo.next = buf->meminfo.prev = NULL;
+#endif
 
     if (size > 0) {
-        MemInfo mi;
         chk = alloc_mem_chunk(size);
         assert(chk);
 
         buf->head.next = chk;
         buf->avail = chk;
 
-        mi = alloc_mem_info(chk->data, size, 0, chk, &buf->meminfo, NULL);
-        assert(mi);
-        UPDATE_MEM_INFO_PREV_NEXT(mi);
-
-        chk->active_meminfo = mi;
+#if ENABLE_MEM_INFO
+        ALLOC_MEM_INFO(chk, chk->data, size, 0);
+#endif
     }
 
     return buf;
@@ -49,7 +49,6 @@ void *alloc_mem_buf(MemBuf buf, int size)
 {
     MemChunk chk;
     void *r;
-    MemInfo mi;
 
     chk = buf->avail;
     if (chk == NULL) {
@@ -62,27 +61,21 @@ void *alloc_mem_buf(MemBuf buf, int size)
         buf->head.next = chk;
         buf->avail = chk;
 
-        mi = alloc_mem_info(chk->data, size, 1, chk, &buf->meminfo, NULL);
-        assert(mi);
-        UPDATE_MEM_INFO_PREV_NEXT(mi);
-        //dump_mem_buf(buf);
-        chk->active_meminfo = mi;
+#if ENABLE_MEM_INFO
+        ALLOC_MEM_INFO(chk, chk->data, size, 1);
 
-        if (chk->size > size) {
-            MemInfo mi1;
-            mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->meminfo, NULL);
-            assert(mi1);
-
-            UPDATE_MEM_INFO_PREV_NEXT(mi1);
-            //dump_mem_buf(buf);
-            chk->active_meminfo = mi1;
-        }
+        if (chk->size > size)
+            ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
+#endif
     } else {
         unsigned char *data = chk->data;
         unsigned char *avail = chk->avail;
         unsigned int chk_size = chk->size;
+#if ENABLE_MEM_INFO
+        MemInfo mi;
+
         // search unused mem info
-        if ((mi = search_unused_mem_info(buf, size))) {
+        if (size >= sizeof(struct mem_info) * 2 && (mi = search_unused_mem_info(buf, size))) {
             unsigned int orig_size = mi->size;
             r = mi->addr;
             mi->used = 1;
@@ -90,7 +83,7 @@ void *alloc_mem_buf(MemBuf buf, int size)
             
             if (orig_size > size) {
                 MemInfo mi1, mi2;
-                mi1 = alloc_mem_info(r + size, orig_size - size, 0, chk, &buf->meminfo, NULL);
+                mi1 = alloc_mem_info(r + size, orig_size - size, 0, chk, NULL, NULL);
                 assert(mi1);
                 
                 mi2 = mi->next;
@@ -98,34 +91,28 @@ void *alloc_mem_buf(MemBuf buf, int size)
                 mi1->prev = mi;
                 mi1->next = mi2;
                 mi2->prev = mi1;
-                //dump_mem_buf(buf);
                 chk->active_meminfo = mi1;
             }
-        } else if (data + chk_size - avail >= size) {
+        } else
+#endif
+        if (data + chk_size - avail >= size) {
+#if ENABLE_MEM_INFO
             MemInfo active_meminfo;
             unsigned remain_size;
+#endif
 
             r = chk->avail;
             chk->avail += size;
 
-            //mi = alloc_mem_info(r, size, 1, chk, &buf->meminfo, NULL);
-            //assert(mi);
-            //UPDATE_MEM_INFO_PREV_NEXT(mi);
-            //dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
             active_meminfo = chk->active_meminfo;
             active_meminfo->used = 1;
             active_meminfo->size = size;
 
             remain_size = data + chk_size - chk->avail;
-            if (remain_size > 0) {
-                MemInfo mi1;
-                mi1 = alloc_mem_info(chk->avail, remain_size, 0, chk, &buf->meminfo, NULL);
-                assert(mi1);
-
-                UPDATE_MEM_INFO_PREV_NEXT(mi1);
-                //dump_mem_buf(buf);
-                chk->active_meminfo = mi1;
-            }
+            if (remain_size > 0)
+                ALLOC_MEM_INFO(chk, chk->avail, remain_size, 0);
+#endif
         } else {
             LHD;
             chk = alloc_mem_chunk(size);
@@ -136,27 +123,19 @@ void *alloc_mem_buf(MemBuf buf, int size)
             buf->avail->next = chk;
             buf->avail = chk;
 
-            mi = alloc_mem_info(chk->data, size, 1, chk, &buf->meminfo, NULL);
-            assert(mi);
-            UPDATE_MEM_INFO_PREV_NEXT(mi);
-            //dump_mem_buf(buf);
-            chk->active_meminfo = mi;
+#if ENABLE_MEM_INFO
+            ALLOC_MEM_INFO(chk, chk->data, size, 1);
 
-            if (chk->size > size) {
-                MemInfo mi1;
-                mi1 = alloc_mem_info(chk->avail, chk->size - size, 0, chk, &buf->meminfo, NULL);
-                assert(mi1);
-
-                UPDATE_MEM_INFO_PREV_NEXT(mi1);
-                //dump_mem_buf(buf);
-                chk->active_meminfo = mi1;
-            }
+            if (chk->size > size)
+                ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
+#endif
         }
     }
 
     return r;
 }
 
+#if ENABLE_MEM_INFO
 MemInfo search_unused_mem_info(MemBuf buf, int size)
 {
     MemInfo mi = buf->meminfo.next;
@@ -168,6 +147,7 @@ MemInfo search_unused_mem_info(MemBuf buf, int size)
     }
     return NULL;
 }
+#endif
 
 MemChunk alloc_mem_chunk(int size)
 {
@@ -175,13 +155,13 @@ MemChunk alloc_mem_chunk(int size)
 
     size = (size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
-    chk = (MemChunk)malloc(sizeof(struct mem_chunk));
+    chk = (MemChunk)mcc_malloc(sizeof(struct mem_chunk));
     if (chk == NULL)
         return NULL;
 
-    chk->data = (unsigned char *)malloc(size);
+    chk->data = (unsigned char *)mcc_malloc(size);
     if (chk->data == NULL) {
-        free(chk);
+        mcc_free(chk);
         return NULL;
     }
     chk->size = size;
@@ -189,11 +169,12 @@ MemChunk alloc_mem_chunk(int size)
     return chk;
 }
 
+#if ENABLE_MEM_INFO
 MemInfo alloc_mem_info(void *addr, int size, int used, MemChunk mc, MemInfo prev, MemInfo next)
 {
     MemInfo mi;
 
-    mi = (MemInfo)malloc(sizeof(struct mem_info));
+    mi = (MemInfo)mcc_malloc(sizeof(struct mem_info));
     if (mi == NULL)
         return NULL;
 
@@ -206,28 +187,33 @@ MemInfo alloc_mem_info(void *addr, int size, int used, MemChunk mc, MemInfo prev
 
     return mi;
 }
+#endif
 
 void free_mem_buf(MemBuf buf)
 {
     MemChunk chk = buf->head.next;
+#if ENABLE_MEM_INFO
     MemInfo mi = buf->meminfo.next;
+#endif
 
     while (chk) {
         MemChunk next = chk->next;
-        free(chk->data);
-        free(chk);
+        mcc_free(chk->data);
+        mcc_free(chk);
         chk = next;
     }
     buf->head.next = NULL;
     buf->avail = NULL;
 
+#if ENABLE_MEM_INFO
     while (mi) {
         MemInfo next = mi->next;
-        free(mi);
+        mcc_free(mi);
         mi = next;
     }
     buf->meminfo.prev = NULL;
     buf->meminfo.next = NULL;
+#endif
 }
 
 unsigned int get_mem_buf_total_size(MemBuf buf)
@@ -243,6 +229,7 @@ unsigned int get_mem_buf_total_size(MemBuf buf)
     return size;
 }
 
+#if ENABLE_MEM_INFO
 unsigned int get_mem_buf_used_size(MemBuf buf)
 {
     unsigned int used_size = 0;
@@ -271,6 +258,22 @@ unsigned int get_mem_buf_unused_size(MemBuf buf)
     return unused_size;
 }
 
+void dump_mem_info(MemBuf buf)
+{
+    MemInfo mi = &buf->meminfo;
+    MemInfo p = mi->next;
+
+    debug("  MemInfo(Head: %p, prev: %p, next: %p): %s.\n", mi, mi->prev, mi->next,
+          p == NULL ? "NULL" : "not NULL");
+
+    while(p) {
+        debug("    MemInfo(%p) addr(%p), size(%u), used(%d), prev(%p), next(%p)\n",
+              p, p->addr, p->size, p->used, p->prev, p->next);
+        p = p->next;
+    }
+}
+#endif
+
 void dump_mem_buf(MemBuf buf)
 {
     MemChunk head = &buf->head;
@@ -290,20 +293,7 @@ void dump_mem_buf(MemBuf buf)
               chk, chk->data, chk->size, chk->avail, chk->next, chk->active_meminfo);
     }
 
+#if ENABLE_MEM_INFO
     dump_mem_info(buf);
-}
-
-void dump_mem_info(MemBuf buf)
-{
-    MemInfo mi = &buf->meminfo;
-    MemInfo p = mi->next;
-
-    debug("  MemInfo(Head: %p, prev: %p, next: %p): %s.\n", mi, mi->prev, mi->next,
-          p == NULL ? "NULL" : "not NULL");
-
-    while(p) {
-        debug("    MemInfo(%p) addr(%p), size(%u), used(%d), prev(%p), next(%p)\n",
-              p, p->addr, p->size, p->used, p->prev, p->next);
-        p = p->next;
-    }
+#endif
 }

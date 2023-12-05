@@ -20,38 +20,52 @@ void test_mem_buf()
     buf = init_mem_buf(0);
     LHD;
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf);
     assert(buf && BUF_SIZE_MATCH(buf));
+#endif
 
     LHD;
     p = alloc_mem_buf(buf, 12);
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf);
     assert(p && BUF_SIZE_MATCH(buf));
+#endif
 
     LHD;
     p1 = alloc_mem_buf(buf, 4096);
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
     assert(p1 && BUF_SIZE_MATCH(buf));
+#endif
 
     LHD;
     p2 = alloc_mem_buf(buf, 234);
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
     assert(p2 && BUF_SIZE_MATCH(buf));
-    
+#endif
+
     LHD;
     p3 = alloc_mem_buf(buf, 128);
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
     assert(p3 && BUF_SIZE_MATCH(buf));
+#endif
+
+    assert(p && p1 && p2 && p3);
 
     LHD;
     free_mem_buf(buf);
     dump_mem_buf(buf);
+#if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
     assert(BUF_SIZE_MATCH(buf));
+#endif
 
     always("%s all pass.\n", __func__);
 	return;
