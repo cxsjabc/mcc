@@ -39,6 +39,7 @@ int parse_args(int argc, char *argv[])
                 debug("Preprocessed file output name: %s\n", get_output_file_name());
             }
         }
+        ++argv;
     }
 
     return r;
