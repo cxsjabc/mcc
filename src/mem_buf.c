@@ -72,7 +72,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
         buf->avail = chk;
 
 #if ENABLE_MEM_INFO
-        ALLOC_MEM_INFO(chk, chk->data, orig_size, 1);
+        ALLOC_MEM_INFO(chk, r, orig_size, 1);
 
         if (chk->size > size)
             ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
@@ -93,6 +93,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             mi->size = orig_size;
 #if ENABLE_MEM_DEBUG
         UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+        mi->addr = r;
 #endif
 
             if (mi_orig_size > size) {
@@ -139,14 +140,14 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             chk->avail = chk->data + size;
 
 #if ENABLE_MEM_DEBUG
-        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+            UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
 #endif
 
             buf->avail->next = chk;
             buf->avail = chk;
 
 #if ENABLE_MEM_INFO
-            ALLOC_MEM_INFO(chk, chk->data, orig_size, 1);
+            ALLOC_MEM_INFO(chk, r, orig_size, 1);
 
             if (chk->size > size)
                 ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
@@ -305,8 +306,8 @@ void dump_mem_info(MemBuf buf)
           p == NULL ? "NULL" : "not NULL");
 
     while(p) {
-        debug("    MemInfo(%p) addr(%p), size(%u), used(%d), prev(%p), next(%p)\n",
-              p, p->addr, p->size, p->used, p->prev, p->next);
+        debug("    MemInfo(%p) addr(%p), size(%u), used(%d), prev(%p), next(%p), chunk(%p), magic_pre:(%x), magic_suffix(%x)\n",
+              p, p->addr, p->size, p->used, p->prev, p->next, p->chunk, GET_MEM_BLOCK_MAGIC_PREFIX(p->addr), GET_MEM_BLOCK_MAGIC_SUFFIX(p->addr, p->size));
         p = p->next;
     }
 }

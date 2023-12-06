@@ -4,7 +4,7 @@
 #define PAGE_SIZE 4096
 
 #define ENABLE_MEM_INFO 1
-#define ENABLE_MEM_DEBUG 0
+#define ENABLE_MEM_DEBUG 1
 
 #if ENABLE_MEM_DEBUG
 #define CHK_MAGIC_PREFIX    0xFEFF
@@ -20,37 +20,42 @@
 
 #define UPDATE_CHK_MAGIC(addr, size) \
 { \
-    void *addr1 = addr; \
+    void *addr1 = (addr); \
     *(unsigned short *)(addr) = CHK_MAGIC_PREFIX; \
     (addr1) += CHK_MAGIC_PREFIX_SIZE; \
     (addr) = addr1; \
-    *(unsigned short *)((unsigned char *)addr + size) = CHK_MAGIC_SUFFIX; \
+    *(unsigned short *)((unsigned char *)(addr) + (size)) = CHK_MAGIC_SUFFIX; \
 }
 
 #define GET_CHK_MAGIC_PREFIX(chk) \
     (* (unsigned short *) ( (unsigned char *)((chk)->data) - CHK_MAGIC_PREFIX_SIZE))
 #define GET_CHK_MAGIC_SUFFIX(chk) \
     (* (unsigned short *) ( (unsigned char *)((chk)->data) + ((chk)->size) ))
+#define CHK_MAGIC_MATCH(chk) \
+    (GET_CHK_MAGIC_PREFIX(chk) == CHK_MAGIC_PREFIX && GET_CHK_MAGIC_SUFFIX(chk) == CHK_MAGIC_SUFFIX)
 
 #define UPDATE_MEM_BLOCK_MAGIC(addr, size) \
 { \
-    void *addr1 = addr; \
+    void *addr1 = (addr); \
     *(unsigned short *)(addr) = CHK_MEM_BLOCK_MAGIC_PREFIX; \
     (addr1) += CHK_MEM_BLOCK_MAGIC_PREFIX_SIZE; \
     (addr) = addr1; \
-    *(unsigned short *)((unsigned char *)addr + size) = CHK_MEM_BLOCK_MAGIC_SUFFIX; \
+    *(unsigned short *)((unsigned char *)(addr) + (size)) = CHK_MEM_BLOCK_MAGIC_SUFFIX; \
 }
 
 #define GET_MEM_BLOCK_MAGIC_PREFIX(addr) \
     (* (unsigned short *) ( (unsigned char *)(addr) - CHK_MEM_BLOCK_MAGIC_PREFIX_SIZE ) )
-#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr) \
-    (* (unsigned short *) ( (unsigned char *)((chk)->data) + ((chk)->size) ))
-
+#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr, size) \
+    (* (unsigned short *) ( (unsigned char *)(addr) + (size)) )
+#define CHK_MEM_BLOCK_MAGIC_MATCH(addr, size) \
+    (GET_MEM_BLOCK_MAGIC_PREFIX(addr) == CHK_MEM_BLOCK_MAGIC_PREFIX && GET_MEM_BLOCK_MAGIC_SUFFIX(addr, size) == CHK_MEM_BLOCK_MAGIC_SUFFIX)
 #else
 #define GET_CHK_MAGIC_PREFIX(chk) 0x0
 #define GET_CHK_MAGIC_SUFFIX(chk) 0x0
 #define GET_MEM_BLOCK_MAGIC_PREFIX(addr) 0x0
-#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr) 0x0
+#define GET_MEM_BLOCK_MAGIC_SUFFIX(addr, size) 0x0
+#define CHK_MAGIC_MATCH(chk) 1
+#define CHK_MEM_BLOCK_MAGIC_MATCH(addr, size) 1
 #endif
 
 struct mem_info;
