@@ -92,14 +92,14 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             mi->used = 1;
             mi->size = orig_size;
 #if ENABLE_MEM_DEBUG
-        UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
-        mi->addr = r;
+            UPDATE_MEM_BLOCK_MAGIC(r, orig_size);
+            mi->addr = r;
 #endif
 
             if (mi_orig_size > size) {
                 MemInfo mi1, mi2;
                 LHD;
-                mi1 = alloc_mem_info(r, mi_orig_size - size, 0, chk, NULL, NULL);
+                mi1 = alloc_mem_info(r, mi_orig_size - size, 0, mi->chunk, NULL, NULL);
                 assert(mi1);
                 
                 mi2 = mi->next;

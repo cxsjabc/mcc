@@ -53,7 +53,7 @@ void test_mem_buf()
     LHD;
     p2 = alloc_from_mem_buf(buf, 234);
     assert(p2);
-    memset(p, 0x4, 234);
+    memset(p2, 0x4, 234);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)
@@ -65,7 +65,7 @@ void test_mem_buf()
     LHD;
     p3 = alloc_from_mem_buf(buf, 128);
     assert(p3);
-    memset(p, 0x5, 128);
+    memset(p3, 0x5, 128);
     dump_mem_buf(buf);
 #if ENABLE_MEM_INFO
     BUF_SIZE_DUMP(buf)

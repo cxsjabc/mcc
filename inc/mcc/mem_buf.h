@@ -3,8 +3,8 @@
 
 #define PAGE_SIZE 4096
 
-#define ENABLE_MEM_INFO 1
-#define ENABLE_MEM_DEBUG 1
+#define ENABLE_MEM_INFO 0
+#define ENABLE_MEM_DEBUG 0
 
 #if ENABLE_MEM_DEBUG
 #define CHK_MAGIC_PREFIX    0xFEFF
