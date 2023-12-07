@@ -59,7 +59,6 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 #endif
 
     if (chk == NULL) {
-        LHD;
         chk = alloc_mem_chunk(size);
         assert(chk);
         r = chk->data;
@@ -87,7 +86,6 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
         // search unused mem info
         if (size >= sizeof(struct mem_info) * 2 && (mi = search_unused_mem_info(buf, size))) {
             unsigned int mi_orig_size = mi->size;
-            LHD;
             r = mi->addr;
             mi->used = 1;
             mi->size = orig_size;
@@ -98,7 +96,6 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 
             if (mi_orig_size > size) {
                 MemInfo mi1, mi2;
-                LHD;
                 mi1 = alloc_mem_info(r, mi_orig_size - size, 0, mi->chunk, NULL, NULL);
                 assert(mi1);
                 
@@ -116,7 +113,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
             MemInfo active_meminfo;
             unsigned remain_size;
 #endif
-            LHD;
+
             r = chk->avail;
             chk->avail += size;
 #if ENABLE_MEM_DEBUG
@@ -133,7 +130,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
                 ALLOC_MEM_INFO(chk, chk->avail, remain_size, 0);
 #endif
         } else {
-            LHD;
+
             chk = alloc_mem_chunk(size);
             assert(chk);
             r = chk->data;

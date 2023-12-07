@@ -31,7 +31,7 @@ DynArray create_dynamic_array(unsigned int size)
         free(arr);
         return NULL;
     }
-    arr->size = size;
+    arr->size = 0;
     arr->capacity = size;
 
     arr->compare = NULL;
@@ -45,6 +45,9 @@ void destroy_dynamic_array(DynArray arr)
 {
     int i;
     assert(arr);
+
+    arr->data = NULL;
+    arr->size = 0;
 
     for (i = 0; i < arr->size; ++i) {
         if (arr->destroy) {

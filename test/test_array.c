@@ -9,6 +9,7 @@
 #include "mcc/string.h"
 #include "mcc/log.h"
 #include "mcc/error.h"
+#include "mcc/mem_buf.h"
 
 char *char_str_to_string(void *data)
 {
@@ -21,6 +22,10 @@ void test_array()
 	DynArray arr;
     char *s;
     int i, r;
+    MemBuf buf;
+
+    buf = init_mem_buf(0);
+    assert(buf);
 
     arr = create_dynamic_array(2);
     assert(arr);
@@ -30,7 +35,8 @@ void test_array()
     arr->to_string = char_str_to_string;
 
     for (i = 0; i < 20; ++i) {
-        s = malloc(sizeof(char) * 16);
+        // s = malloc(sizeof(char) * 16);
+        s = alloc_from_mem_buf(buf, 16);
         assert(s);
         sprintf(s, "string %d", i);
 
@@ -41,7 +47,7 @@ void test_array()
     dump_dynamic_array(arr);
 
     destroy_dynamic_array(arr);
-    dump_dynamic_array(arr);
+    // dump_dynamic_array(arr);
 
 	return;
 }
