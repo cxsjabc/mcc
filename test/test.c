@@ -37,6 +37,10 @@ int main(int argc, char *argv[])
     test_mem_buf();
 #endif
 
+#if ENABLE_TEST_ARRAY
+    test_array();
+#endif
+
     always("Test end.\n");
 	return 0;
 }
