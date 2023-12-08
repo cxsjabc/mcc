@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mcc/string.h"
 #include "mcc/error.h"
+#include "mcc/file.h"
 #include "mcc/log.h"
+#include "mcc/string.h"
 
 int is_show_version = 1;
 int is_show_build_version, is_show_help;
@@ -37,6 +38,25 @@ int parse_args(int argc, char *argv[])
                 if (r != ERR_NONE)
                     return r;
                 debug("Preprocessed file output name: %s\n", get_output_file_name());
+            }
+        } else if (strcmp(*argv, "-I") == 0) {  // include pathes
+            ++argv, --argc;
+            while (*argv && (*argv)[0] != '-') {
+                r = mcc_state_add_files(argv, FILE_TYPE_H);
+                if (r != ERR_NONE) {
+                    error("Failed to parse file: %s\n", argv);
+                    return r;
+                }
+            }
+            --argv, ++argc;
+        } else {
+            // not option, means source/header files or objects/target files
+            if (strcmp(*argv, "-") != 0) {
+                r = mcc_state_add_files(argv);
+                if (r != ERR_NONE) {
+                    error("Failed to parse file: %s\n", argv);
+                    return r;
+                }
             }
         }
         ++argv;

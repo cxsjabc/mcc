@@ -25,7 +25,7 @@ void test_int_array()
     assert(arr);
 
     //arr->compare = strcmp;
-    arr->destroy = free;
+    //arr->destroy = free;
     arr->to_string = NULL;
 
     for (i = 0; i < 20; ++i) {

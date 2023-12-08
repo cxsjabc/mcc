@@ -2,11 +2,12 @@
 
 #include <stdio.h>
 
-#include "mcc/ver.h"
 #include "mcc/args.h"
+#include "mcc/error.h"
 #include "mcc/help.h"
 #include "mcc/log.h"
-#include "mcc/error.h"
+#include "mcc/mcc_state.h"
+#include "mcc/ver.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,5 +28,8 @@ int main(int argc, char *argv[])
 		always("Build version: %s\n", gen_build_ver());
 	if (is_show_help)
 		show_help();
+
+	setup_mcc_state();
+
 	return 0;
 }

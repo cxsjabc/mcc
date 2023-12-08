@@ -26,11 +26,15 @@ DynArray create_dynamic_array(unsigned int size)
     if (!arr)
         return NULL;
 
-    arr->data = (void **)malloc(sizeof(void *) * size);
-    if (!arr->data) {
-        free(arr);
-        return NULL;
-    }
+    if (size != 0) {
+        arr->data = (void **)malloc(sizeof(void *) * size);
+        if (!arr->data) {
+            free(arr);
+            return NULL;
+        }
+    } else
+        arr->data = NULL;
+
     arr->size = 0;
     arr->capacity = size;
 

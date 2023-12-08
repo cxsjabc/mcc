@@ -16,7 +16,8 @@
 			"string.h": "c",
 			"size.h": "c",
 			"id.h": "c",
-			"assert.h": "c"
+			"assert.h": "c",
+			"mcc_state.h": "c"
 		}
 	}
 }

@@ -3,9 +3,10 @@
 
 enum 
 {
-    ERR_NONE = 0,
-    ERR_NO_MEM = -1,
-    ERR_UNKNOWN = -2,
+    ERR_NONE = 1,
+    ERR_FAIL = -1,
+    ERR_NO_MEM = -2,
+    ERR_UNKNOWN = -3,
 };
 
 #endif

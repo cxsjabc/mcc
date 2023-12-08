@@ -6,6 +6,14 @@
 #include "mcc/error.h"
 #include "mcc/log.h"
 
+// Matched with FileType
+const char *FileTypeNames[] = {
+    "C File",
+    "H File",
+    "Object File",
+    "Executable File",
+};
+
 int is_absolute_path(const char *path)
 {
     if (path[0] == '/')
