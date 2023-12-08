@@ -9,7 +9,7 @@ typedef struct dynamic_array
     int size;
     int capacity;
 
-    char *(*to_string)(void *);
+    char *(*to_string)(void *); // NULL: char *, 0x1: basic type, normal pointer: use to_string specific func. 
     int (*compare)(void *, void *);
     void (*destroy)(void *);
 } *DynArray;

@@ -17,19 +17,20 @@ int main(int argc, char *argv[])
 
 	if (argc < 2) {
 		show_help();
-		return 0;
+		OK_RETURN(0);
 	}
+
+	setup_mcc_state();
 
 	r = parse_args(--argc, ++argv);
 	if (r != ERR_NONE)
-        return r;
+        ERR_RETURN(r);
+	dump_mcc_state();
 
 	if (is_show_build_version)
 		always("Build version: %s\n", gen_build_ver());
 	if (is_show_help)
 		show_help();
-
-	setup_mcc_state();
 
 	return 0;
 }

@@ -2,17 +2,42 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mcc/string.h"
 #include "mcc/error.h"
+#include "mcc/file.h"
 #include "mcc/log.h"
+#include "mcc/string.h"
 
 // Matched with FileType
 const char *FileTypeNames[] = {
     "C File",
-    "H File",
+    "Header File",
+    "ASM File",
+
     "Object File",
     "Executable File",
+
+    "Header Path",
+    "Library Path",
 };
+
+int get_file_type(const char *path)
+{
+    const char *ext = get_file_extension(path);
+
+    LHD;
+    if (strcmp(ext, ".c") == 0)
+        return FILE_TYPE_C;
+    else if (strcmp(ext, ".h") == 0)
+        return FILE_TYPE_HEADER;
+    else if (strcmp(ext, ".o") == 0)
+        return FILE_TYPE_OBJECT;
+    else if (strcmp(ext, ".s") == 0 || strcmp(ext, ".S") == 0)
+        return FILE_TYPE_ASM;
+    else if (strcmp(ext, ".exe") == 0)
+        return FILE_TYPE_EXE;
+    else
+        return FILE_TYPE_UNKNOWN;
+}
 
 int is_absolute_path(const char *path)
 {
@@ -48,7 +73,7 @@ const char *get_file_extension(const char *path)
     if (ext == NULL)
         return "";
     else
-        return ext + 1;
+        return *(ext + 1) != '\0' ? ext + 1 : "";
 }
 
 char *read_file(const char *path)

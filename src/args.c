@@ -5,6 +5,7 @@
 #include "mcc/error.h"
 #include "mcc/file.h"
 #include "mcc/log.h"
+#include "mcc/mcc_state.h"
 #include "mcc/string.h"
 
 int is_show_version = 1;
@@ -36,28 +37,51 @@ int parse_args(int argc, char *argv[])
             if (*argv) {
                 r = init_cstr(&out_file, *argv, strlen(*argv));
                 if (r != ERR_NONE)
-                    return r;
+                    ERR_RETURN(r);
                 debug("Preprocessed file output name: %s\n", get_output_file_name());
             }
-        } else if (strcmp(*argv, "-I") == 0) {  // include pathes
-            ++argv, --argc;
-            while (*argv && (*argv)[0] != '-') {
-                r = mcc_state_add_files(argv, FILE_TYPE_H);
+        } else if (strncmp(*argv, "-I", 2) == 0 || strncmp(*argv, "-L", 2) == 0) {  // include pathes or library pathes
+            const char *p = *argv;
+            int is_include_path = p[1] == 'I';
+            int is_lib_path = p[1] == 'L';
+            int file_type = FILE_TYPE_UNKNOWN;
+            
+            if (is_include_path)
+                file_type = FILE_TYPE_HEADER_PATH;
+            if (is_lib_path)
+                file_type = FILE_TYPE_LIB_PATH;
+            debug("file_type: %s\n", FileTypeNames[file_type]);
+            if (p[2] == '\0') {
+                ++argv, --argc;
+                if (argv && (*argv)[0] != '-') {
+                    r = mcc_state_add_files(*argv, file_type);
+                    if (r != ERR_NONE) {
+                        error("Failed to parse file: %s, ret(%d)\n", *argv, r);
+                        ERR_RETURN(r);
+                    }
+                    debug("Adding file: %s(%s)\n", *argv, FileTypeNames[file_type]);
+                } else
+                    error("Invalid include path: %s\n", *argv);
+            } else {
+                const char *path = &p[2];
+                r = mcc_state_add_files(path, file_type);
                 if (r != ERR_NONE) {
-                    error("Failed to parse file: %s\n", argv);
-                    return r;
+                    error("Failed to parse file: %s\n", path);
+                    ERR_RETURN(r);
                 }
+                debug("Adding file: %s(%s)\n", path, FileTypeNames[file_type]);
             }
-            --argv, ++argc;
         } else {
             // not option, means source/header files or objects/target files
             if (strcmp(*argv, "-") != 0) {
-                r = mcc_state_add_files(argv);
+                r = mcc_state_add_files(*argv, FILE_TYPE_C);
                 if (r != ERR_NONE) {
-                    error("Failed to parse file: %s\n", argv);
-                    return r;
+                    error("Failed to parse file: %s\n", *argv);
+                    ERR_RETURN(r);
                 }
-            }
+                debug("Adding file: %s(%s)\n", *argv, FileTypeNames[FILE_TYPE_C]);
+            } else
+                error("Unexpected option or parameter: %s\n", *argv);
         }
         ++argv;
     }

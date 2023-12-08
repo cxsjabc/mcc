@@ -39,7 +39,7 @@ DynArray create_dynamic_array(unsigned int size)
     arr->capacity = size;
 
     arr->compare = NULL;
-    arr->to_string = NULL;
+    arr->to_string = NULL;  // means default "char *"
     arr->destroy = NULL;
 
     return arr;
@@ -141,10 +141,13 @@ void dump_dynamic_array(DynArray arr)
 
     for (i = 0; i < arr->size; ++i) {
         debug_nofl("[%d][%p]", i, arr->data[i]);
-        if (arr->to_string)
+        if (arr->to_string == NULL)
+            debug_nofl(": (%s)", (char *)(arr->data[i]));
+        else if((intptr_t)arr->to_string == 0x1)
+            debug_nofl(": (%#llx)", (intptr_t)(arr->data[i]));
+        else if (arr->to_string)
             debug_nofl(": (%s)", arr->to_string(arr->data[i]));
-        else
-            debug_nofl(": (%#llx)", (intptr_t)(char *)(arr->data[i]));
+        
         debug_nofl("\n");
     }
     debug_nofl("\n");
