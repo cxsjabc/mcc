@@ -11,15 +11,47 @@
 #include "mcc/error.h"
 #include "mcc/mem_buf.h"
 
+void test_int_array()
+{
+    DynArray arr;
+    char *s;
+    int i, r;
+    MemBuf buf;
+
+    buf = init_mem_buf(0);
+    assert(buf);
+
+    arr = create_dynamic_array(2);
+    assert(arr);
+
+    //arr->compare = strcmp;
+    arr->destroy = free;
+    arr->to_string = NULL;
+
+    for (i = 0; i < 20; ++i) {
+        // s = malloc(sizeof(char) * 16);
+        s = alloc_from_mem_buf(buf, 16);
+        assert(s);
+        sprintf(s, "%d", i);
+
+        r = dynamic_array_push(arr, (void *)(intptr_t)i);
+        assert(r > 0);
+    }
+
+    dump_dynamic_array(arr);
+
+    destroy_dynamic_array(arr);
+}
+
 char *char_str_to_string(void *data)
 {
     char *p = (char *)data;
     return p;
 }
 
-void test_array()
+void test_str_array()
 {
-	DynArray arr;
+    DynArray arr;
     char *s;
     int i, r;
     MemBuf buf;
@@ -48,6 +80,13 @@ void test_array()
 
     destroy_dynamic_array(arr);
     // dump_dynamic_array(arr);
+}
+
+void test_array()
+{
+	// test_str_array();
+
+    test_int_array();
 
 	return;
 }

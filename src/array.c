@@ -139,6 +139,8 @@ void dump_dynamic_array(DynArray arr)
         debug_nofl("[%d][%p]", i, arr->data[i]);
         if (arr->to_string)
             debug_nofl(": (%s)", arr->to_string(arr->data[i]));
+        else
+            debug_nofl(": (%#llx)", (intptr_t)(char *)(arr->data[i]));
         debug_nofl("\n");
     }
     debug_nofl("\n");
