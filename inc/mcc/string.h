@@ -27,4 +27,6 @@ int copy_ignore_char(char *d, const char *s, const int size, const char ignore);
 
 void skip_blanks(char **pp);
 
+#define STR_EQL(s1, s2) (strcmp((s1), (s2)) == 0)
+
 #endif

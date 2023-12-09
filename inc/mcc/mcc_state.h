@@ -26,11 +26,18 @@ typedef struct mcc_state
 } *MccState;
 
 MccState create_mcc_state();
+void destroy_mcc_state(MccState ms);
+
 void setup_mcc_state(MccState ms);
 void clean_mcc_state(MccState ms);
 void dump_mcc_state(MccState ms);
 
 // if type is -1, get file type from path
 int mcc_state_add_files(MccState ms, const char *path, FileType type);
+
+#define INC_PATH(ms, index) ((char *)((ms)->include_paths->data[index]))
+#define LIB_PATH(ms, index) ((char *)((ms)->lib_paths->data[index]))
+#define SRC_FILE(ms, index) ((char *)((ms)->src_files->data[index]))
+#define OBJ_FILE(ms, index) ((char *)((ms)->obj_files->data[index]))
 
 #endif

@@ -18,6 +18,14 @@ MccState create_mcc_state()
     return ms;
 }
 
+void destroy_mcc_state(MccState ms)
+{
+    if (ms) {
+        clean_mcc_state(ms);
+        mcc_free(ms);
+    }
+}
+
 void setup_mcc_state(MccState ms)
 {
     assert(ms);
