@@ -6,39 +6,48 @@
 #  make -f Makefile.win clean
 #  make -f Makefile.win clean_test
 
-CUR_DIR = .
+CUR_DIR := .
 
-USE_MSVC = 0
+USE_MSVC := 1
 
-C_INCLUDES = -I $(CUR_DIR)/inc
-C_FLAGS = $(C_INCLUDES)
+C_INCLUDES := -I $(CUR_DIR)/inc
+C_FLAGS := $(C_INCLUDES)
 
-SRC_DIR = src
+SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)
+
+BUILD_OBJ_DIR := out
 
 # MSVC
 ifeq (1, $(USE_MSVC))
 # 0. cl.exe
-CC = cl.exe
-LINK = link.exe
+CC := cl.exe
+LINK := link.exe
 
-MAIN_OBJ = main.obj
-OUT_FILE = mcc.exe
+MAIN_OBJ := main.obj
+OUT_FILE := mcc.exe
 
 OBJS := $(patsubst %.c,%.obj, $(SRCS))
+BUILD_OBJS := $(patsubst %.obj,$(BUILD_OBJ_DIR)/%.obj, $(OBJS))
 
-%.obj : %.c
+$(BUILD_OBJ_DIR)/%.obj : %.c
 	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
 
-all: $(OBJS) $(MAIN_OBJ)
-	$(LINK) /out:$(OUT_FILE) $(OBJS) $(MAIN_OBJ)
+all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
+	$(LINK) /out:$(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 
 clean:
-	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+	- rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	- rmdir $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	- if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+
+prepare:
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
 else
 # not MSVC
 # 1. use gcc.exe
-CC = gcc
+CC := gcc
 # 2. Winows 64bit: use Mingw gcc generate 32bit program (>= 10.2.0)
 # CC = i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
@@ -46,53 +55,74 @@ CC = gcc
 # 3. Winows 64bit: use Mingw gcc generate 64bit program (>= 10.2.0)
 # CC = x86_64-w64-mingw32-gcc.exe
 
-# 4. Winows: Please don't use Cygwin gcc
+# 4. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type)
 
-# 5. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type)
-
-MAIN_OBJ = main.o
-OUT_FILE = mcc
+MAIN_OBJ := main.o
+OUT_FILE := mcc
 
 C_FLAGS += -Wall -Werror -g
 
 OBJS := $(patsubst %.c,%.o, $(SRCS))
+BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(OBJS))
 
-%.o : %.c
+$(BUILD_OBJ_DIR)/%.o : %.c
 	$(CC) $(C_FLAGS) -c $< -o $@ 
 
-all: $(OBJS) $(MAIN_OBJ)
-	$(CC) -o $(OUT_FILE) $(OBJS) $(MAIN_OBJ) $(C_FLAGS)
+all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
+	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
 
 clean:
-	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+	- rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	- rmdir $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	- if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+
+prepare:
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+
 endif
 
 mcc: all
 
 # test
-TEST_DIR = test
+TEST_DIR := test
 TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
 
 ifeq (1, $(USE_MSVC))
 # MSVC
 TEST_OBJS := $(patsubst %.c,%.obj, $(TEST_SRCS))
-TEST_OUT = mcc_test.exe
+TEST_BUILD_OBJS := $(patsubst %.obj,$(BUILD_OBJ_DIR)/%.obj, $(TEST_OBJS))
+TEST_OUT := mcc_test.exe
 
-test: $(OBJS) $(TEST_OBJS)
-	$(LINK) /out:$(TEST_OUT) $(TEST_OBJS) $(OBJS)
+prepare_test:
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(TEST_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR); fi
+
+test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
+	$(LINK) /out:$(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS)
 
 clean_test:
-	rm -rf $(TEST_OBJS) $(TEST_OUT)
+	- rm -rf $(TEST_BUILD_OBJS) $(TEST_OUT)
+	- rmdir $(BUILD_OBJ_DIR)/$(TEST_DIR)
 
 else
 # not MSVC
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
-TEST_OUT = mcc_test
+TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
+TEST_OUT := mcc_test
 
-test: $(OBJS) $(TEST_OBJS)
-	$(CC) -o $(TEST_OUT) $(TEST_OBJS) $(OBJS) $(C_FLAGS)
+prepare_test:
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(TEST_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR); fi
+
+test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
+	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 
 clean_test:
-	rm -rf $(TEST_OBJS) $(TEST_OUT)
+	- rm -rf $(TEST_BUILD_OBJS) $(TEST_OUT)
+	- rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
+	- if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
 endif
