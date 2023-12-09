@@ -1,11 +1,13 @@
 OBJS= \
 src\args.obj \
 src\array.obj \
+src\env.obj \
 src\file.obj \
 src\help.obj \
 src\id.obj \
 src\keyword.obj \
 src\lex.obj \
+src\mcc_state.obj \
 src\mem_buf.obj \
 src\string.obj \
 src\time.obj \
@@ -15,6 +17,8 @@ src\ver.obj \
 
 TEST_OBJS= \
 test\test.obj \
+test\test_args.obj \
+test\test_array.obj \
 test\test_file.obj \
 test\test_id.obj \
 test\test_keyword.obj \

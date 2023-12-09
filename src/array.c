@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdint.h>
 #include <stdio.h>
 
 #include "mcc/array.h"
@@ -144,7 +145,7 @@ void dump_dynamic_array(DynArray arr)
         if (arr->to_string == NULL)
             debug_nofl(": (%s)", (char *)(arr->data[i]));
         else if((intptr_t)arr->to_string == 0x1)
-            debug_nofl(": (%#llx)", (intptr_t)(arr->data[i]));
+            ; //debug_nofl(": (%#llx)", (intptr_t)(arr->data[i])); // TODO
         else if (arr->to_string)
             debug_nofl(": (%s)", arr->to_string(arr->data[i]));
         

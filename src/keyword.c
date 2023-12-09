@@ -119,7 +119,7 @@ int is_keyword(const char *str)
     assert(str != NULL);
     
     c = str[0];
-    i = tolower(c) - 'a';
+    i = tolower((int)c) - 'a'; // use int cast to fix clang build error
     arr = KeywordsBeginArr[i];
     while (arr && *arr) {
         debug("str: %s, arr_begin: %s\n", str, *arr);

@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "mcc/args.h"
+#include "mcc/env.h"
 #include "mcc/error.h"
 #include "mcc/help.h"
 #include "mcc/log.h"
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
 	int r;
 
 	always("Mcc ver: %s\n", VERSION);
+
+	check_build_envionment();
 
 	if (argc < 2) {
 		show_help();
