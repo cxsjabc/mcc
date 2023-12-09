@@ -35,18 +35,31 @@ OUT_FILE = mcc.exe
 #SRCS = src\type.c
 #OBJS = src\type.obj src\args.obj
 
-%.obj : %.c
+BUILD_OBJ_DIR = out
+
+{src\}.c{$(BUILD_OBJ_DIR)\src\}.obj:
+	@ echo "compile $< --> $@ (rule 1)"
 	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
-.c.obj:
-	echo "compile $<"
+{test\}.c{$(BUILD_OBJ_DIR)\test\}.obj:
+	@ echo "compile $< --> $@ (rule 1.1)"
 	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
-all: $(OBJS) $(MAIN_OBJ)
-	$(LINK) /out:$(OUT_FILE) $(OBJS) $(MAIN_OBJ)
+.c{$(BUILD_OBJ_DIR)\}.obj:
+	@ echo "compile $< --> $@ (rule 2)"
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
+
+prepare:
+	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul
+	-@ mkdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+
+all: prepare $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ)
+	$(LINK) /out:$(OUT_FILE) $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ)
 
 clean:
-	del $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+	-@ del $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ) $(OUT_FILE) >nul 2>nul
+	-@ rmdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+	-@ rmdir $(BUILD_OBJ_DIR) >nul 2>nul
 !endif
 
 mcc: all
@@ -60,9 +73,18 @@ TEST_SRCS = test\test.c
 #TEST_OBJS = test\test.obj #$(patsubst %.c,%.obj, $(TEST_SRCS))
 TEST_OUT = mcc_test.exe
 
-test: $(OBJS) $(TEST_OBJS)
-	$(LINK) /out:$(TEST_OUT) $(TEST_OBJS) $(OBJS)
+prepare_test:
+	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul
+	-@ mkdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+	-@ mkdir $(BUILD_OBJ_DIR)\test >nul 2>nul
+
+test: prepare_test $(LINK_OBJS) $(LINK_TEST_OBJS)
+	$(LINK) /out:$(TEST_OUT) $(LINK_TEST_OBJS) $(LINK_OBJS)
 
 clean_test:
-	del $(TEST_OBJS) $(TEST_OUT)
+	-@ del /F /Q $(TEST_OUT) $(LINK_TEST_OBJS) $(LINK_OBJS) >nul 2>nul
+	-@ rmdir $(BUILD_OBJ_DIR)\test >nul 2>nul
+	-@ rmdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+	-@ rmdir $(BUILD_OBJ_DIR) >nul 2>nul
+
 !endif

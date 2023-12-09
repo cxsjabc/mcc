@@ -28,3 +28,33 @@ test\test_string.obj \
 test\test_token.obj \
 test\test_type.obj \
 
+LINK_OBJS= \
+out\src\args.obj \
+out\src\array.obj \
+out\src\env.obj \
+out\src\file.obj \
+out\src\help.obj \
+out\src\id.obj \
+out\src\keyword.obj \
+out\src\lex.obj \
+out\src\mcc_state.obj \
+out\src\mem_buf.obj \
+out\src\print.obj \
+out\src\string.obj \
+out\src\time.obj \
+out\src\token.obj \
+out\src\type.obj \
+out\src\ver.obj \
+
+LINK_TEST_OBJS= \
+out\test\test.obj \
+out\test\test_args.obj \
+out\test\test_array.obj \
+out\test\test_file.obj \
+out\test\test_id.obj \
+out\test\test_keyword.obj \
+out\test\test_mem_buf.obj \
+out\test\test_string.obj \
+out\test\test_token.obj \
+out\test\test_type.obj \
+
