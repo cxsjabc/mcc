@@ -6,7 +6,7 @@
 #  make clean
 #  make clean_test
 
-CUR_DIR = .
+CUR_DIR := .
 
 .PHONY : prepare all clean mcc test clean_test mcc_test
 
@@ -16,7 +16,7 @@ $(info "OS: $(OS)")
 # CC = clang
 
 # 1. Use gcc (>= 10.3.1)
-CC = gcc
+CC := gcc
 
 # 2. Winows 64bit: use Mingw gcc generate 32bit program (>= 10.2.0)
 # CC = i686-w64-mingw32-gcc.exe
@@ -29,22 +29,22 @@ CC = gcc
 
 # 5. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type and other issues)
 
-C_INCLUDES = -I $(CUR_DIR)/inc
-C_FLAGS = $(C_INCLUDES)
+C_INCLUDES := -I $(CUR_DIR)/inc
+C_FLAGS := $(C_INCLUDES)
 C_FLAGS += -Wall -Werror -g
 # disable clang secure function warnings on >= clang-16.0
 C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
 
-SRC_DIR = src
+SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 
-BUILD_OBJ_DIR = out
+BUILD_OBJ_DIR := out
 
-MAIN_OBJ = main.o
+MAIN_OBJ := main.o
 ifeq ($(OS), Windows_NT)
-OUT_FILE = mcc.exe
+OUT_FILE := mcc.exe
 else
-OUT_FILE = mcc
+OUT_FILE := mcc
 endif
 
 OBJS := $(patsubst %.c,%.o, $(SRCS))
@@ -64,20 +64,20 @@ clean:
 mcc: all
 
 prepare:
-	- @mkdir $(BUILD_OBJ_DIR) 2>&1 > /dev/nul
-	- @mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR) 2>&1 >/dev/nul
+	- @mkdir $(BUILD_OBJ_DIR) 2>&1 > /dev/null
+	- @mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR) 2>&1 >/dev/null
 
 # test
-TEST_DIR = test
+TEST_DIR := test
 TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
 
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
 TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
 
 ifeq ($(OS), Windows_NT)
-TEST_OUT = mcc_test.exe
+TEST_OUT := mcc_test.exe
 else
-TEST_OUT = mcc_test
+TEST_OUT := mcc_test
 endif
 
 prepare_test:
