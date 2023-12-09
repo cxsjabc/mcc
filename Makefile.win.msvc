@@ -12,7 +12,7 @@ USE_MSVC = 1
 
 !ifdef COMSPEC
 !message "nmake is: $(MAKE)"
-!INCLUDE tmp_src_files.txt
+!INCLUDE scripts/tmp_src_files.txt
 !else
 !message "make: $(MAKE)"
 !error "No msvc environment!"
@@ -36,11 +36,11 @@ OUT_FILE = mcc.exe
 #OBJS = src\type.obj src\args.obj
 
 %.obj : %.c
-	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
 .c.obj:
 	echo "compile $<"
-	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
 all: $(OBJS) $(MAIN_OBJ)
 	$(LINK) /out:$(OUT_FILE) $(OBJS) $(MAIN_OBJ)
