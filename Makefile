@@ -8,6 +8,8 @@
 
 CUR_DIR = .
 
+.PHONY : prepare all clean mcc test clean_test mcc_test
+
 $(info "OS: $(OS)")
 
 # 0. Use clang (>= 16.0.0)
@@ -36,6 +38,8 @@ C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
 SRC_DIR = src
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 
+BUILD_OBJ_DIR = out
+
 MAIN_OBJ = main.o
 ifeq ($(OS), Windows_NT)
 OUT_FILE = mcc.exe
@@ -44,31 +48,47 @@ OUT_FILE = mcc
 endif
 
 OBJS := $(patsubst %.c,%.o, $(SRCS))
+BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(OBJS))
 
-%.o : %.c
-	$(CC) $(C_FLAGS) -c $< -o $@ 
+$(BUILD_OBJ_DIR)/%.o : %.c
+	$(CC) $(C_FLAGS) -c $< -o $@
 
-all: $(OBJS) $(MAIN_OBJ)
-	$(CC) -o $(OUT_FILE) $(OBJS) $(MAIN_OBJ) $(C_FLAGS)
+all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
+	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
 
 clean:
-	rm -rf $(OBJS) $(MAIN_OBJ) $(OUT_FILE)
+	rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	- rmdir $(BUILD_OBJ_DIR)
 
 mcc: all
+
+prepare:
+	- @mkdir $(BUILD_OBJ_DIR) 2>&1 > /dev/nul
+	- @mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR) 2>&1 >/dev/nul
 
 # test
 TEST_DIR = test
 TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
 
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
+TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
+
 ifeq ($(OS), Windows_NT)
 TEST_OUT = mcc_test.exe
 else
 TEST_OUT = mcc_test
 endif
 
-test: $(OBJS) $(TEST_OBJS)
-	$(CC) -o $(TEST_OUT) $(TEST_OBJS) $(OBJS) $(C_FLAGS)
+prepare_test:
+	- mkdir $(BUILD_OBJ_DIR)
+	- mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	- mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR)
+
+test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
+	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 
 clean_test:
-	rm -rf $(TEST_OBJS) $(TEST_OUT)
+	rm -rf $(BUILD_OBJS) $(TEST_BUILD_OBJS) $(TEST_OUT)
+	rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
+	- rmdir $(BUILD_OBJ_DIR)
