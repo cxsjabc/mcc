@@ -1,6 +1,7 @@
 #define NO_DEBUG 1
 
 #include <assert.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,7 +27,7 @@ void test_int_array()
 
     //arr->compare = strcmp;
     //arr->destroy = free;
-    arr->to_string = NULL;
+    arr->to_string = (void *)0x1;
 
     for (i = 0; i < 20; ++i) {
         // s = malloc(sizeof(char) * 16);
@@ -84,7 +85,7 @@ void test_str_array()
 
 void test_array()
 {
-	// test_str_array();
+	test_str_array();
 
     test_int_array();
 

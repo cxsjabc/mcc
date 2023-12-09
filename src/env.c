@@ -56,6 +56,14 @@
  *   _WIN32 is defined.
  *   SIZE_MAX: ffffffff
  * 
+ * Windows MSVC cl 64bit (VS2019 19.29.30148)
+ *   _MSC_VER is defined.
+ *   _WIN32 is defined.
+ *   _WIN64 is defined.
+ *   _M_AMD64 is defined.
+ *   _M_X64 is defined.
+ *   SIZE_MAX: ffffffffffffffff
+ *
  * Ubuntu 22.04 (WSL 1.0 or 2.0) (GCC 11.4.0)
  *   __GNUC__ is defined
  *   linux is defined.

@@ -9,6 +9,7 @@ src\keyword.obj \
 src\lex.obj \
 src\mcc_state.obj \
 src\mem_buf.obj \
+src\print.obj \
 src\string.obj \
 src\time.obj \
 src\token.obj \

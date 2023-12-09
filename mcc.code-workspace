@@ -20,7 +20,8 @@
 			"mcc_state.h": "c",
 			"file.h": "c",
 			"compare": "c",
-			"type_traits": "c"
+			"type_traits": "c",
+			"print.h": "c"
 		}
 	}
 }

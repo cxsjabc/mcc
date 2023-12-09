@@ -4,6 +4,7 @@
 
 #include "mcc/array.h"
 #include "mcc/log.h"
+#include "mcc/print.h"
 
 // basic array funtions
 int is_array_equal(int arr[], int expect_arr[], int size)
@@ -144,9 +145,9 @@ void dump_dynamic_array(DynArray arr)
         debug_nofl("[%d][%p]", i, arr->data[i]);
         if (arr->to_string == NULL)
             debug_nofl(": (%s)", (char *)(arr->data[i]));
-        else if((intptr_t)arr->to_string == 0x1)
-            ; //debug_nofl(": (%#llx)", (intptr_t)(arr->data[i])); // TODO
-        else if (arr->to_string)
+        else if((intptr_t)arr->to_string == 0x1) {
+            debug_nofl(": ("); print_pointer(arr->data[i]); debug_nofl(")"); //debug_nofl(": (%#llx)", (intptr_t)(arr->data[i]));
+        } else if (arr->to_string)
             debug_nofl(": (%s)", arr->to_string(arr->data[i]));
         
         debug_nofl("\n");
