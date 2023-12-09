@@ -6,6 +6,8 @@
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
+// global mcc_state
+// this is used when program initialization, if multi threaded, passing the state to each thread
 extern struct mcc_state MS;
 
 typedef struct mcc_state
@@ -23,11 +25,12 @@ typedef struct mcc_state
 
 } *MccState;
 
-void setup_mcc_state();
-void clean_mcc_state();
-void dump_mcc_state();
+MccState create_mcc_state();
+void setup_mcc_state(MccState ms);
+void clean_mcc_state(MccState ms);
+void dump_mcc_state(MccState ms);
 
 // if type is -1, get file type from path
-int mcc_state_add_files(const char *path, FileType type);
+int mcc_state_add_files(MccState ms, const char *path, FileType type);
 
 #endif

@@ -18,14 +18,16 @@ void test_args()
     int r;
 	char *argv[] = {"-I", ".", "-I/usr/xxx", "-L./lib", "-L", "abc", "-Iabc/d", "-I", "..", "1.c", "2.c"};
     int argc = ARRAY_SIZE(argv);
+    MccState ms;
 
-    setup_mcc_state();
+    ms = create_mcc_state();
+    assert(ms);
 
-    r = parse_args(argc, argv);
+    r = parse_args(argc, argv, ms);
     assert(r == ERR_NONE);
 
-    dump_mcc_state();
-    clean_mcc_state();
+    dump_mcc_state(ms);
+    clean_mcc_state(ms);
 
     always("%s pass.\n", __func__);
 	return;

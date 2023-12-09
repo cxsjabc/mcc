@@ -11,7 +11,23 @@ enum
     ERR_UNKNOWN = -3,
 };
 
-#define ERR_RETURN(r) { LH; return (r); }
-#define OK_RETURN(r) { LH; return (r); }
+#define ERR_RETURN(r) { LOG_HERE_ARGS("Error\n"); return (r); }
+#define OK_RETURN(r) { return (r); }
+
+#define NULL_RETURN(r, err_str) \
+{ \
+    if (!(r)) { \
+        LOG_HERE_ARGS(err_str); \
+        return NULL; \
+    } \
+}
+
+#define NULL_ABORT(r, abort_str) \
+{ \
+    if (!(r)) { \
+        LOG_HERE_ARGS(abort_str); \
+        abort(); \
+    } \
+}
 
 #endif

@@ -20,12 +20,13 @@ int main(int argc, char *argv[])
 		OK_RETURN(0);
 	}
 
-	setup_mcc_state();
+	setup_mcc_state(&MS);
 
-	r = parse_args(--argc, ++argv);
+	// now, use global mcc state
+	r = parse_args(--argc, ++argv, &MS);
 	if (r != ERR_NONE)
         ERR_RETURN(r);
-	dump_mcc_state();
+	// dump_mcc_state(&MS);
 
 	if (is_show_build_version)
 		always("Build version: %s\n", gen_build_ver());

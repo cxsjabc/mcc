@@ -20,7 +20,7 @@ const char *get_output_file_name()
     return out_file.str;
 }
 
-int parse_args(int argc, char *argv[])
+int parse_args(int argc, char *argv[], MccState ms)
 {
     int r = ERR_NONE;
 
@@ -54,7 +54,7 @@ int parse_args(int argc, char *argv[])
             if (p[2] == '\0') {
                 ++argv, --argc;
                 if (argv && (*argv)[0] != '-') {
-                    r = mcc_state_add_files(*argv, file_type);
+                    r = mcc_state_add_files(ms, *argv, file_type);
                     if (r != ERR_NONE) {
                         error("Failed to parse file: %s, ret(%d)\n", *argv, r);
                         ERR_RETURN(r);
@@ -64,7 +64,7 @@ int parse_args(int argc, char *argv[])
                     error("Invalid include path: %s\n", *argv);
             } else {
                 const char *path = &p[2];
-                r = mcc_state_add_files(path, file_type);
+                r = mcc_state_add_files(ms, path, file_type);
                 if (r != ERR_NONE) {
                     error("Failed to parse file: %s\n", path);
                     ERR_RETURN(r);
@@ -74,7 +74,7 @@ int parse_args(int argc, char *argv[])
         } else {
             // not option, means source/header files or objects/target files
             if (strcmp(*argv, "-") != 0) {
-                r = mcc_state_add_files(*argv, FILE_TYPE_C);
+                r = mcc_state_add_files(ms, *argv, FILE_TYPE_C);
                 if (r != ERR_NONE) {
                     error("Failed to parse file: %s\n", *argv);
                     ERR_RETURN(r);

@@ -10,45 +10,57 @@ struct mcc_state MS;
 
 MccState create_mcc_state()
 {
-    MccState ms = NULL;
+    MccState ms = (MccState)mcc_malloc(sizeof(struct mcc_state));
+    NULL_RETURN(ms, "Alloc mcc_state failed.\n");
+
+    setup_mcc_state(ms);
+
     return ms;
 }
 
-void setup_mcc_state()
+void setup_mcc_state(MccState ms)
 {
-    MS.include_paths = create_dynamic_array(32);
-    MS.include_paths->to_string = NULL;
-    assert(MS.include_paths);
+    assert(ms);
 
-    MS.src_files = create_dynamic_array(2);
-    assert(MS.src_files);
+    ms->include_paths = create_dynamic_array(32);
+    assert(ms->include_paths);
+    ms->include_paths->to_string = NULL;
+    
+    ms->src_files = create_dynamic_array(2);
+    assert(ms->src_files);
 
-    MS.lib_paths = create_dynamic_array(0);
-    assert(MS.lib_paths);
+    ms->lib_paths = create_dynamic_array(0);
+    assert(ms->lib_paths);
 
-    MS.obj_files = create_dynamic_array(0);
-    assert(MS.obj_files);
+    ms->obj_files = create_dynamic_array(0);
+    assert(ms->obj_files);
 }
 
-void clean_mcc_state()
+void clean_mcc_state(MccState ms)
 {
-    destroy_dynamic_array(MS.include_paths);
-    destroy_dynamic_array(MS.src_files);
-    destroy_dynamic_array(MS.lib_paths);
-    destroy_dynamic_array(MS.obj_files);
+    assert(ms);
+
+    destroy_dynamic_array(ms->include_paths);
+    destroy_dynamic_array(ms->src_files);
+    destroy_dynamic_array(ms->lib_paths);
+    destroy_dynamic_array(ms->obj_files);
 }
 
-void dump_mcc_state()
+void dump_mcc_state(MccState ms)
 {
-    dump_dynamic_array(MS.include_paths);
-    dump_dynamic_array(MS.src_files);
-    dump_dynamic_array(MS.lib_paths);
-    dump_dynamic_array(MS.obj_files);
+    assert(ms);
+
+    dump_dynamic_array(ms->include_paths);
+    dump_dynamic_array(ms->src_files);
+    dump_dynamic_array(ms->lib_paths);
+    dump_dynamic_array(ms->obj_files);
 }
 
-int mcc_state_add_files(const char *path, FileType type)
+int mcc_state_add_files(MccState ms, const char *path, FileType type)
 {
     int r = ERR_FAIL;
+
+    assert(ms);
 
     if (type == FILE_TYPE_UNKNOWN)
         type = get_file_type(path);
@@ -56,16 +68,16 @@ int mcc_state_add_files(const char *path, FileType type)
     switch (type)
     {
     case FILE_TYPE_C:
-        r = dynamic_array_push(MS.src_files, (void *)path);
+        r = dynamic_array_push(ms->src_files, (void *)path);
         break;
     case FILE_TYPE_HEADER_PATH:
-        r = dynamic_array_push(MS.include_paths, (void *)path);
+        r = dynamic_array_push(ms->include_paths, (void *)path);
         break;
     case FILE_TYPE_OBJECT:
-        r = dynamic_array_push(MS.obj_files, (void *)path);
+        r = dynamic_array_push(ms->obj_files, (void *)path);
         break;
     case FILE_TYPE_LIB_PATH:
-        r = dynamic_array_push(MS.lib_paths, (void *)path);
+        r = dynamic_array_push(ms->lib_paths, (void *)path);
         break;
     default:
         error("Unknown file type, %d\n", type);
