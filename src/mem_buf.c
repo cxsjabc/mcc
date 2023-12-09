@@ -13,6 +13,7 @@
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
+// init functions
 MemBuf init_mem_buf(int size)
 {
     MemBuf buf;
@@ -45,6 +46,12 @@ MemBuf init_mem_buf(int size)
     return buf;
 }
 
+void init_from_mem_buf(MemBuf buf)
+{
+    memset(buf, 0, sizeof(struct mem_buf));
+}
+
+// alloc memory block from mem buffer
 void *alloc_from_mem_buf(MemBuf buf, int size)
 {
     MemChunk chk;
@@ -218,6 +225,7 @@ MemInfo alloc_mem_info(void *addr, int size, int used, MemChunk mc, MemInfo prev
 }
 #endif
 
+// free memory buffer
 void free_mem_buf(MemBuf buf)
 {
     MemChunk chk = buf->head.next;

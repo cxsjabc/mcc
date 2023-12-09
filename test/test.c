@@ -41,6 +41,10 @@ int main(int argc, char *argv[])
     test_array();
 #endif
 
+#if ENABLE_TEST_ARGS
+    test_args();
+#endif
+
     always("Test end.\n");
 	return 0;
 }

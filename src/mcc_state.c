@@ -8,24 +8,42 @@
 
 struct mcc_state MS;
 
+MccState create_mcc_state()
+{
+    MccState ms = NULL;
+    return ms;
+}
+
 void setup_mcc_state()
 {
     MS.include_paths = create_dynamic_array(32);
     MS.include_paths->to_string = NULL;
     assert(MS.include_paths);
 
+    MS.src_files = create_dynamic_array(2);
+    assert(MS.src_files);
+
     MS.lib_paths = create_dynamic_array(0);
     assert(MS.lib_paths);
 
-    MS.src_files = create_dynamic_array(2);
-    assert(MS.src_files);
+    MS.obj_files = create_dynamic_array(0);
+    assert(MS.obj_files);
+}
+
+void clean_mcc_state()
+{
+    destroy_dynamic_array(MS.include_paths);
+    destroy_dynamic_array(MS.src_files);
+    destroy_dynamic_array(MS.lib_paths);
+    destroy_dynamic_array(MS.obj_files);
 }
 
 void dump_mcc_state()
 {
     dump_dynamic_array(MS.include_paths);
-    dump_dynamic_array(MS.lib_paths);
     dump_dynamic_array(MS.src_files);
+    dump_dynamic_array(MS.lib_paths);
+    dump_dynamic_array(MS.obj_files);
 }
 
 int mcc_state_add_files(const char *path, FileType type)
