@@ -13,6 +13,8 @@
 #include "mcc/size.h"
 #include "mcc/string.h"
 
+__BEGIN_DECLS
+
 void test_args()
 {
     int r;
@@ -49,3 +51,5 @@ void test_args()
     always("%s pass.\n", __func__);
 	return;
 }
+
+__END_DECLS

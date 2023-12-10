@@ -5,6 +5,8 @@
 #include "mcc/log.h"
 #include "test.h"
 
+__BEGIN_DECLS
+
 int main(int argc, char *argv[])
 {
 	always("Test starting.\n");
@@ -48,3 +50,5 @@ int main(int argc, char *argv[])
     always("Test end.\n");
 	return 0;
 }
+
+__END_DECLS

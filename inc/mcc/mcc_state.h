@@ -7,6 +7,8 @@
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
+__BEGIN_DECLS
+
 // global mcc_state
 // this is used when program initialization, if multi threaded, passing the state to each thread
 extern struct mcc_state MS;
@@ -25,8 +27,6 @@ typedef struct mcc_state
     DynArray obj_files;     // objects to compile
 
 } *MccState;
-
-__BEGIN_DECLS
 
 MccState create_mcc_state();
 void destroy_mcc_state(MccState ms);

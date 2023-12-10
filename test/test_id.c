@@ -12,6 +12,8 @@
 #include "mcc/id.h"
 #include "mcc/size.h"
 
+__BEGIN_DECLS
+
 void test_id()
 {
 	const char *arr[] = { "int", "i1", "1abc", "_ac12", "_2b34", "abc", "123" };
@@ -28,3 +30,5 @@ void test_id()
     always("%s all pass.\n", __func__);
 	return;
 }
+
+__END_DECLS

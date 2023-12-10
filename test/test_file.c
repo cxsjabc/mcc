@@ -10,6 +10,8 @@
 #include "mcc/error.h"
 #include "mcc/file.h"
 
+__BEGIN_DECLS
+
 void test_read_file()
 {
     char *s = read_file("./test/1.source");
@@ -46,3 +48,5 @@ void test_file()
 
 	return;
 }
+
+__END_DECLS

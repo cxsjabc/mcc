@@ -8,6 +8,8 @@
 #include "mcc/log.h"
 #include "mcc/error.h"
 
+__BEGIN_DECLS
+
 void test_string()
 {
 	PCstr p, p1;
@@ -28,3 +30,5 @@ void test_string()
 
 	return;
 }
+
+__END_DECLS

@@ -6,6 +6,8 @@
 #include "mcc/type.h"
 #include "mcc/log.h"
 
+__BEGIN_DECLS
+
 void test_type()
 {
 	int i;
@@ -28,3 +30,5 @@ void test_type()
 
 	return;
 }
+
+__END_DECLS

@@ -12,6 +12,8 @@
 #include "mcc/keyword.h"
 #include "mcc/size.h"
 
+__BEGIN_DECLS
+
 void test_keyword()
 {
 	const char *arr[] = { "int", "ino", "case", "break", "break1" };
@@ -28,3 +30,5 @@ void test_keyword()
     always("%s all pass.\n", __func__);
 	return;
 }
+
+__END_DECLS

@@ -10,9 +10,13 @@
 #include "mcc/error.h"
 #include "mcc/token.h"
 
+__BEGIN_DECLS
+
 void test_token()
 {
 	show_all_tokens();
 
 	return;
 }
+
+__END_DECLS

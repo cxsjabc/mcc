@@ -12,6 +12,8 @@
 #include "mcc/mem_buf.h"
 #include "mcc/size.h"
 
+__BEGIN_DECLS
+
 void test_mem_buf()
 {
 	MemBuf buf;
@@ -87,3 +89,5 @@ void test_mem_buf()
     always("%s all pass.\n", __func__);
 	return;
 }
+
+__END_DECLS

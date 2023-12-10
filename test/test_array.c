@@ -12,6 +12,8 @@
 #include "mcc/error.h"
 #include "mcc/mem_buf.h"
 
+__BEGIN_DECLS
+
 void test_int_array()
 {
     DynArray arr;
@@ -91,3 +93,5 @@ void test_array()
 
 	return;
 }
+
+__END_DECLS
