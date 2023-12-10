@@ -83,6 +83,16 @@
  *   __i386__ is defined.
  *   __WORDSIZE: 32
  *   __SIZEOF_POINTER__: 4
+ * 
+ * macOS 10.13.6 (Apple LLVM 10.0.0 clang-1000.10.44.4)(VM)
+ *   __GNUC__ is defined
+ *   -- _WIN32 and _WIN64 are both not defined.
+ *   __x86_64__ is defined.
+ *   __amd64__ is defined.
+ *   __WORDSIZE: 64
+ *   __SIZEOF_POINTER__: 8
+ *   SIZE_MAX: ffffffffffffffff
+ *   __LP64__ is defined.
  */
 
 __BEGIN_DECLS

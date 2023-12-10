@@ -30,4 +30,15 @@ int is_identifier(const char *str)
 	return 1;
 }
 
+// TODO
+const static unsigned char char_type_table[] = 
+{
+	CHAR_TYPE_DIGIT, 
+};
+
+CHAR_TYPE get_char_type(char c)
+{
+	return char_type_table[(unsigned char)c];
+}
+
 __END_DECLS

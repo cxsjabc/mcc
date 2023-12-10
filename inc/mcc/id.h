@@ -3,6 +3,11 @@
 
 #include "mcc/features.h"
 
+typedef enum {
+	CHAR_TYPE_DIGIT,
+	CHAR_TYPE_ALPHA,
+} CHAR_TYPE;
+
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
 #define is_alpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
 #define is_alnum(c) (is_digit(c) || is_alpha(c))
@@ -20,6 +25,7 @@
 __BEGIN_DECLS
 
 int is_identifier(const char *str);
+CHAR_TYPE get_char_type(char c);
 
 __END_DECLS
 
