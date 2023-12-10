@@ -8,6 +8,7 @@ src\id.obj \
 src\keyword.obj \
 src\lex.obj \
 src\mcc_state.obj \
+src\mem.obj \
 src\mem_buf.obj \
 src\print.obj \
 src\string.obj \
@@ -38,6 +39,7 @@ out\src\id.obj \
 out\src\keyword.obj \
 out\src\lex.obj \
 out\src\mcc_state.obj \
+out\src\mem.obj \
 out\src\mem_buf.obj \
 out\src\print.obj \
 out\src\string.obj \
