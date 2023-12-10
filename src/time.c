@@ -2,6 +2,8 @@
 
 #include "mcc/time.h"
 
+__BEGIN_DECLS
+
 static const char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
 int trans_month_to_int(const char *mon)
@@ -15,3 +17,5 @@ int trans_month_to_int(const char *mon)
     }
     return -1;
 }
+
+__END_DECLS

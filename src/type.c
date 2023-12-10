@@ -9,6 +9,8 @@
 
 #define TYPE_INIT(type)    types[type].size = type##_SIZE, types[type].align = type##_ALIGN;
 
+__BEGIN_DECLS
+
 // basic types
 Type types[VOID - BOOL + 1];
 
@@ -60,3 +62,5 @@ const char * get_type_names(int i)
         return NULL;
     return type_names[i];
 }
+
+__END_DECLS

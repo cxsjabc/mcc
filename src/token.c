@@ -3,6 +3,8 @@
 #include "mcc/token.h"
 #include "mcc/size.h"
 
+__BEGIN_DECLS
+
 const char *TokenNames[] =
 {
     #define DEF_TOK(t, s) s,
@@ -30,3 +32,5 @@ void show_all_tokens()
     }
     printf("\n");
 }
+
+__END_DECLS

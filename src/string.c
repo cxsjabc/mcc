@@ -8,6 +8,8 @@
 #include "mcc/error.h"
 #include "mcc/id.h"
 
+__BEGIN_DECLS
+
 PCstr alloc_cstr(const int maxlen)
 {
     PCstr p;
@@ -147,3 +149,5 @@ void skip_blanks(char **pp)
         ++s;
     *pp = s;
 }
+
+__END_DECLS

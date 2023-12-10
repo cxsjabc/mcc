@@ -12,6 +12,8 @@
 #include "mcc/size.h"
 #include "mcc/id.h"
 
+__BEGIN_DECLS
+
 int is_identifier(const char *str)
 {
     char c;
@@ -27,3 +29,5 @@ int is_identifier(const char *str)
     }
     return 1;
 }
+
+__END_DECLS

@@ -10,6 +10,8 @@
 #include "mcc/mcc_state.h"
 #include "mcc/ver.h"
 
+__BEGIN_DECLS
+
 int main(int argc, char *argv[])
 {
 	int r;
@@ -38,3 +40,5 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+__END_DECLS

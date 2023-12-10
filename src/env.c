@@ -85,6 +85,8 @@
  *   __SIZEOF_POINTER__: 4
  */
 
+__BEGIN_DECLS
+
 int check_build_envionment()
 {
 // OS: Windows or Linux ...
@@ -157,3 +159,5 @@ int check_build_envionment()
 
     return 1;
 }
+
+__END_DECLS

@@ -8,6 +8,8 @@
 #include "mcc/mcc_state.h"
 #include "mcc/string.h"
 
+__BEGIN_DECLS
+
 int is_show_version = 1;
 int is_show_build_version, is_show_help;
 int is_preprocess;
@@ -88,3 +90,5 @@ int parse_args(int argc, char *argv[], MccState ms)
 
     return r;
 }
+
+__END_DECLS

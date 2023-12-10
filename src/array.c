@@ -6,6 +6,8 @@
 #include "mcc/log.h"
 #include "mcc/print.h"
 
+__BEGIN_DECLS
+
 // basic array funtions
 int is_array_equal(int arr[], int expect_arr[], int size)
 {
@@ -154,3 +156,5 @@ void dump_dynamic_array(DynArray arr)
     }
     debug_nofl("\n");
 }
+
+__END_DECLS

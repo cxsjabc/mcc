@@ -6,6 +6,8 @@
 #include "mcc/log.h"
 #include "mcc/mcc_state.h"
 
+__BEGIN_DECLS
+
 struct mcc_state MS;
 
 MccState create_mcc_state()
@@ -94,3 +96,5 @@ int mcc_state_add_files(MccState ms, const char *path, FileType type)
 
     return r;
 }
+
+__END_DECLS

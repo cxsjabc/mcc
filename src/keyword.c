@@ -11,6 +11,8 @@
 #include "mcc/log.h"
 #include "mcc/size.h"
 
+__BEGIN_DECLS
+
 static const char *KeywordsAllArr[] = {
     "auto",
     "break",
@@ -134,3 +136,5 @@ int is_keyword(const char *str)
 
     return 0;
 }
+
+__END_DECLS

@@ -4,6 +4,8 @@
 #include "mcc/lex.h"
 #include "mcc/string.h"
 
+__BEGIN_DECLS
+
 char *next_token(char *s, char **pe)
 {
     char *ps;
@@ -30,3 +32,5 @@ void parse_number(char *s, char **pe)
 {
     // TODO
 }
+
+__END_DECLS

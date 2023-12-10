@@ -13,6 +13,8 @@
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
+__BEGIN_DECLS
+
 // init functions
 MemBuf init_mem_buf(int size)
 {
@@ -349,3 +351,5 @@ void dump_mem_buf(MemBuf buf)
     dump_mem_info(buf);
 #endif
 }
+
+__END_DECLS

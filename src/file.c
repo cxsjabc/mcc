@@ -7,6 +7,8 @@
 #include "mcc/log.h"
 #include "mcc/string.h"
 
+__BEGIN_DECLS
+
 // Matched with FileType
 const char *FileTypeNames[] = {
     "C File",
@@ -108,3 +110,5 @@ char *read_file(const char *path)
     buffer[size] = '\0';
     return buffer;
 }
+
+__END_DECLS

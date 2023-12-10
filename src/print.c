@@ -9,6 +9,8 @@
 #include "mcc/string.h"
 #include "mcc/print.h"
 
+__BEGIN_DECLS
+
 void print_pointer(void *p)
 {
 #if defined(__amd64__) || defined(_WIN64)
@@ -19,3 +21,5 @@ void print_pointer(void *p)
 #error "Unknown architecture"
 #endif
 }
+
+__END_DECLS

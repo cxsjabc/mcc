@@ -9,6 +9,8 @@
 #include "mcc/string.h"
 #include "mcc/log.h"
 
+__BEGIN_DECLS
+
 const char *gen_build_ver()
 {
     const char *build_date = BUILD_VER_DATE; // like: "Nov 25 2023"
@@ -68,3 +70,5 @@ const char *gen_build_ver()
 
     return build_ver;
 }
+
+__END_DECLS
