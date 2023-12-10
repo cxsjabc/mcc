@@ -1,14 +1,26 @@
-# Please execute make in msvc command line environment if use MSVC.
+# This file is preferred to used for somebody who likes to work on Windows, likes to use make and msvc cl.exe together.
+# Seems that it's strange, but it's a good idea for that somebody hates the strange grammar of nmake.exe, so use make.exe instead.
+# But, he doesn't like Cygwin/MinGW gcc, so use msvc cl.exe instead.
+
+# Please execute make in msvc command line environment if USE_MSVC(see the variable below).
 # Usage:
 #  make -f Makefile.win
 #  make -f Makefile.win test
 #
 #  make -f Makefile.win clean
 #  make -f Makefile.win clean_test
+#
+# Also, can add CC config:
+#  make -f Makefile.win CC=gcc
+
 
 CUR_DIR := .
 
+ifneq (cl, $(CC))
+USE_MSVC := 0
+else
 USE_MSVC := 1
+endif
 
 C_INCLUDES := -I $(CUR_DIR)/inc
 C_FLAGS := $(C_INCLUDES)

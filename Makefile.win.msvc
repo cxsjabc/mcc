@@ -1,4 +1,8 @@
+# This makefile is purely for Windows msvc programmers.
+# This file is used by nmake.bat, nmake.bat will call nmake.exe if possible.
+
 # Please execute make in msvc command line environment if use MSVC.
+
 # Usage:
 #  nmake.exe -f Makefile.win.msvc
 #  nmake.exe -f Makefile.win.msvc test
