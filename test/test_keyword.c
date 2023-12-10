@@ -17,17 +17,17 @@ __BEGIN_DECLS
 void test_keyword()
 {
 	const char *arr[] = { "int", "ino", "case", "break", "break1" };
-    int res_arr[5];
-    int right_arr[] = { 1, 0, 1, 1, 0 };
-    unsigned int i;
+	int res_arr[5];
+	int right_arr[] = { 1, 0, 1, 1, 0 };
+	unsigned int i;
 
-    for (i = 0; i < ARRAY_SIZE(arr); i++) {
-        res_arr[i] = is_keyword(arr[i]);
-    }
+	for (i = 0; i < ARRAY_SIZE(arr); i++) {
+		res_arr[i] = is_keyword(arr[i]);
+	}
 
-    assert(is_array_equal(res_arr, right_arr, ARRAY_SIZE(right_arr)));
+	assert(is_array_equal(res_arr, right_arr, ARRAY_SIZE(right_arr)));
 
-    always("%s all pass.\n", __func__);
+	always("%s all pass.\n", __func__);
 	return;
 }
 

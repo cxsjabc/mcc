@@ -5,13 +5,13 @@
 
 #ifndef __cplusplus
 #define mcc_malloc  malloc
-#define mcc_free    free
+#define mcc_free	free
 
 #define mcc_calloc  calloc
 #define mcc_realloc realloc
 #else
 #define mcc_malloc  cpp_malloc
-#define mcc_free    cpp_free
+#define mcc_free	cpp_free
 
 #define mcc_calloc  cpp_calloc
 #define mcc_realloc cpp_realloc

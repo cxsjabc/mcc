@@ -5,9 +5,9 @@
 
 typedef struct cstr
 {
-    char *str;
-    int len;
-    int maxlen;
+	char *str;
+	int len;
+	int maxlen;
 } Cstr, *PCstr;
 
 __BEGIN_DECLS

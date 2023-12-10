@@ -14,9 +14,9 @@ __BEGIN_DECLS
 void print_pointer(void *p)
 {
 #if defined(__amd64__) || defined(_WIN64)
-    debug_nofl("%#lx", (unsigned long)(intptr_t)(p));
+	debug_nofl("%#lx", (unsigned long)(intptr_t)(p));
 #elif defined(__i386__) || defined(_WIN32)
-    debug_nofl("%#x", (intptr_t)(p));
+	debug_nofl("%#x", (intptr_t)(p));
 #else
 #error "Unknown architecture"
 #endif

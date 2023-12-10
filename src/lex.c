@@ -8,29 +8,29 @@ __BEGIN_DECLS
 
 char *next_token(char *s, char **pe)
 {
-    char *ps;
-    char c;
+	char *ps;
+	char c;
 
-    skip_blanks(&s);
-    ps = s;
+	skip_blanks(&s);
+	ps = s;
 
-    c = *ps;
-    if (is_id(c))
-        parse_identifier(ps, pe);
-    else if (is_digit(c))
-        parse_number(ps , pe);
+	c = *ps;
+	if (is_id(c))
+		parse_identifier(ps, pe);
+	else if (is_digit(c))
+		parse_number(ps , pe);
 
-    return ps;
+	return ps;
 }
 
 void parse_identifier(char *s, char **pe)
 {
-    // TODO
+	// TODO
 }
 
 void parse_number(char *s, char **pe)
 {
-    // TODO
+	// TODO
 }
 
 __END_DECLS

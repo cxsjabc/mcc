@@ -5,9 +5,9 @@
 
 enum Token 
 {
-    #define DEF_TOK(t, s) t,
-    #include "mcc/token_internal.h"
-    #undef DEF_TOK
+	#define DEF_TOK(t, s) t,
+	#include "mcc/token_internal.h"
+	#undef DEF_TOK
 };
 
 __BEGIN_DECLS

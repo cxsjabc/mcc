@@ -17,80 +17,80 @@ __BEGIN_DECLS
 
 void test_int_array()
 {
-    DynArray arr;
-    char *s;
-    int i, r;
-    MemBuf buf;
+	DynArray arr;
+	char *s;
+	int i, r;
+	MemBuf buf;
 
-    buf = init_mem_buf(0);
-    assert(buf);
+	buf = init_mem_buf(0);
+	assert(buf);
 
-    arr = create_dynamic_array(2);
-    assert(arr);
+	arr = create_dynamic_array(2);
+	assert(arr);
 
-    //arr->compare = strcmp;
-    //arr->destroy = mcc_free;
-    arr->to_string = (to_string)(void *)0x1;
+	//arr->compare = strcmp;
+	//arr->destroy = mcc_free;
+	arr->to_string = (to_string)(void *)0x1;
 
-    for (i = 0; i < 20; ++i) {
-        // s = mcc_malloc(sizeof(char) * 16);
-        s = (char *)alloc_from_mem_buf(buf, 16);
-        assert(s);
-        sprintf(s, "%d", i);
+	for (i = 0; i < 20; ++i) {
+		// s = mcc_malloc(sizeof(char) * 16);
+		s = (char *)alloc_from_mem_buf(buf, 16);
+		assert(s);
+		sprintf(s, "%d", i);
 
-        r = dynamic_array_push(arr, (void *)(intptr_t)i);
-        assert(r > 0);
-    }
+		r = dynamic_array_push(arr, (void *)(intptr_t)i);
+		assert(r > 0);
+	}
 
-    dump_dynamic_array(arr);
+	dump_dynamic_array(arr);
 
-    destroy_dynamic_array(arr);
+	destroy_dynamic_array(arr);
 }
 
 char *char_str_to_string(void *data)
 {
-    char *p = (char *)data;
-    return p;
+	char *p = (char *)data;
+	return p;
 }
 
 void test_str_array()
 {
-    DynArray arr;
-    char *s;
-    int i, r;
-    MemBuf buf;
+	DynArray arr;
+	char *s;
+	int i, r;
+	MemBuf buf;
 
-    buf = init_mem_buf(0);
-    assert(buf);
+	buf = init_mem_buf(0);
+	assert(buf);
 
-    arr = create_dynamic_array(2);
-    assert(arr);
+	arr = create_dynamic_array(2);
+	assert(arr);
 
-    //arr->compare = strcmp;
-    arr->destroy = mcc_free;
-    arr->to_string = char_str_to_string;
+	//arr->compare = strcmp;
+	arr->destroy = mcc_free;
+	arr->to_string = char_str_to_string;
 
-    for (i = 0; i < 20; ++i) {
-        // s = mcc_malloc(sizeof(char) * 16);
-        s = (char *)alloc_from_mem_buf(buf, 16);
-        assert(s);
-        sprintf(s, "string %d", i);
+	for (i = 0; i < 20; ++i) {
+		// s = mcc_malloc(sizeof(char) * 16);
+		s = (char *)alloc_from_mem_buf(buf, 16);
+		assert(s);
+		sprintf(s, "string %d", i);
 
-        r = dynamic_array_push(arr, s);
-        assert(r > 0);
-    }
+		r = dynamic_array_push(arr, s);
+		assert(r > 0);
+	}
 
-    dump_dynamic_array(arr);
+	dump_dynamic_array(arr);
 
-    destroy_dynamic_array(arr);
-    // dump_dynamic_array(arr);
+	destroy_dynamic_array(arr);
+	// dump_dynamic_array(arr);
 }
 
 void test_array()
 {
 	test_str_array();
 
-    test_int_array();
+	test_int_array();
 
 	return;
 }

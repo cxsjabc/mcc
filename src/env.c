@@ -14,12 +14,12 @@
 
 /**
  * GCC '-march=' switch are:
- *      nocona core2 nehalem corei7 westmere sandybridge corei7-avx ivybridge core-avx-i
- *      haswell core-avx2 broadwell skylake skylake-avx512 cannonlake icelake-client icelake-server
- *      cascadelake tigerlake cooperlake bonnell atom silvermont slm goldmont goldmont-plus tremont
- *      knl knm x86-64 eden-x2 nano nano-1000 nano-2000 nano-3000 nano-x2 eden-x4 nano-x4 k8 k8-sse3
- *      opteron opteron-sse3 athlon64 athlon64-sse3 athlon-fx amdfam10 barcelona bdver1 bdver2 bdver3
- *      bdver4 znver1 znver2 znver3 btver1 btver2 native
+ *	  nocona core2 nehalem corei7 westmere sandybridge corei7-avx ivybridge core-avx-i
+ *	  haswell core-avx2 broadwell skylake skylake-avx512 cannonlake icelake-client icelake-server
+ *	  cascadelake tigerlake cooperlake bonnell atom silvermont slm goldmont goldmont-plus tremont
+ *	  knl knm x86-64 eden-x2 nano nano-1000 nano-2000 nano-3000 nano-x2 eden-x4 nano-x4 k8 k8-sse3
+ *	  opteron opteron-sse3 athlon64 athlon64-sse3 athlon-fx amdfam10 barcelona bdver1 bdver2 bdver3
+ *	  bdver4 znver1 znver2 znver3 btver1 btver2 native
  * 
  */
 /*
@@ -91,73 +91,73 @@ int check_build_envionment()
 {
 // OS: Windows or Linux ...
 #if __GNUC__
-    debug("__GNUC__ is defined\n");
+	debug("__GNUC__ is defined\n");
 #endif
 
 #ifdef _MSC_VER
-    debug("_MSC_VER is defined.\n");
+	debug("_MSC_VER is defined.\n");
 #endif
 
 #ifdef linux
-    debug("linux is defined.\n");
+	debug("linux is defined.\n");
 #endif
 
 #ifdef unix
-    debug("unix is defined.\n");
+	debug("unix is defined.\n");
 #endif
 
 // System 32bit or 64bit
 #ifdef _WIN32
-    debug("_WIN32 is defined.\n");
+	debug("_WIN32 is defined.\n");
 #endif
 
 #ifdef _WIN64
-    debug("_WIN64 is defined.\n");
+	debug("_WIN64 is defined.\n");
 #endif
 
 #if !defined(_WIN32) && !defined(_WIN64)
-    debug("-- _WIN32 and _WIN64 are both not defined.\n");
+	debug("-- _WIN32 and _WIN64 are both not defined.\n");
 #endif
 
 #ifdef __i386__
-    debug("__i386__ is defined.\n");
+	debug("__i386__ is defined.\n");
 #endif
 
 #ifdef __x86_64__
-    debug("__x86_64__ is defined.\n");
+	debug("__x86_64__ is defined.\n");
 #endif
 
 #ifdef __amd64__
-    debug("__amd64__ is defined.\n");
+	debug("__amd64__ is defined.\n");
 #endif
 
 #ifdef _M_AMD64
-    debug("_M_AMD64 is defined.\n");
+	debug("_M_AMD64 is defined.\n");
 #endif
 
 #ifdef _M_X64
-    debug("_M_X64 is defined.\n");
+	debug("_M_X64 is defined.\n");
 #endif
 
 // Type Size
 #ifdef __WORDSIZE
-    // Win GCC(not found)
-    debug("__WORDSIZE: %d\n", __WORDSIZE);
+	// Win GCC(not found)
+	debug("__WORDSIZE: %d\n", __WORDSIZE);
 #endif
 
 #ifdef __SIZEOF_POINTER__
-    debug("__SIZEOF_POINTER__: %d\n", __SIZEOF_POINTER__);
+	debug("__SIZEOF_POINTER__: %d\n", __SIZEOF_POINTER__);
 #endif
 
 #ifdef SIZE_MAX
-    debug("SIZE_MAX: %llx\n", (unsigned long long)SIZE_MAX);
+	debug("SIZE_MAX: %llx\n", (unsigned long long)SIZE_MAX);
 #endif
 
 #ifdef __LP64__
-    debug("__LP64__ is defined.\n");
+	debug("__LP64__ is defined.\n");
 #endif
 
-    return 1;
+	return 1;
 }
 
 __END_DECLS

@@ -10,13 +10,13 @@ typedef char *(*to_string)(void*);
 
 typedef struct dynamic_array
 {
-    void **data;
-    int size;
-    int capacity;
+	void **data;
+	int size;
+	int capacity;
 
-    char *(*to_string)(void *); // NULL: char *, 0x1: basic type, normal pointer: use to_string specific func. 
-    int (*compare)(void *, void *);
-    void (*destroy)(void *);
+	char *(*to_string)(void *); // NULL: char *, 0x1: basic type, normal pointer: use to_string specific func. 
+	int (*compare)(void *, void *);
+	void (*destroy)(void *);
 } *DynArray;
 
 DynArray create_dynamic_array(unsigned int size);

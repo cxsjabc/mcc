@@ -16,18 +16,18 @@ __BEGIN_DECLS
 
 int is_identifier(const char *str)
 {
-    char c;
+	char c;
 
-    if (!is_id_start(*str))
-        return 0;
+	if (!is_id_start(*str))
+		return 0;
 
-    ++str;
-    while ((c = *str)) {
-        if (!is_id(c))
-            return 0;
-        ++str;
-    }
-    return 1;
+	++str;
+	while ((c = *str)) {
+		if (!is_id(c))
+			return 0;
+		++str;
+	}
+	return 1;
 }
 
 __END_DECLS
