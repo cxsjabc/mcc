@@ -1,6 +1,8 @@
 #ifndef SIZE_H
 #define SIZE_H
 
+#include "mcc/features.h"
+
 // This is compiler-dependent.
 
 #define BOOL_SIZE 1

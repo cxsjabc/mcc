@@ -3,6 +3,8 @@
 
 #include <stdlib.h>
 
+#include "mcc/features.h"
+
 #ifndef NO_DEBUG
 #define NO_DEBUG 0
 #endif

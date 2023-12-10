@@ -1,6 +1,8 @@
 #ifndef MEM_BUF_H
 #define MEM_BUF_H
 
+#include "mcc/features.h"
+
 #define PAGE_SIZE 4096
 
 #define ENABLE_MEM_INFO 0

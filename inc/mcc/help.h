@@ -1,6 +1,8 @@
 #ifndef HELP_H
 #define HELP_H
 
+#include "mcc/features.h"
+
 __BEGIN_DECLS
 
 void show_help();

@@ -1,6 +1,8 @@
 #ifndef FILE_H
 #define FILE_H
 
+#include "mcc/features.h"
+
 typedef enum file_type
 {
     FILE_TYPE_UNKNOWN = -1,

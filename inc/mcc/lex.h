@@ -1,6 +1,8 @@
 #ifndef LEX_H
 #define LEX_H
 
+#include "mcc/features.h"
+
 __BEGIN_DECLS
 
 char *next_token(char *s, char **p_end);

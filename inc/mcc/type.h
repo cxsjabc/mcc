@@ -1,8 +1,9 @@
 #ifndef TYPE_H
 #define TYPE_H
 
-enum 
-{
+#include "mcc/features.h"
+
+enum {
     BOOL,
     CHAR, UCHAR,
     SHORT, USHORT,

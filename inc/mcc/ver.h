@@ -1,6 +1,8 @@
 #ifndef VER_H
 #define VER_H
 
+#include "mcc/features.h"
+
 #define MAJOR "1"
 #define MINOR "0"
 #define BUILD_VER_DATE __DATE__

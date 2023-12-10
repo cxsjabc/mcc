@@ -1,6 +1,8 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include "mcc/features.h"
+
 enum Token 
 {
     #define DEF_TOK(t, s) t,

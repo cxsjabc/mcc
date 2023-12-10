@@ -23,7 +23,8 @@
 			"type_traits": "c",
 			"print.h": "c",
 			"string_view": "c",
-			"array.h": "c"
+			"array.h": "c",
+			"features.h": "c"
 		}
 	}
 }

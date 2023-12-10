@@ -1,6 +1,8 @@
 #ifndef ID_H
 #define ID_H
 
+#include "mcc/features.h"
+
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
 #define is_alpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
 #define is_alnum(c) (is_digit(c) || is_alpha(c))

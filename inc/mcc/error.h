@@ -1,6 +1,7 @@
 #ifndef ERROR_H
 #define ERROR_H
 
+#include "mcc/features.h"
 #include "mcc/log.h"
 
 enum 

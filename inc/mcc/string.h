@@ -1,6 +1,8 @@
 #ifndef STRING_H
 #define STRING_H
 
+#include "mcc/features.h"
+
 typedef struct cstr
 {
     char *str;
