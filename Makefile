@@ -12,18 +12,20 @@ CUR_DIR := .
 
 $(info "OS: $(OS)")
 
+# Also, can use make CC=g++ to change the default $(CC) compiler.
+
 # 0. Use clang (16.0.0)
-# CC = clang
+# CC := clang
 
 # 1. Use gcc (10.2.0)
 CC := gcc
 
 # 2. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
-# CC = i686-w64-mingw32-gcc.exe
+# CC := i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
 
 # 3. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
-# CC = x86_64-w64-mingw32-gcc.exe
+# CC := x86_64-w64-mingw32-gcc.exe
 
 # 4. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type and other issues)
 

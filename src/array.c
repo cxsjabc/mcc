@@ -4,6 +4,7 @@
 
 #include "mcc/array.h"
 #include "mcc/log.h"
+#include "mcc/mem.h"
 #include "mcc/print.h"
 
 __BEGIN_DECLS
@@ -26,14 +27,14 @@ DynArray create_dynamic_array(unsigned int size)
 {
     DynArray arr;
 
-    arr = (DynArray)malloc(sizeof(struct dynamic_array));
+    arr = (DynArray)mcc_malloc(sizeof(struct dynamic_array));
     if (!arr)
         return NULL;
 
     if (size != 0) {
-        arr->data = (void **)malloc(sizeof(void *) * size);
+        arr->data = (void **)mcc_malloc(sizeof(void *) * size);
         if (!arr->data) {
-            free(arr);
+            mcc_free(arr);
             return NULL;
         }
     } else
@@ -63,13 +64,13 @@ void destroy_dynamic_array(DynArray arr)
         }
     }
 
-    free(arr);
+    mcc_free(arr);
 }
 
 int dynamic_array_push(DynArray arr, void *data)
 {
     if (arr->size == arr->capacity) {
-        void **new_data = (void **)realloc(arr->data, sizeof(void *) * (arr->capacity * 2));
+        void **new_data = (void **)mcc_realloc(arr->data, sizeof(void *) * (arr->capacity * 2));
         if (!new_data)
             return 0;
 

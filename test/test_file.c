@@ -5,10 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "mcc/string.h"
 #include "mcc/log.h"
 #include "mcc/error.h"
 #include "mcc/file.h"
+#include "mcc/mem.h"
+#include "mcc/string.h"
 
 __BEGIN_DECLS
 
@@ -18,7 +19,7 @@ void test_read_file()
     assert(s != NULL);
 
     always("file source: |%s|\n", s);
-    free(s);
+    mcc_free(s);
 }
 
 void test_file()

@@ -25,7 +25,11 @@
 			"string_view": "c",
 			"array.h": "c",
 			"features.h": "c",
-			"args.h": "c"
+			"args.h": "c",
+			"array": "c",
+			"initializer_list": "c",
+			"ranges": "c",
+			"utility": "c"
 		}
 	}
 }

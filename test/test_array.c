@@ -10,6 +10,7 @@
 #include "mcc/string.h"
 #include "mcc/log.h"
 #include "mcc/error.h"
+#include "mcc/mem.h"
 #include "mcc/mem_buf.h"
 
 __BEGIN_DECLS
@@ -28,11 +29,11 @@ void test_int_array()
     assert(arr);
 
     //arr->compare = strcmp;
-    //arr->destroy = free;
+    //arr->destroy = mcc_free;
     arr->to_string = (to_string)(void *)0x1;
 
     for (i = 0; i < 20; ++i) {
-        // s = malloc(sizeof(char) * 16);
+        // s = mcc_malloc(sizeof(char) * 16);
         s = (char *)alloc_from_mem_buf(buf, 16);
         assert(s);
         sprintf(s, "%d", i);
@@ -66,11 +67,11 @@ void test_str_array()
     assert(arr);
 
     //arr->compare = strcmp;
-    arr->destroy = free;
+    arr->destroy = mcc_free;
     arr->to_string = char_str_to_string;
 
     for (i = 0; i < 20; ++i) {
-        // s = malloc(sizeof(char) * 16);
+        // s = mcc_malloc(sizeof(char) * 16);
         s = (char *)alloc_from_mem_buf(buf, 16);
         assert(s);
         sprintf(s, "string %d", i);

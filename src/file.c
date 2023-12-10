@@ -5,6 +5,7 @@
 #include "mcc/error.h"
 #include "mcc/file.h"
 #include "mcc/log.h"
+#include "mcc/mem.h"
 #include "mcc/string.h"
 
 __BEGIN_DECLS
@@ -92,7 +93,7 @@ char *read_file(const char *path)
     size = ftell(file);
     fseek(file, 0, SEEK_SET);
 
-    char *buffer = (char *)malloc(size + 1);
+    char *buffer = (char *)mcc_malloc(size + 1);
     if (buffer == NULL)
     {
         fclose(file);
@@ -102,7 +103,7 @@ char *read_file(const char *path)
     r = fread(buffer, 1, size, file);
     if ((long)r != size) {
         error("Read file buffer error, fread return the wrong size: %zu(expect: %ld)\n", r, size);
-        free(buffer);
+        mcc_free(buffer);
         fclose(file);
         return NULL;
     }
