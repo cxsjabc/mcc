@@ -16,14 +16,14 @@
 void test_args()
 {
     int r;
-	char *argv[] = {"-I", ".", "-I/usr/xxx", "3.c", "-L./lib", "-L", "abc", "-Iabc/d", "-I", "..", "1.c", "2.c"};
+	const char *argv[] = {"-I", ".", "-I/usr/xxx", "3.c", "-L./lib", "-L", "abc", "-Iabc/d", "-I", "..", "1.c", "2.c"};
     int argc = ARRAY_SIZE(argv);
     MccState ms;
 
     ms = create_mcc_state();
     assert(ms);
 
-    r = parse_args(argc, argv, ms);
+    r = parse_args(argc, (char **)argv, ms);
     assert(r == ERR_NONE);
 
     assert(ms->include_paths->size == 4);

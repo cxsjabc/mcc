@@ -6,7 +6,7 @@ static const char *months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
 
 int trans_month_to_int(const char *mon)
 {
-    int i;
+    unsigned int i;
 
     for(i = 0; i < sizeof(months) / sizeof(char *); ++i)
     {

@@ -21,7 +21,8 @@
 			"file.h": "c",
 			"compare": "c",
 			"type_traits": "c",
-			"print.h": "c"
+			"print.h": "c",
+			"string_view": "c"
 		}
 	}
 }

@@ -17,7 +17,7 @@ void test_id()
 	const char *arr[] = { "int", "i1", "1abc", "_ac12", "_2b34", "abc", "123" };
     int res_arr[128];
     int right_arr[] = { 1, 1, 0, 1, 1, 1, 0 };
-    int i;
+    unsigned int i;
 
     for (i = 0; i < ARRAY_SIZE(arr); i++) {
         res_arr[i] = is_identifier(arr[i]);

@@ -101,7 +101,7 @@ static const char **KeywordsBeginArr[] = {
 int is_keyword_v1(const char *str) 
 {
     assert(str != NULL);
-    int i;
+    unsigned int i;
     for (i = 0; i < ARRAY_SIZE(KeywordsAllArr); i++) {
         if (strcmp(KeywordsAllArr[i], str) == 0) {
             return 1;

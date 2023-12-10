@@ -56,7 +56,7 @@ PType get_type_info(int type)
 
 const char * get_type_names(int i)
 {
-    if (i < 0 || i > ARRAY_SIZE(type_names))
+    if (i < 0 || (unsigned int)i > ARRAY_SIZE(type_names))
         return NULL;
     return type_names[i];
 }

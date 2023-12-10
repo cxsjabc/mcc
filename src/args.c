@@ -54,7 +54,7 @@ int parse_args(int argc, char *argv[], MccState ms)
             if (p[2] == '\0') {
                 ++argv, --argc;
                 if (argv && (*argv)[0] != '-') {
-                    r = mcc_state_add_files(ms, *argv, file_type);
+                    r = mcc_state_add_files(ms, *argv, (FileType)file_type);
                     if (r != ERR_NONE) {
                         error("Failed to parse file: %s, ret(%d)\n", *argv, r);
                         ERR_RETURN(r);
@@ -64,7 +64,7 @@ int parse_args(int argc, char *argv[], MccState ms)
                     error("Invalid include path: %s\n", *argv);
             } else {
                 const char *path = &p[2];
-                r = mcc_state_add_files(ms, path, file_type);
+                r = mcc_state_add_files(ms, path, (FileType)file_type);
                 if (r != ERR_NONE) {
                     error("Failed to parse file: %s\n", path);
                     ERR_RETURN(r);

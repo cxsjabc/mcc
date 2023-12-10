@@ -3,6 +3,8 @@
 
 int is_array_equal(int arr[], int expect_arr[], int size);
 
+typedef char *(*to_string)(void*);
+
 typedef struct dynamic_array
 {
     void **data;

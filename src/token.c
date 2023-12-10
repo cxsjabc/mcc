@@ -19,7 +19,7 @@ const int TokenSize = ARRAY_SIZE(TokenNames);
 
 void show_all_tokens()
 {
-    int i;
+    unsigned int i;
 
     printf("TokenSize: %d\n", TokenSize);
     for (i = 0; i < ARRAY_SIZE(TokenNames); i++)

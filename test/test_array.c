@@ -27,11 +27,11 @@ void test_int_array()
 
     //arr->compare = strcmp;
     //arr->destroy = free;
-    arr->to_string = (void *)0x1;
+    arr->to_string = (to_string)(void *)0x1;
 
     for (i = 0; i < 20; ++i) {
         // s = malloc(sizeof(char) * 16);
-        s = alloc_from_mem_buf(buf, 16);
+        s = (char *)alloc_from_mem_buf(buf, 16);
         assert(s);
         sprintf(s, "%d", i);
 
@@ -69,7 +69,7 @@ void test_str_array()
 
     for (i = 0; i < 20; ++i) {
         // s = malloc(sizeof(char) * 16);
-        s = alloc_from_mem_buf(buf, 16);
+        s = (char *)alloc_from_mem_buf(buf, 16);
         assert(s);
         sprintf(s, "string %d", i);
 
