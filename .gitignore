@@ -33,3 +33,5 @@ cmake/mcc.vcxproj
 cmake/mcc.vcxproj.filters
 cmake/ZERO_CHECK.vcxproj
 cmake/ZERO_CHECK.vcxproj.filters
+
+external/cpp/cpp_test
