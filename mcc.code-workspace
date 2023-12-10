@@ -24,7 +24,8 @@
 			"print.h": "c",
 			"string_view": "c",
 			"array.h": "c",
-			"features.h": "c"
+			"features.h": "c",
+			"args.h": "c"
 		}
 	}
 }
