@@ -15,6 +15,10 @@
 #define is_id_start(c) (is_alpha(c) || (c) == '_')
 #define is_id(c) (is_alnum(c) || (c) == '_')
 
+__BEGIN_DECLS
+
 int is_identifier(const char *str);
+
+__END_DECLS
 
 #endif

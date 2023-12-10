@@ -97,6 +97,8 @@ typedef struct mem_buf
 #endif    
 } *MemBuf;
 
+__BEGIN_DECLS
+
 MemBuf init_mem_buf(int size);
 void *alloc_from_mem_buf(MemBuf buf, int size);
 void free_mem_buf(MemBuf buf);
@@ -142,5 +144,7 @@ unsigned int get_mem_buf_unused_size(MemBuf buf);
     (chk)->active_meminfo = mi; \
 }
 #endif
+
+__END_DECLS
 
 #endif

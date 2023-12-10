@@ -8,6 +8,10 @@ enum Token
     #undef DEF_TOK
 };
 
+__BEGIN_DECLS
+
 void show_all_tokens();
+
+__END_DECLS
 
 #endif

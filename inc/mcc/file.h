@@ -16,6 +16,8 @@ typedef enum file_type
     FILE_TYPE_LIB_PATH,    
 } FileType;
 
+__BEGIN_DECLS
+
 extern const char *FileTypeNames[];
 
 int is_absolute_path(const char *path);
@@ -28,5 +30,7 @@ const char *get_file_extension(const char *path);
 char *read_file(const char *path);
 
 int get_file_type(const char *path);
+
+__END_DECLS
 
 #endif

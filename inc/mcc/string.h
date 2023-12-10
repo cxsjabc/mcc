@@ -8,6 +8,8 @@ typedef struct cstr
     int maxlen;
 } Cstr, *PCstr;
 
+__BEGIN_DECLS
+
 PCstr alloc_cstr(const int maxlen);
 int init_cstr(PCstr p, const char *src, int len);
 void free_cstr(PCstr str);
@@ -26,6 +28,8 @@ int get_string_until_char(const char *s, char **pstart, char delim);
 int copy_ignore_char(char *d, const char *s, const int size, const char ignore);
 
 void skip_blanks(char **pp);
+
+__END_DECLS
 
 #define STR_EQL(s1, s2) (strcmp((s1), (s2)) == 0)
 

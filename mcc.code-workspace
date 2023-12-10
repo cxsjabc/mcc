@@ -22,7 +22,8 @@
 			"compare": "c",
 			"type_traits": "c",
 			"print.h": "c",
-			"string_view": "c"
+			"string_view": "c",
+			"array.h": "c"
 		}
 	}
 }

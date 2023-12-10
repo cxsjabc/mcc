@@ -25,6 +25,8 @@ typedef struct mcc_state
 
 } *MccState;
 
+__BEGIN_DECLS
+
 MccState create_mcc_state();
 void destroy_mcc_state(MccState ms);
 
@@ -34,6 +36,8 @@ void dump_mcc_state(MccState ms);
 
 // if type is -1, get file type from path
 int mcc_state_add_files(MccState ms, const char *path, FileType type);
+
+__END_DECLS
 
 #define INC_PATH(ms, index) ((char *)((ms)->include_paths->data[index]))
 #define LIB_PATH(ms, index) ((char *)((ms)->lib_paths->data[index]))
