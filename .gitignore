@@ -26,3 +26,10 @@ cmake/ALL_BUILD.vcxproj
 cmake/ZERO_CHECK.vcxproj
 cmake/mcc.vcxproj
 cmake/Makefile
+cmake/ALL_BUILD.vcxproj
+cmake/ALL_BUILD.vcxproj.filters
+cmake/mcc.sln
+cmake/mcc.vcxproj
+cmake/mcc.vcxproj.filters
+cmake/ZERO_CHECK.vcxproj
+cmake/ZERO_CHECK.vcxproj.filters
