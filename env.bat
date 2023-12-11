@@ -1,3 +1,3 @@
 @echo off
 
-set PATH=.\scripts;%PATH%
+set PATH=.\scripts\windows;%PATH%

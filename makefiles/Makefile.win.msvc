@@ -13,10 +13,11 @@
 CUR_DIR = .
 
 USE_MSVC = 1
+WIN_GEN_SRC_FILES = scripts\windows\tmp_src_files.txt
 
 !ifdef COMSPEC
 !message "nmake is: $(MAKE)"
-!INCLUDE scripts/tmp_src_files.txt
+!INCLUDE $(WIN_GEN_SRC_FILES)
 !else
 !message "make: $(MAKE)"
 !error "No msvc environment!"

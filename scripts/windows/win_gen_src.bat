@@ -1,4 +1,4 @@
-set TMP_SRC_FILES=scripts\tmp_src_files.txt
+set TMP_SRC_FILES=scripts\windows\tmp_src_files.txt
 set OBJ_POSTFIX=.obj
 set BUILD_OUT_FOLDER=out
 
