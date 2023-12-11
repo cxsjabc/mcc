@@ -1,7 +1,7 @@
 #ifndef ID_H
 #define ID_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 typedef enum {
 	CHAR_TYPE_DIGIT,

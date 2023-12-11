@@ -2,7 +2,7 @@
 #define MCC_STATE_H
 
 #include "mcc/array.h"
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 #include "mcc/file.h"
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"

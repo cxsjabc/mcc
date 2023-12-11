@@ -1,7 +1,7 @@
 #ifndef LEX_H
 #define LEX_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
 

@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 #ifndef NO_DEBUG
 #define NO_DEBUG 0

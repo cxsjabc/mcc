@@ -1,7 +1,7 @@
 #ifndef PRINT_H
 #define PRINT_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
 

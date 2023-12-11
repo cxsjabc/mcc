@@ -1,7 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 enum Token 
 {

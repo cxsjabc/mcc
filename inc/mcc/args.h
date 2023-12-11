@@ -1,7 +1,7 @@
 #ifndef ARGS_H
 #define ARGS_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 #include "mcc/mcc_state.h"
 
 __BEGIN_DECLS

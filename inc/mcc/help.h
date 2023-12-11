@@ -1,7 +1,7 @@
 #ifndef HELP_H
 #define HELP_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
 

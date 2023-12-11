@@ -1,7 +1,7 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
 int is_array_equal(int arr[], int expect_arr[], int size);

@@ -1,7 +1,7 @@
 #ifndef MEM_BUF_H
 #define MEM_BUF_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 #define PAGE_SIZE 4096
 

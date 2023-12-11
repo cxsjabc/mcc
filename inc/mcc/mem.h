@@ -1,7 +1,7 @@
 #ifndef MEM_H
 #define MEM_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 #ifndef __cplusplus
 #define mcc_malloc malloc

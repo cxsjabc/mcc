@@ -1,7 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 #define ENABLE_TEST_TYPE 0
 #define ENABLE_TEST_STRING 0

@@ -1,7 +1,7 @@
 #ifndef TIME_H
 #define TIME_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
 

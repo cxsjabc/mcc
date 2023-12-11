@@ -1,7 +1,7 @@
 #ifndef SIZE_H
 #define SIZE_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 // This is compiler-dependent.
 

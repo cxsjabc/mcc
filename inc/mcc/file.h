@@ -1,7 +1,7 @@
 #ifndef FILE_H
 #define FILE_H
 
-#include "mcc/features.h"
+#include "mcc/mcc_base.h"
 
 typedef enum file_type
 {
