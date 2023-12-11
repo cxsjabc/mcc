@@ -55,17 +55,25 @@ BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(OBJS))
 $(BUILD_OBJ_DIR)/%.o : %.c
 	$(CC) $(C_FLAGS) -c $< -o $@
 
-all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
+all: srcs_depend prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
 
+srcs_depend:
+	rm -rf .srcs_dep
+	$(CC) $(C_FLAGS) -MM $(SRCS) > .srcs_dep
+
+$(shell rm .srcs_dep)
+-include .srcs_dep
+
 clean:
-	rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
-	rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
-	if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+	-rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	-rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+	-rm .srcs_dep
 
 prepare:
-	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
-	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
 
 mcc: all
 
@@ -85,17 +93,17 @@ TEST_OUT := mcc_test
 endif
 
 prepare_test:
-	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
-	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
-	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(TEST_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR); fi
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(TEST_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR); fi
 
 test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
 	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 
 clean_test:
-	rm -rf $(BUILD_OBJS) $(TEST_BUILD_OBJS) $(TEST_OUT)
-	rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
-	rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
-	if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+	-rm -rf $(BUILD_OBJS) $(TEST_BUILD_OBJS) $(TEST_OUT)
+	-rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
+	-rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
+	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
 tca: clean_test test
