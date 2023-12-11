@@ -1,0 +1,23 @@
+{
+    "php.validate.executablePath": "",
+    "editor.tabSize": 4,
+    "workbench.settings.applyToAllProfiles": [
+        "editor.tabSize"
+    ],
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "Codegeex.Privacy": false,
+    "[c]": {
+        "editor.tabSize": 8,
+        "editor.insertSpaces": false,
+    },
+    "[cpp]": {
+        "editor.tabSize": 8,
+        "editor.insertSpaces": false,
+    },
+    "[h]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false,
+    }
+}
