@@ -1,3 +1,9 @@
+@echo off
 
-make clean && make clean_test
-make && make test && mcc_test
+set MCC_EXE=mcc.exe
+
+if exist %MCC_EXE% (
+    %MCC_EXE%
+) else (
+    make && %MCC_EXE%
+)

@@ -63,11 +63,13 @@ clean:
 	rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
 	if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
-mcc: all
-
 prepare:
 	- @ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
 	- @ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+
+mcc: all
+
+ca: clean mcc
 
 # test
 TEST_DIR := test
@@ -95,3 +97,5 @@ clean_test:
 	rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
 	rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
 	if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
+
+tca: clean_test test
