@@ -3,6 +3,8 @@
 *.obj
 *.exe
 
+*.o.d
+
 ./mcc.exe
 ./mcc_test.exe
 *.stackdump

@@ -49,27 +49,25 @@ OUT_FILE := mcc
 NULL_FILE := /dev/null
 endif
 
-OBJS := $(patsubst %.c,%.o, $(SRCS))
-BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(OBJS))
-
-$(BUILD_OBJ_DIR)/%.o : %.c
-	$(CC) $(C_FLAGS) -c $< -o $@
+OBJS := $(patsubst %.c, %.o, $(SRCS))
+BUILD_OBJS := $(patsubst %.o, $(BUILD_OBJ_DIR)/%.o, $(OBJS))
+BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(BUILD_OBJS))
 
 all: srcs_depend prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
 
-srcs_depend:
-	rm -rf .srcs_dep
-	$(CC) $(C_FLAGS) -MM $(SRCS) > .srcs_dep
+$(BUILD_OBJ_DIR)/%.o : %.c
+	$(CC) $(C_FLAGS) -MMD -MF $@.d -MT $@ -c $< -o $@
 
-$(shell rm .srcs_dep)
--include .srcs_dep
+-include $(BUILD_OBJ_DIR)/$(SRC_DIR)/*.d
+-include $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d
 
 clean:
-	-rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	-rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(BUILD_OBJS_DEPENDS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d $(OUT_FILE)
 	-rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
 	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
-	-rm .srcs_dep
+
+srcs_depend:
 
 prepare:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
@@ -85,6 +83,7 @@ TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
 
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
 TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
+TEST_BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(TEST_BUILD_OBJS))
 
 ifeq ($(OS), Windows_NT)
 TEST_OUT := mcc_test.exe
@@ -100,8 +99,10 @@ prepare_test:
 test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
 	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 
+-include $(BUILD_OBJ_DIR)/$(TEST_DIR)/*.d
+
 clean_test:
-	-rm -rf $(BUILD_OBJS) $(TEST_BUILD_OBJS) $(TEST_OUT)
+	-rm -rf $(BUILD_OBJS) $(TEST_BUILD_OBJS) $(TEST_BUILD_OBJS_DEPENDS) $(TEST_OUT)
 	-rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
 	-rm -rf $(BUILD_OBJ_DIR)/$(SRC_DIR)
 	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
