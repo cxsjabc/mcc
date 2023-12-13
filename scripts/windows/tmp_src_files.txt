@@ -1,6 +1,7 @@
 OBJS= \
 src\args.obj \
 src\array.obj \
+src\compile_log.obj \
 src\env.obj \
 src\file.obj \
 src\help.obj \
@@ -21,6 +22,7 @@ TEST_OBJS= \
 test\test.obj \
 test\test_args.obj \
 test\test_array.obj \
+test\test_compile_log.obj \
 test\test_file.obj \
 test\test_id.obj \
 test\test_keyword.obj \
@@ -32,6 +34,7 @@ test\test_type.obj \
 LINK_OBJS= \
 out\src\args.obj \
 out\src\array.obj \
+out\src\compile_log.obj \
 out\src\env.obj \
 out\src\file.obj \
 out\src\help.obj \
@@ -52,6 +55,7 @@ LINK_TEST_OBJS= \
 out\test\test.obj \
 out\test\test_args.obj \
 out\test\test_array.obj \
+out\test\test_compile_log.obj \
 out\test\test_file.obj \
 out\test\test_id.obj \
 out\test\test_keyword.obj \

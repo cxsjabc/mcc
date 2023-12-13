@@ -44,7 +44,9 @@ BUILD_OBJ_DIR = out
 
 {src\}.c{$(BUILD_OBJ_DIR)\src\}.obj:
 	@ echo "compile $< --> $@ (rule 1)"
-	$(CC) $(C_FLAGS) /c $< /Fo:$@
+	echo $@: > $@.d
+	cl.exe -I ./inc /c /showIncludes $< /nologo /Fo:NUL | findstr "inc\mcc" | awk '{print $$3}' >> $@.d
+	$(CC) $(C_FLAGS) /c /showIncludes $< /Fo:$@
 
 {test\}.c{$(BUILD_OBJ_DIR)\test\}.obj:
 	@ echo "compile $< --> $@ (rule 1.1)"
