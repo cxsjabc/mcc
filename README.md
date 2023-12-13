@@ -18,20 +18,20 @@ make clean_test: clean the test files.
         nmake clean
             Note: nmake mcc == nmake.bat mcc, nmake.bat will call msvc nmake.exe.
       Method2: (Use make.exe and cl.exe)
-        a. Precondition: Change Makefile.win: USE_MSVC = 1
-        b.  make -f Makefile.win
-            make -f Makefile.win test
+        a. Precondition: Change Makefile.win.mk: USE_MSVC = 1
+        b.  make -f Makefile.win.mk
+            make -f Makefile.win.mk test
 
-            make -f Makefile.win clean
-            make -f Makefile.win clean_test
+            make -f Makefile.win.mk clean
+            make -f Makefile.win.mk clean_test
 
       Note: Not support Visual Stuio C++ 6.0(not support __VA_ARGS__).
   2.2 MinGW gcc
-    make -f Makefile.win
-    make -f Makefile.win test
+    make -f Makefile.win.mk
+    make -f Makefile.win.mk test
 
-    make -f Makefile.win clean
-    make -f Makefile.win clean_test
+    make -f Makefile.win.mk clean
+    make -f Makefile.win.mk clean_test
 
 # macOS
   Clang or Gcc.

@@ -5,14 +5,14 @@
 # Please execute make in msvc command line environment if USE_MSVC(see the variable below).
 # Usage:
 # Execute the commands in root folder of this project.
-#  make -f makefiles/Makefile.win
-#  make -f makefiles/Makefile.win test
+#  make -f makefiles/Makefile.win.mk
+#  make -f makefiles/Makefile.win.mk test
 #
-#  make -f makefiles/Makefile.win clean
-#  make -f makefiles/Makefile.win clean_test
+#  make -f makefiles/Makefile.win.mk clean
+#  make -f makefiles/Makefile.win.mk clean_test
 #
 # Also, can add CC config:
-#  make -f makefiles/Makefile.win CC=gcc
+#  make -f makefiles/Makefile.win.mk CC=gcc
 
 
 CUR_DIR := .
@@ -43,8 +43,9 @@ OUT_FILE := mcc.exe
 OBJS := $(patsubst %.c,%.obj, $(SRCS))
 BUILD_OBJS := $(patsubst %.obj,$(BUILD_OBJ_DIR)/%.obj, $(OBJS))
 
+# /showIncludes /sourceDependencies:directives $<.json
 $(BUILD_OBJ_DIR)/%.obj : %.c
-	$(CC) $(C_FLAGS) /c $< /Fo:$@ 
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
 all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 	$(LINK) /out:$(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
@@ -77,15 +78,19 @@ C_FLAGS += -Wall -Werror -g
 
 OBJS := $(patsubst %.c,%.o, $(SRCS))
 BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(OBJS))
-
-$(BUILD_OBJ_DIR)/%.o : %.c
-	$(CC) $(C_FLAGS) -c $< -o $@ 
+BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(BUILD_OBJS))
 
 all: prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
 
+$(BUILD_OBJ_DIR)/%.o : %.c
+	$(CC) $(C_FLAGS) -MMD -MF $@.d -MT $@ -c $< -o $@
+
+-include $(BUILD_OBJ_DIR)/$(SRC_DIR)/*.d
+-include $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d
+
 clean:
-	- rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+	- rm -rf $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(BUILD_OBJS_DEPENDS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d $(OUT_FILE)
 	- rmdir $(BUILD_OBJ_DIR)/$(SRC_DIR)
 	- if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
@@ -123,6 +128,8 @@ else
 # not MSVC
 TEST_OBJS := $(patsubst %.c,%.o, $(TEST_SRCS))
 TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
+TEST_BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(TEST_BUILD_OBJS))
+
 TEST_OUT := mcc_test
 
 prepare_test:
@@ -134,7 +141,7 @@ test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
 	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 
 clean_test:
-	- rm -rf $(TEST_BUILD_OBJS) $(TEST_OUT)
+	- rm -rf $(TEST_BUILD_OBJS) $(TEST_BUILD_OBJS_DEPENDS) $(TEST_OUT)
 	- rm -rf $(BUILD_OBJ_DIR)/$(TEST_DIR)
 	- if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 

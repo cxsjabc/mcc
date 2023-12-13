@@ -4,11 +4,11 @@
 # Please execute make in msvc command line environment if use MSVC.
 
 # Usage:
-#  nmake.exe -f Makefile.win.msvc
-#  nmake.exe -f Makefile.win.msvc test
+#  nmake.exe -f Makefile.msvc.mk
+#  nmake.exe -f Makefile.msvc.mk test
 #
-#  nmake.exe -f Makefile.win.msvc clean
-#  nmake.exe -f Makefile.win.msvc clean_test
+#  nmake.exe -f Makefile.msvc.mk clean
+#  nmake.exe -f Makefile.msvc.mk clean_test
 
 CUR_DIR = .
 
