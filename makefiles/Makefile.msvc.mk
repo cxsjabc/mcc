@@ -33,6 +33,7 @@ SRC_DIR = src
 # 0. cl.exe
 CC = cl.exe
 LINK = link.exe
+AWK = awk.exe
 
 MAIN_OBJ = main.obj
 OUT_FILE = mcc.exe
@@ -44,8 +45,6 @@ BUILD_OBJ_DIR = out
 
 {src\}.c{$(BUILD_OBJ_DIR)\src\}.obj:
 	@ echo "compile $< --> $@ (rule 1)"
-	echo $@: > $@.d
-	cl.exe -I ./inc /c /showIncludes $< /nologo /Fo:NUL | findstr "inc\mcc" | awk '{print $$3}' >> $@.d
 	$(CC) $(C_FLAGS) /c /showIncludes $< /Fo:$@
 
 {test\}.c{$(BUILD_OBJ_DIR)\test\}.obj:

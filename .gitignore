@@ -4,6 +4,7 @@
 *.exe
 
 *.o.d
+*.obj.d
 
 ./mcc.exe
 ./mcc_test.exe
