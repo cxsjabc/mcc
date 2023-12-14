@@ -43,9 +43,10 @@ OUT_FILE = mcc.exe
 
 BUILD_OBJ_DIR = out
 
+# /showIncludes
 {src\}.c{$(BUILD_OBJ_DIR)\src\}.obj:
 	@ echo "compile $< --> $@ (rule 1)"
-	$(CC) $(C_FLAGS) /c /showIncludes $< /Fo:$@
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
 {test\}.c{$(BUILD_OBJ_DIR)\test\}.obj:
 	@ echo "compile $< --> $@ (rule 1.1)"
