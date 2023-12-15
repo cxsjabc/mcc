@@ -51,6 +51,10 @@ int main(int argc, char *argv[])
 	test_compile_log();
 #endif
 
+#if ENABLE_TEST_EXEC
+	test_exec();
+#endif
+
 	always("Test end.\n");
 	return 0;
 }

@@ -1,3 +1,6 @@
 
 
 sed -i '1,$ s/$/ \\/' out/src/args.d
+
+wsl mount removable-disk-drive E:
+    sudo mount -t drvfs E: /mnt/E

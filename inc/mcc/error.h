@@ -10,6 +10,7 @@ enum
 	ERR_FAIL = -1,
 	ERR_NO_MEM = -2,
 	ERR_UNKNOWN = -3,
+	ERR_FORK = -4,
 };
 
 #define ERR_RETURN(r) { LOG_HERE_ARGS("Error\n"); return (r); }
