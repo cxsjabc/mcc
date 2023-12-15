@@ -32,7 +32,10 @@
             "utility": "c",
             "mcc_base.h": "c",
             "config.h": "c",
-            "compile_log.h": "c"
+            "compile_log.h": "c",
+            "errno.h": "c",
+            "unistd.h": "c",
+            "process.h": "c"
         }
 	}
 }

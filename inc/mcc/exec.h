@@ -5,10 +5,12 @@
 
 __BEGIN_DECLS
 
-#define GCC_NAME "gcc.exe"
+#define GCC_NAME "gcc"
+#define CL_NAME "cl"
+#define CLANG_NAME "clang"
 #define GPLUSPLUS_NAME "g++"
 
-int preprocess(const char *file);
+int preprocess(const char *file, const char *prog);
 
 __END_DECLS
 

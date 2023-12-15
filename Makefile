@@ -34,6 +34,9 @@ C_FLAGS := $(C_INCLUDES)
 C_FLAGS += -Wall -Werror -g
 # disable clang secure function warnings on clang-16.0
 C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
+ifeq ($(OS),Windows_NT)
+C_FLAGS += -D_WINDOWS
+endif
 
 SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)

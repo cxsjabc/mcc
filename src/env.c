@@ -1,4 +1,4 @@
-#define NO_DEBUG 1
+#define NO_DEBUG 0
 
 #include <assert.h>
 #include <stdio.h>
@@ -100,8 +100,12 @@ __BEGIN_DECLS
 int check_build_envionment()
 {
 // OS: Windows or Linux ...
-#if __GNUC__
+#if defined(__GNUC__)
 	debug("__GNUC__ is defined\n");
+#endif
+
+#if __GNUC__
+	debug("__GNUC__: %d\n", __GNUC__);
 #endif
 
 #ifdef _MSC_VER
