@@ -12,26 +12,28 @@ CUR_DIR := .
 
 $(info "OS: $(OS)")
 
-# 0. Use clang (16.0.0)
-#CC = clang
+# ** $(CC) and $(CPP) must use the same version or compatible versions,
+# *  or link error and execute error will occur.
+# *  i.e gcc 10.2 and g++ 11.4, execute error.
+# **
 
-# 1. Use gcc (10.2.0)
-# ** May link error **
+# 0. Use clang (16.0.0)
+# CC = clang
+
+# 1. Use gcc (11.4.0)
 CC := gcc
 
 # 1.1 Use g++
-# ** May execute error **
 # CC = g++
 
-# 2. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
-# ** May link error **
+# 2. Winows 64bit: use Mingw gcc generate 32bit program
 # CC = i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
 
-# 3. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
-# ** May link error **
+# 3. Winows 64bit: use Mingw gcc generate 64bit program
 # CC = x86_64-w64-mingw32-gcc.exe
 
+# g++ 11.4.0
 CPP := g++
 
 MCC_ROOT := $(CUR_DIR)/../..
