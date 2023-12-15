@@ -31,7 +31,7 @@ int is_identifier(const char *str)
 }
 
 // TODO
-const static unsigned char char_type_table[] = 
+const static CHAR_TYPE char_type_table[] = 
 {
 	CHAR_TYPE_DIGIT, 
 };

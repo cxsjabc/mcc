@@ -1,4 +1,7 @@
 // ** Never add #ifndef/#ifdef, because it will be included more than once. **
+#ifndef DEF_TOK
+#define DEF_TOK(tok, str)
+#endif
 
 // keywords
 DEF_TOK(TOK_AUTO, "auto")

@@ -31,7 +31,8 @@
             "ranges": "c",
             "utility": "c",
             "mcc_base.h": "c",
-            "config.h": "c"
+            "config.h": "c",
+            "compile_log.h": "c"
         }
 	}
 }

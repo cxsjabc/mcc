@@ -13,20 +13,26 @@ CUR_DIR := .
 $(info "OS: $(OS)")
 
 # 0. Use clang (16.0.0)
-# CC = clang
+#CC = clang
 
 # 1. Use gcc (10.2.0)
+# ** May link error **
 CC := gcc
-CPP := g++
+
+# 1.1 Use g++
+# ** May execute error **
+# CC = g++
 
 # 2. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
+# ** May link error **
 # CC = i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
 
 # 3. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
+# ** May link error **
 # CC = x86_64-w64-mingw32-gcc.exe
 
-# 4. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type and other issues)
+CPP := g++
 
 MCC_ROOT := $(CUR_DIR)/../..
 MCC_SRC_PATH := $(CUR_DIR)/../../src
@@ -37,6 +43,7 @@ C_FLAGS := $(C_INCLUDES)
 C_FLAGS += -Wall -Werror -g
 # disable clang secure function warnings on clang-16.0
 C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
+C_FLAGS += -lstdc++
 
 BUILD_OBJ_DIR := out
 BUILD_MCC_OBJ_DIR := out/mcc

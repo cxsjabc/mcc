@@ -6,6 +6,8 @@
 #include "mcc/mcc_base.h"
 #include "mcc/log.h"
 
+__BEGIN_DECLS
+
 #ifndef NO_CLOG_FILE_LINE
 #define NO_CLOG_FILE_LINE 1
 #endif
@@ -32,5 +34,7 @@
 
 extern int is_verbose_enabled;
 void set_verbose_enabled(int enabled);
+
+__END_DECLS
 
 #endif
