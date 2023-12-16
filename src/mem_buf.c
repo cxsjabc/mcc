@@ -1,6 +1,7 @@
 #define NO_DEBUG 0
 
 #include <assert.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,6 +82,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 #endif
 
 	if (chk == NULL) {
+		LHD;
 		chk = alloc_mem_chunk(size);
 		assert(chk);
 		r = chk->data;
@@ -99,9 +101,11 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 			ALLOC_MEM_INFO(chk, chk->avail, chk->size - size, 0);
 #endif
 	} else {
+		LHD;
 		unsigned char *data = chk->data;
 		unsigned char *avail = chk->avail;
 		unsigned int chk_size = chk->size;
+		debug("Data: 0x%lx, avail: 0x%lx, chk_size: 0x%x, size: 0x%x\n", (unsigned long)(intptr_t)data, (unsigned long)(intptr_t)avail, chk_size, size);
 #if ENABLE_MEM_INFO
 		MemInfo mi;
 
@@ -131,6 +135,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 		} else
 #endif
 		if (data + chk_size - avail >= size) {
+			LHD;
 #if ENABLE_MEM_INFO
 			MemInfo active_meminfo;
 			unsigned remain_size;
@@ -152,7 +157,7 @@ void *alloc_from_mem_buf(MemBuf buf, int size)
 				ALLOC_MEM_INFO(chk, chk->avail, remain_size, 0);
 #endif
 		} else {
-
+			LHD;
 			chk = alloc_mem_chunk(size);
 			assert(chk);
 			r = chk->data;
@@ -202,14 +207,18 @@ MemChunk alloc_mem_chunk(int size)
 	size = (size + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
 
 	chk = (MemChunk)mcc_malloc(sizeof(struct mem_chunk));
-	if (chk == NULL)
+	if (chk == NULL) {
+		LHD;
 		return NULL;
+	}
 
 	chk->data = (unsigned char *)mcc_malloc(size);
 	if (chk->data == NULL) {
+		LHD;
 		mcc_free(chk);
 		return NULL;
 	}
+	chk->avail = chk->data;
 	chk->size = size;
 	chk->next = NULL;
 

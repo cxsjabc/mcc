@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
 {
 	always("Test starting.\n");
 
+	setup_global_mem_buf();
+
 #if ENABLE_TEST_TYPE
 	test_type();
 #endif
@@ -61,7 +63,12 @@ int main(int argc, char *argv[])
 	test_exec();
 #endif
 
+#if ENABLE_TEST_MCC_STATE
+	test_mcc_state();
+#endif
+
 	uninit_test();
+
 	always("Test end.\n");
 	return 0;
 }

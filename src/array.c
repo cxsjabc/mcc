@@ -22,6 +22,39 @@ int is_array_equal(int arr[], int expect_arr[], int size)
 	return 1;
 }
 
+int is_array_element_equal(void *arr, int size, int unit)
+{
+	int i = 0;
+
+	assert(size % unit == 0);
+	assert(unit == 4 || unit == 8);
+
+	for (i = 0; i < size / unit - 1; i++) {
+		if (((unsigned long *)arr)[i] != ((unsigned long *)arr)[i + 1]) {
+			error("Index(%d, %d) is not equal, value(0x%lx, 0x%lx).\n", i, i + 1, ((unsigned long *)arr)[i], ((unsigned long *)arr)[i + 1]);
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+void dump_array(void *arr, int size)
+{
+	unsigned long *pi = (unsigned long *)arr;
+	int i;
+
+	for (i = 0; i < size; i++) {
+		if (i % 16 == 0)
+			debug_nofl("0x%lx", pi[i]);
+		else
+			debug_nofl(" 0x%lx", pi[i]);
+		if ((i + 1) % 16 == 0)
+			debug_nofl("\n");
+	}
+	debug_nofl("\n");
+}
+
 // Dynamic Array
 DynArray create_dynamic_array(unsigned int size)
 {

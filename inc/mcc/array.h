@@ -4,7 +4,10 @@
 #include "mcc/mcc_base.h"
 
 __BEGIN_DECLS
+
 int is_array_equal(int arr[], int expect_arr[], int size);
+int is_array_element_equal(void *arr, int size, int unit);
+void dump_array(void *arr, int size);
 
 typedef char *(*to_string)(void*);
 

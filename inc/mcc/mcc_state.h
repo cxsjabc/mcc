@@ -1,6 +1,8 @@
 #ifndef MCC_STATE_H
 #define MCC_STATE_H
 
+#include <pthread.h>
+
 #include "mcc/array.h"
 #include "mcc/mcc_base.h"
 #include "mcc/file.h"
@@ -9,12 +11,16 @@
 
 __BEGIN_DECLS
 
+typedef void *(pthread_func)(void *);
+
 // global mcc_state
 // this is used when program initialization, if multi threaded, passing the state to each thread
 extern struct mcc_state MS;
 
 typedef struct mcc_state
 {
+	pthread_t tid;
+
 	// mem buf
 	struct mem_buf *global_buf;  // buffers for all compiled files
 	struct mem_buf *compile_buf; // buffers for the current compiled file
@@ -38,6 +44,10 @@ void dump_mcc_state(MccState ms);
 
 // if type is -1, get file type from path
 int mcc_state_add_files(MccState ms, const char *path, FileType type);
+
+MccState *mcc_state_multi_thread_create(int thread_num, pthread_func func);
+void mcc_state_multi_thread_destroy();
+pthread_key_t get_mcc_thread_key();
 
 __END_DECLS
 
