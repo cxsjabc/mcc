@@ -12,33 +12,59 @@ CUR_DIR := .
 
 $(info "OS: $(OS)")
 
+# Default use gcc
+CC := gcc
+
 # Note 1: can use make CC=g++ to change the default $(CC) compiler.
 # Note 2: Sometimes, you installed many compilers and the compilers may be with the same name, you
   #       can use the full path to locate the compiler.
   #       i.e. D:\compiler1\clang.exe
 
 # 0. Use clang (16.0.0)
-# CC := clang
+ifeq ($(CC),clang)
+CC := clang
+endif
 
-# 1. Use gcc (10.2.0)
+# 1. Use gcc (Ubuntu 11.4.0, Windows 10.2.0)
+ifeq ($(CC),gcc)
 CC := gcc
+endif
 
-# 2. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
+# 1.1. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
 # CC := i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
 
-# 3. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
+# 1.2. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
 # CC := x86_64-w64-mingw32-gcc.exe
 
-# 4. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type and other issues)
+# 2. Use g++ (Ubuntu 11.4.0)
+#      Note: Windows 11.4.0: build successfully and can't execute
+ifeq ($(CC),g++)
+CC := g++
+endif
 
+# 3. clang++ 16.0.0
+ifeq ($(CC),clang++)
+CC := clang++
+#TEST_C_FLAGS := -Wdeprecated
+DISABLE_WERROR := 1
+endif
+
+# 4. Please don't use Android NDK GCC or CLANG toolchain directly.
+#    If use, may need to fix file ending style, CRLF or LF type and other issues.
+#    i.e. include path not found and so on.
+
+# header path
 C_INCLUDES := -I $(CUR_DIR)/inc
 
 # Extra or test flags: -v: verbose output
 # TEST_C_FLAGS += -v
 
 C_FLAGS := $(C_INCLUDES)
-C_FLAGS += -Wall -Werror -g
+C_FLAGS += -Wall -g
+ifneq ($(DISABLE_WERROR),1)
+C_FLAGS += -Werror
+endif
 # disable clang secure function warnings on clang-16.0
 C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
 ifeq ($(OS),Windows_NT)

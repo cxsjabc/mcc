@@ -34,13 +34,13 @@ int preprocess(const char *file, const char *prog)
 	assert(arr);
 	dynamic_array_push(arr, (void *)prog);
 #if defined(_MSC_VER) && !defined(__clang__) // Windows clang-16 also defines _MSC_VER, ignore it!
-	dynamic_array_push(arr, "/E"); // cl uses "/E" instead of "-E"
-	dynamic_array_push(arr, "/P"); // preprocessed to file
-	dynamic_array_push(arr, "/Fi:");
+	dynamic_array_push(arr, (void *)"/E"); // cl uses "/E" instead of "-E"
+	dynamic_array_push(arr, (void *)"/P"); // preprocessed to file
+	dynamic_array_push(arr, (void *)"/Fi:");
 	dynamic_array_push(arr, (void *)pp_file);
 #else
-	dynamic_array_push(arr, "-E");
-	dynamic_array_push(arr, "-o");
+	dynamic_array_push(arr, (void *)"-E");
+	dynamic_array_push(arr, (void *)"-o");
 	dynamic_array_push(arr, (void *)pp_file);
 #endif
 	dynamic_array_push(arr, (void *)file);
@@ -56,7 +56,11 @@ int preprocess(const char *file, const char *prog)
 #if defined(__clang__) && __clang_major__ < 16 // Cygwin clang-8 uses deprecated spawnvp, give some warmness to him!
 	r = spawnvp(_P_WAIT, prog, (const char *const *)argv);
 #else
-	r = _spawnvp(_P_WAIT, prog, (const char *const *)argv);
+#ifdef _SPAWNV_DEFINED
+	r = _spawnvp(_P_WAIT, prog, (char *const *)argv);
+#else
+	r = spawnvp(_P_WAIT, prog, (char *const *)argv);
+#endif
 #endif
 	destroy_dynamic_array(arr);
 #elif defined(__GNUC__) // *nix: Ubuntu or clang
@@ -74,10 +78,10 @@ int preprocess(const char *file, const char *prog)
 
 		arr = create_dynamic_array(4);
 		assert(arr);
-		dynamic_array_push(arr, exec_path);
-		dynamic_array_push(arr, "-E");
+		dynamic_array_push(arr, (void *)exec_path);
+		dynamic_array_push(arr, (void *)"-E");
 		dynamic_array_push(arr, (void *)file);
-		dynamic_array_push(arr, "-o");
+		dynamic_array_push(arr, (void *)"-o");
 		dynamic_array_push(arr, (void *)pp_file);
 		dynamic_array_push(arr, NULL);
 		dump_dynamic_array(arr);
