@@ -3,9 +3,15 @@
 #include <stdio.h>
 
 #include "mcc/log.h"
+#include "mcc/mem_buf.h"
 #include "test.h"
 
 __BEGIN_DECLS
+
+void uninit_test()
+{
+	uninit_global_mem_buf();
+}
 
 int main(int argc, char *argv[])
 {
@@ -55,6 +61,7 @@ int main(int argc, char *argv[])
 	test_exec();
 #endif
 
+	uninit_test();
 	always("Test end.\n");
 	return 0;
 }

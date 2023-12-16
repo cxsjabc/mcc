@@ -1,16 +1,17 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdio.h>
-#ifdef _WINDOWS
+#if defined(_WINDOWS) || defined(_MSC_VER)
 #include <process.h>
 #else
 #include <sys/wait.h>
-#endif
 #include <unistd.h> 
+#endif
 
 #include "mcc/array.h"
 #include "mcc/error.h"
 #include "mcc/exec.h"
+#include "mcc/file.h"
 
 #define FORCE_DEBUG 0
 
@@ -27,21 +28,36 @@ int preprocess(const char *file, const char *prog)
 	char **argv;
 	char **cmds;
 
-#if defined(_WINDOWS) // Windows
+#if defined(_WINDOWS) || defined(_MSC_VER) // Windows (if clang or gcc on Windows are also available)
+	char *pp_file = alloc_preprocessed_file_name(file);
 	arr = create_dynamic_array(4);
 	assert(arr);
 	dynamic_array_push(arr, (void *)prog);
-#if defined(__GNUC__)
-	dynamic_array_push(arr, "-E");
-#else
+#if defined(_MSC_VER) && !defined(__clang__) // Windows clang-16 also defines _MSC_VER, ignore it!
 	dynamic_array_push(arr, "/E"); // cl uses "/E" instead of "-E"
+	dynamic_array_push(arr, "/P"); // preprocessed to file
+	dynamic_array_push(arr, "/Fi:");
+	dynamic_array_push(arr, (void *)pp_file);
+#else
+	dynamic_array_push(arr, "-E");
+	dynamic_array_push(arr, "-o");
+	dynamic_array_push(arr, (void *)pp_file);
 #endif
 	dynamic_array_push(arr, (void *)file);
 	dynamic_array_push(arr, NULL);
+	dump_dynamic_array(arr);
 
 	cmds = (char **)arr->data;
 	argv = cmds;
-	r = _spawnvp(_P_WAIT, CL_NAME, (const char *const *)argv);
+	// **
+	// Because some compilers do not support latest standards, if meet _spawnvp or spawnvp not found, can change it
+	// to the existing func to meet your environment!
+	// **
+#if defined(__clang__) && __clang_major__ < 16 // Cygwin clang-8 uses deprecated spawnvp, give some warmness to him!
+	r = spawnvp(_P_WAIT, prog, (const char *const *)argv);
+#else
+	r = _spawnvp(_P_WAIT, prog, (const char *const *)argv);
+#endif
 	destroy_dynamic_array(arr);
 #elif defined(__GNUC__) // *nix: Ubuntu or clang
 	pid_t p;
@@ -53,6 +69,7 @@ int preprocess(const char *file, const char *prog)
 		r = ERR_FORK;
 	} else if (p == 0) { // child process
 		char *exec_path = (char *)prog;
+		char *pp_file = alloc_preprocessed_file_name(file);
 		debug("child starting...\n");
 
 		arr = create_dynamic_array(4);
@@ -60,8 +77,10 @@ int preprocess(const char *file, const char *prog)
 		dynamic_array_push(arr, exec_path);
 		dynamic_array_push(arr, "-E");
 		dynamic_array_push(arr, (void *)file);
-		dynamic_array_push(arr, "> __temp.i");
+		dynamic_array_push(arr, "-o");
+		dynamic_array_push(arr, (void *)pp_file);
 		dynamic_array_push(arr, NULL);
+		dump_dynamic_array(arr);
 
 		cmds = (char **)arr->data;
 		argv = cmds;

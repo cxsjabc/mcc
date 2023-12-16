@@ -12,7 +12,10 @@ CUR_DIR := .
 
 $(info "OS: $(OS)")
 
-# Also, can use make CC=g++ to change the default $(CC) compiler.
+# Note 1: can use make CC=g++ to change the default $(CC) compiler.
+# Note 2: Sometimes, you installed many compilers and the compilers may be with the same name, you
+  #       can use the full path to locate the compiler.
+  #       i.e. D:\compiler1\clang.exe
 
 # 0. Use clang (16.0.0)
 # CC := clang
@@ -30,6 +33,10 @@ CC := gcc
 # 4. Please don't use Android NDK GCC toolchain(If use, maybe needs to fix file ending style, CRLF or LF type and other issues)
 
 C_INCLUDES := -I $(CUR_DIR)/inc
+
+# Extra or test flags: -v: verbose output
+# TEST_C_FLAGS += -v
+
 C_FLAGS := $(C_INCLUDES)
 C_FLAGS += -Wall -Werror -g
 # disable clang secure function warnings on clang-16.0
@@ -37,6 +44,7 @@ C_FLAGS += -D_CRT_SECURE_NO_WARNINGS
 ifeq ($(OS),Windows_NT)
 C_FLAGS += -D_WINDOWS
 endif
+C_FLAGS += $(TEST_C_FLAGS)
 
 SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)

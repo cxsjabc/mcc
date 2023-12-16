@@ -16,8 +16,8 @@ extern struct mcc_state MS;
 typedef struct mcc_state
 {
 	// mem buf
-	struct mem_buf global_buf;  // buffers for all compiled files
-	struct mem_buf compile_buf; // buffers for the current compiled file
+	struct mem_buf *global_buf;  // buffers for all compiled files
+	struct mem_buf *compile_buf; // buffers for the current compiled file
 
 	// header or lib pathes
 	DynArray include_paths; // header file pathes
@@ -29,6 +29,7 @@ typedef struct mcc_state
 } *MccState;
 
 MccState create_mcc_state();
+int init_from_exist_mcc_state(MccState ms);
 void destroy_mcc_state(MccState ms);
 
 void setup_mcc_state(MccState ms);

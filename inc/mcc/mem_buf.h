@@ -101,7 +101,15 @@ typedef struct mem_buf
 
 __BEGIN_DECLS
 
+extern struct mem_buf GlobalMemBuf;
+
+// setup global memory buffer
+void setup_global_mem_buf();
+void uninit_global_mem_buf();
+
 MemBuf init_mem_buf(int size);
+void init_from_mem_buf(MemBuf buf);
+
 void *alloc_from_mem_buf(MemBuf buf, int size);
 void free_mem_buf(MemBuf buf);
 void dump_mem_buf(MemBuf buf);

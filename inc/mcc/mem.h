@@ -1,7 +1,12 @@
 #ifndef MEM_H
 #define MEM_H
 
+#include <string.h>
+
 #include "mcc/mcc_base.h"
+#include "mcc/mem_buf.h"
+
+#define USE_MEM_BUF 1
 
 #ifndef __cplusplus
 #define mcc_malloc malloc
@@ -24,6 +29,10 @@ void *cpp_realloc(void *p, size_t size);
 
 // All threads will share the same memory buffer.
 // It's important to make them synchronous.
+#if USE_MEM_BUF
 #define allocm(size) alloc_from_mem_buf(&GlobalMemBuf, size)
+#else
+#define allocm(size) mcc_malloc(size)
+#endif
 
 #endif

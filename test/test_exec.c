@@ -14,13 +14,13 @@ void test_exec()
 {
 #if defined(__clang__)
 	info("Compiling with clang\n");
-	preprocess("./scripts/data/future/hello.c", CLANG_NAME);
+	preprocess("1.c", CLANG_NAME);
 #elif defined(__GNUC__)
 	info("Compiling with __GNUC__\n");
-	preprocess("./scripts/data/future/hello.c", GCC_NAME);
-#elif defined(_WIN32)
-	info("Compiling with _WIN32\n");
-	preprocess("./scripts/data/future/hello.c", CL_NAME);
+	preprocess("1.c", GCC_NAME);
+#elif defined(_MSC_VER)
+	info("Compiling with msvc cl.exe\n");
+	preprocess("1.c", CL_NAME);
 #else
 #error "Unknown compiler"
 #endif

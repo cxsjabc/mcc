@@ -15,6 +15,19 @@
 
 __BEGIN_DECLS
 
+// global memory buffer
+struct mem_buf GlobalMemBuf;
+
+void setup_global_mem_buf()
+{
+	init_from_mem_buf(&GlobalMemBuf);
+}
+
+void uninit_global_mem_buf()
+{
+	free_mem_buf(&GlobalMemBuf);
+}
+
 // init functions
 MemBuf init_mem_buf(int size)
 {

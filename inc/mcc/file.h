@@ -29,6 +29,11 @@ int is_directory(const char *path);
 const char *get_file_name(const char *path);
 const char *get_file_extension(const char *path);
 
+int get_preprocess_ext_len();
+const char *get_preprocessed_ext();
+
+char *alloc_preprocessed_file_name(const char *path);
+
 char *read_file(const char *path);
 
 int get_file_type(const char *path);

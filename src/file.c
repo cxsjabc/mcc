@@ -74,9 +74,36 @@ const char *get_file_extension(const char *path)
 {
 	const char *ext = strrchr(path, '.');
 	if (ext == NULL)
-		return "";
+		return NULL;
 	else
-		return *(ext + 1) != '\0' ? ext + 1 : "";
+		return *(ext + 1) != '\0' ? ext + 1 : NULL;
+}
+
+int get_preprocess_ext_len()
+{
+	return strlen(get_preprocessed_ext());
+}
+
+const char *get_preprocessed_ext()
+{
+	return "i";
+}
+
+char *alloc_preprocessed_file_name(const char *path)
+{
+	const char *ext = get_file_extension(path);
+	int non_ext_len = strlen(path) - strlen(ext);
+	int pp_ext_len = get_preprocess_ext_len();
+	char *pf;
+
+	pf = (char *)allocm(non_ext_len + pp_ext_len + 1);
+	NULL_RETURN(pf, "Alloc preprocessed file name failed");
+	
+	strncpy(pf, path, non_ext_len);
+	strncpy(pf + non_ext_len, get_preprocessed_ext(), pp_ext_len);
+	pf[non_ext_len + pp_ext_len] = '\0';
+
+	return pf;
 }
 
 char *read_file(const char *path)

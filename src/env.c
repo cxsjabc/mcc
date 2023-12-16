@@ -41,16 +41,31 @@
  *   __SIZEOF_POINTER__: 4
  *   SIZE_MAX: ffffffff
  * 
- * Windows Clang (16.0.0 x86_64-unknown-windows-msvc)
+ * Windows Clang (8.0.1 x86_64-unknown-windows-cygnus)
  *   __GNUC__ is defined
  *   unix is defined.
  *   -- _WIN32 and _WIN64 are both not defined.
  *   __x86_64__ is defined.
  *   __amd64__ is defined.
+ *   __clang_version__ is: 8.0.1 (tags/RELEASE_801/final)
+ *   __clang_major__ is: 8
  *   __WORDSIZE: 64
  *   __SIZEOF_POINTER__: 8
  *   __LP64__ is defined.
  * 
+ * Windows clang (Swift toolchains 16.0.0 x86_64-unknown-windows-msvc)
+ *   _MSC_VER is defined.
+ *   _WIN32 is defined.
+ *   _WIN64 is defined.
+ *   __x86_64__ is defined.
+ *   __amd64__ is defined.
+ *   _M_AMD64 is defined.
+ *   _M_X64 is defined.
+ *   __clang_version__ is: 16.0.0
+ *   __clang_major__ is: 16
+ *   __SIZEOF_POINTER__: 8
+ *   SIZE_MAX: ffffffffffffffff
+ *
  * Windows MSVC cl 32bit (VS2019 19.29.30148)
  *   _MSC_VER is defined.
  *   _WIN32 is defined.
@@ -151,6 +166,15 @@ int check_build_envionment()
 
 #ifdef _M_X64
 	debug("_M_X64 is defined.\n");
+#endif
+
+// Compiler version
+#ifdef __clang_version__
+	debug("__clang_version__ is: %s\n", __clang_version__);
+#endif
+
+#ifdef __clang_major__
+	debug("__clang_major__ is: %d\n", __clang_major__);
 #endif
 
 // Type Size

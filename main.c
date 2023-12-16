@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
 		OK_RETURN(0);
 	}
 
-	setup_mcc_state(&MS);
+	init_from_exist_mcc_state(&MS);
+	setup_global_mem_buf();
 
 	// now, use global mcc state
 	r = parse_args(--argc, ++argv, &MS);
@@ -38,6 +39,7 @@ int main(int argc, char *argv[])
 	if (is_show_help)
 		show_help();
 
+	uninit_global_mem_buf();
 	return 0;
 }
 

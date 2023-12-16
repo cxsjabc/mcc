@@ -20,6 +20,16 @@ MccState create_mcc_state()
 	return ms;
 }
 
+int init_from_exist_mcc_state(MccState ms)
+{
+	memset(ms, 0, sizeof(*ms));
+
+	setup_mcc_state(ms);
+	ms->global_buf = init_mem_buf(0);
+
+	return 1;
+}
+
 void destroy_mcc_state(MccState ms)
 {
 	if (ms) {
