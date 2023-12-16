@@ -53,13 +53,19 @@ int preprocess(const char *file, const char *prog)
 	// Because some compilers do not support latest standards, if meet _spawnvp or spawnvp not found, can change it
 	// to the existing func to meet your environment!
 	// **
-#if defined(__clang__) && __clang_major__ < 16 // Cygwin clang-8 uses deprecated spawnvp, give some warmness to him!
+#if defined(__clang__)
+#if __clang_major__ >= 16
+	r = _spawnvp(_P_WAIT, prog, (char *const *)argv);
+#else // Cygwin clang-8 uses deprecated spawnvp, give some warmness to him!
 	r = spawnvp(_P_WAIT, prog, (const char *const *)argv);
+#endif
 #else
 #ifdef _SPAWNV_DEFINED
+	// cl uses
 	r = _spawnvp(_P_WAIT, prog, (char *const *)argv);
 #else
-	r = spawnvp(_P_WAIT, prog, (char *const *)argv);
+	// gcc11 and g++11 uses
+	r = spawnvp(_P_WAIT, prog, (const char *const *)argv);
 #endif
 #endif
 	destroy_dynamic_array(arr);

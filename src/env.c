@@ -123,6 +123,10 @@ int check_build_envionment()
 	debug("__GNUC__: %d\n", __GNUC__);
 #endif
 
+#ifdef __clang__
+	debug("__clang__ is defined\n");
+#endif
+
 #ifdef _MSC_VER
 	debug("_MSC_VER is defined.\n");
 #endif
