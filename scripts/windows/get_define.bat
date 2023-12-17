@@ -23,6 +23,7 @@ set "FILE_NAME=__get_define_0a_b1__.c"
 set "DEFINE_NAME="  
 set "DEFINE_TYPE="
 set COMPILE=gcc
+set COMP_FLAG=-Werror
 
 :mainRoutine  
 call :checkArgs %* || exit /b 1  
@@ -100,7 +101,14 @@ echo ^}
 exit /b
   
 :compileAndRun
-%COMPILE% -o %FILE_NAME%.exe -Werror %FILE_NAME%
+echo "COMP_FLAG: %COMP_FLAG%"
+if "%COMPILE%" == "cl" ( 
+    echo "Using cl"
+    set COMP_FLAG=/WX 
+)
+
+echo %COMPILE% -o %FILE_NAME%.exe %COMP_FLAG% %FILE_NAME%
+%COMPILE% -o %FILE_NAME%.exe %COMP_FLAG% %FILE_NAME%
 echo "Compile result: " %errorlevel%
 
 if %errorlevel% neq 0 (  
