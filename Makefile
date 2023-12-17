@@ -113,7 +113,7 @@ clean:
 	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
 srcs_depend:
-	-@ if [ "$(CURR_COMP)" != "$(PREV_COMP)" ]; then rm -rf $(BUILD_OBJ_DIR); fi
+	-@ if [ "$(CURR_COMP)" != "$(PREV_COMP)" ] && [ -e $(BUILD_OBJ_DIR)/previous_build ]; then rm -rf $(BUILD_OBJ_DIR); fi
 
 prepare:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
