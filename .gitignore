@@ -42,3 +42,5 @@ external/cpp/cpp_test
 .vscode
 
 1.i
+
+out/*

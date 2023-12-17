@@ -77,6 +77,11 @@ SRCS := $(wildcard $(SRC_DIR)/*.c)
 
 BUILD_OBJ_DIR := out
 
+# check current and previous compilers
+CURR_COMP := $(CC)
+PREV_COMP := $(shell cat $(BUILD_OBJ_DIR)/previous_build)
+$(info CURR_COMP: $(CURR_COMP), PREV_COMP: $(PREV_COMP))
+
 MAIN_OBJ := main.o
 ifeq ($(OS), Windows_NT)
 OUT_FILE := mcc.exe
@@ -90,8 +95,11 @@ OBJS := $(patsubst %.c, %.o, $(SRCS))
 BUILD_OBJS := $(patsubst %.o, $(BUILD_OBJ_DIR)/%.o, $(OBJS))
 BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(BUILD_OBJS))
 
-all: srcs_depend prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
+all: srcs_depend prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
+
+$(OUT_FILE): $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 	$(CC) -o $(OUT_FILE) $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(C_FLAGS)
+	echo $(CC) > $(BUILD_OBJ_DIR)/previous_build
 
 $(BUILD_OBJ_DIR)/%.o : %.c
 	$(CC) $(C_FLAGS) -MMD -MF $@.d -MT $@ -c $< -o $@
@@ -105,6 +113,7 @@ clean:
 	-if [ -d "$(BUILD_OBJ_DIR)" ]; then rmdir --ignore-fail-on-non-empty $(BUILD_OBJ_DIR); fi
 
 srcs_depend:
+	-@ if [ "$(CURR_COMP)" != "$(PREV_COMP)" ]; then rm -rf $(BUILD_OBJ_DIR); fi
 
 prepare:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
