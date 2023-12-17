@@ -1,6 +1,9 @@
 #ifndef MCC_STATE_H
 #define MCC_STATE_H
 
+// Cygwin clang only supports clang 8, it contains pthread.h, but
+// other Windows compilers, i.e. swift, suports higher version clang 16,
+// but it can't support pthread.h!!
 #include <pthread.h>
 
 #include "mcc/array.h"
