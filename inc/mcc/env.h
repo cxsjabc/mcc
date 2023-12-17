@@ -5,7 +5,9 @@
 
 __BEGIN_DECLS
 
-int check_build_envionment();
+int check_build_environment();
+void check_running_environment();
+int prepare();
 
 __END_DECLS
 

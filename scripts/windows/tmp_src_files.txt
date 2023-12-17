@@ -18,6 +18,7 @@ src\time.obj \
 src\token.obj \
 src\type.obj \
 src\ver.obj \
+src\win\prepare.obj \
 
 TEST_OBJS= \
 test\test.obj \
@@ -28,6 +29,7 @@ test\test_exec.obj \
 test\test_file.obj \
 test\test_id.obj \
 test\test_keyword.obj \
+test\test_mcc_state.obj \
 test\test_mem_buf.obj \
 test\test_string.obj \
 test\test_token.obj \
@@ -53,6 +55,7 @@ out\src\time.obj \
 out\src\token.obj \
 out\src\type.obj \
 out\src\ver.obj \
+out\src\win\prepare.obj \
 
 LINK_TEST_OBJS= \
 out\test\test.obj \
@@ -63,6 +66,7 @@ out\test\test_exec.obj \
 out\test\test_file.obj \
 out\test\test_id.obj \
 out\test\test_keyword.obj \
+out\test\test_mcc_state.obj \
 out\test\test_mem_buf.obj \
 out\test\test_string.obj \
 out\test\test_token.obj \

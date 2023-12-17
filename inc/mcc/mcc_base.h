@@ -3,6 +3,7 @@
 
 #include "mcc/config.h"
 #include "mcc/features.h"
+#include "mcc/compatible.h"
 
 __BEGIN_DECLS
 

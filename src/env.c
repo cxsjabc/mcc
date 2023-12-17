@@ -1,4 +1,4 @@
-#define NO_DEBUG 1
+#define NO_DEBUG 0
 #define NO_LOG_FILE_LINE 1
 
 #include <assert.h>
@@ -138,11 +138,11 @@ void check_compiler()
 #elif defined(__GNUC__)
 	info_nofl("%s version: %d\n", get_gcc_gpp(), __GNUC__);
 #else
-	info_nofl("not clang or gcc, what compiler?\n")
+	info_nofl("not clang or gcc, what compiler?\n");
 #endif	
 }
 
-int check_build_envionment()
+int check_build_environment()
 {
 // OS: Windows or Linux ...
 #if defined(_MSC_VER)
@@ -247,6 +247,11 @@ int check_build_envionment()
 #endif
 
 	return 1;
+}
+
+void check_running_environment()
+{
+	prepare();
 }
 
 __END_DECLS

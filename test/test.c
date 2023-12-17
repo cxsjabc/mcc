@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 
+#include "mcc/env.h"
 #include "mcc/log.h"
 #include "mcc/mem_buf.h"
 #include "test.h"
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
 {
 	always("Test starting.\n");
 
+	check_build_environment();
+	check_running_environment();
 	setup_global_mem_buf();
 
 #if ENABLE_TEST_TYPE

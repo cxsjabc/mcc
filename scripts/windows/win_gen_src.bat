@@ -6,6 +6,7 @@ del %TMP_SRC_FILES%
  
 echo OBJS= \>> %TMP_SRC_FILES%
 for %%i in (src/*.c) do @echo src\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
+for %%i in (src/win/*.c) do @echo src\win\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
 echo.>> %TMP_SRC_FILES%
 
 echo TEST_OBJS= \>> %TMP_SRC_FILES%
@@ -14,6 +15,7 @@ echo.>> %TMP_SRC_FILES%
 
 echo LINK_OBJS= \>> %TMP_SRC_FILES%
 for %%i in (src/*.c) do @echo %BUILD_OUT_FOLDER%\src\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
+for %%i in (src/win/*.c) do @echo %BUILD_OUT_FOLDER%\src\win\%%~ni%OBJ_POSTFIX% \>> %TMP_SRC_FILES%
 echo.>> %TMP_SRC_FILES%
 
 echo LINK_TEST_OBJS= \>> %TMP_SRC_FILES%

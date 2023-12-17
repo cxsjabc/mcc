@@ -23,8 +23,17 @@ WIN_GEN_SRC_FILES = scripts\windows\tmp_src_files.txt
 !error "No msvc environment!"
 !endif
 
-C_INCLUDES = -I $(CUR_DIR)/inc
-C_FLAGS = $(C_INCLUDES)
+!message "MSVC_ARCH: $(MSVC_ARCH)"
+
+C_INCLUDES = /I $(CUR_DIR)/inc /I $(CUR_DIR)/external/pthreads-w32-2-9-1/include
+C_INCLUDES = $(C_INCLUDES) /I $(CUR_DIR)/external/inc
+
+C_DEFINES = /DPTHREAD_WIN32
+
+C_LIBFLAG = /LIBPATH:$(CUR_DIR)/external/pthreads-w32-2-9-1/lib/$(MSVC_ARCH) pthreadVC2.lib
+
+C_FLAGS = $(C_INCLUDES) $(C_DEFINES)
+C_LINKFLAGS = $(C_LIBFLAG)
 
 SRC_DIR = src
 
@@ -48,6 +57,10 @@ BUILD_OBJ_DIR = out
 	@ echo "compile $< --> $@ (rule 1)"
 	$(CC) $(C_FLAGS) /c $< /Fo:$@
 
+{src\win\}.c{$(BUILD_OBJ_DIR)\src\win\}.obj:
+	@ echo "compile $< --> $@ (rule 1)"
+	$(CC) $(C_FLAGS) /c $< /Fo:$@
+
 {test\}.c{$(BUILD_OBJ_DIR)\test\}.obj:
 	@ echo "compile $< --> $@ (rule 1.1)"
 	$(CC) $(C_FLAGS) /c $< /Fo:$@
@@ -58,10 +71,10 @@ BUILD_OBJ_DIR = out
 
 prepare:
 	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul
-	-@ mkdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+	-@ mkdir $(BUILD_OBJ_DIR)\src $(BUILD_OBJ_DIR)\src\win >nul 2>nul
 
 all: prepare $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ)
-	$(LINK) /out:$(OUT_FILE) $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ)
+	$(LINK) /out:$(OUT_FILE) $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ) $(C_LINKFLAGS)
 
 clean:
 	-@ del $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ) $(OUT_FILE) >nul 2>nul
@@ -86,7 +99,7 @@ prepare_test:
 	-@ mkdir $(BUILD_OBJ_DIR)\test >nul 2>nul
 
 test: prepare_test $(LINK_OBJS) $(LINK_TEST_OBJS)
-	$(LINK) /out:$(TEST_OUT) $(LINK_TEST_OBJS) $(LINK_OBJS)
+	$(LINK) /out:$(TEST_OUT) $(LINK_TEST_OBJS) $(LINK_OBJS) $(C_LINKFLAGS)
 
 clean_test:
 	-@ del /F /Q $(TEST_OUT) $(LINK_TEST_OBJS) $(LINK_OBJS) >nul 2>nul

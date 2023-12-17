@@ -82,7 +82,7 @@ void dump_mcc_state(MccState ms)
 {
 	assert(ms);
 
-	debug("Mcc state: %p, tid: %ld, global_buf: %p\n", ms, (unsigned long)ms->tid, ms->global_buf);
+	debug("Mcc state: %p, tid: %ld, global_buf: %p\n", ms, PTHREAD_T_TO_LONG(ms->tid), ms->global_buf);
 	dump_mem_buf(ms->global_buf);
 	dump_dynamic_array(ms->include_paths);
 	dump_dynamic_array(ms->src_files);
@@ -147,7 +147,7 @@ MccState *mcc_state_multi_thread_create(int thread_num, pthread_func func)
 	for (i = 0; i < thread_num; i++) {
 		r = pthread_create(&_Pms[i]->tid, NULL, func, _Pms[i]); // passing mcc_state to thread
 		assert(r == 0);
-		debug("(loop %d)Created thread %ld, tls: %p, pid: %ld\n", i, (unsigned long)_Pms[i]->tid, _Pms[i], (unsigned long)getpid());
+		debug("(loop %d)Created thread %ld, tls: %p, pid: %ld\n", i, PTHREAD_T_TO_LONG(_Pms[i]->tid), _Pms[i], (unsigned long)getpid());
 	}
 
 	for (i = 0; i < thread_num; i++) {

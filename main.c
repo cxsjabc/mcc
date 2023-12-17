@@ -18,7 +18,8 @@ int main(int argc, char *argv[])
 
 	always("Mcc ver: %s\n", VERSION);
 
-	check_build_envionment();
+	check_build_environment();
+	check_running_environment();
 
 	if (argc < 2) {
 		show_help();

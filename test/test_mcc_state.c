@@ -53,7 +53,7 @@ void test_mem_buf_data(MccState ms)
 
 	while (i >= 0) {
 		assert(unit == sizeof(unsigned long));
-		p[i] = (unsigned long)ms->tid;
+		p[i] = PTHREAD_T_TO_LONG(ms->tid);
 		// debug("p[%d] = %lx\n", i, p[i]);
 		--i;
 	}
@@ -78,7 +78,7 @@ void *thread_func(void *arg)
 	assert(r == 0);
 	tls = pthread_getspecific(get_mcc_thread_key());
 	assert(tls == ms);
-	debug("Thread %lx TLS: %p, pid: %lx\n", (unsigned long)pthread_self(), ms, (unsigned long)getpid());
+	debug("Thread %lx TLS: %p, pid: %lx\n", PTHREAD_T_TO_LONG(pthread_self()), ms, (unsigned long)getpid());
 
 #if 0
 	r = parse_args(argc, (char **)argv, ms);
