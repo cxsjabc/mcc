@@ -1,4 +1,5 @@
-#define NO_DEBUG 0
+#define NO_DEBUG 1
+#define NO_LOG_FILE_LINE 1
 
 #include <assert.h>
 #include <stdio.h>
@@ -112,9 +113,55 @@
 
 __BEGIN_DECLS
 
+const char *get_clang_clangpp()
+{
+#ifdef __cplusplus
+	return "clang++";
+#else
+	return "clang";
+#endif
+}
+
+const char *get_gcc_gpp()
+{
+#ifdef __cplusplus
+	return "g++";
+#else
+	return "gcc";
+#endif
+}
+
+void check_compiler()
+{
+#ifdef __clang__
+	info_nofl("%s version: %s\n", get_clang_clangpp(), __clang_version__);
+#elif defined(__GNUC__)
+	info_nofl("%s version: %d\n", get_gcc_gpp(), __GNUC__);
+#else
+	info_nofl("not clang or gcc, what compiler?\n")
+#endif	
+}
+
 int check_build_envionment()
 {
 // OS: Windows or Linux ...
+#if defined(_MSC_VER)
+	info_nofl("OS: Windows, msvc: %d\n", _MSC_VER);
+#elif defined(_WINDOWS) // passed from Makefile $(0S)
+	info_nofl("OS: Windows, ");
+	check_compiler();
+#elif defined(__linux__)
+	info("OS: Linux, ");
+	check_compiler();
+#elif defined(__APPLE__)
+	info("OS: macOS, ");
+	check_compiler();
+#elif defined(__unix__)
+	info("OS: Unix\n");
+#else
+	info("OS: Unknown\n");
+#endif
+
 #if defined(__GNUC__)
 	debug("__GNUC__ is defined\n");
 #endif
