@@ -202,6 +202,16 @@ const char *get_compiler_ver()
 	return ver;
 }
 
+int get_compiler_bits()
+{
+#if defined(__x86_64__) || defined(_WIN64)
+	return 64;
+#elif defined(__i386__) || defined(_WIN32)
+	return 32;
+#else
+	return 0;
+#endif
+}
 
 int check_build_environment()
 {
@@ -212,6 +222,8 @@ int check_build_environment()
 	debug("Compiler name: %s\n", compiler);
 	const char *compiler_ver = get_compiler_ver();
 	debug("Compiler version: %s\n", compiler_ver);
+	int bits = get_compiler_bits();
+	debug("Compiler bits: %d\n", bits);
 
 #ifdef _MSC_VER
 	debug("_MSC_VER is defined: %d\n", _MSC_VER);
