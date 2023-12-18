@@ -38,7 +38,9 @@
             "process.h": "c",
             "mem_buf.h": "c",
             "test.h": "c",
-            "env.h": "c"
+            "env.h": "c",
+            "compatible.h": "c",
+            "typeinfo": "c"
         }
 	}
 }

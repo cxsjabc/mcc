@@ -9,6 +9,13 @@ __BEGIN_DECLS
 #define PTHREAD_T_TO_LONG(pthread) ((unsigned long)(pthread))
 #endif
 
+#undef __WEAK
+#ifdef _MSC_VER
+#define __WEAK
+#else
+#define __WEAK 	__attribute__((weak))
+#endif
+
 __END_DECLS
 
 #endif

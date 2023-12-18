@@ -131,38 +131,95 @@ const char *get_gcc_gpp()
 #endif
 }
 
-void check_compiler()
+const char *get_common_compiler_name()
 {
+	const char *name;
 #ifdef __clang__
-	info_nofl("%s version: %s\n", get_clang_clangpp(), __clang_version__);
+	name = get_clang_clangpp();
 #elif defined(__GNUC__)
-	info_nofl("%s version: %d\n", get_gcc_gpp(), __GNUC__);
+	name = get_gcc_gpp();
 #else
-	info_nofl("not clang or gcc, what compiler?\n");
-#endif	
+	debug("not clang or gcc, what compiler?\n");
+	name = "Unknown";
+#endif
+	return name;
 }
+
+const char *get_compiler_os()
+{
+	const char *os;
+#if defined(_MSC_VER) || defined(_WINDOWS)
+	os = "Windows";
+#elif defined(__linux__)
+	os = "Linux";
+#elif defined(__APPLE__)
+	os = "macOS";
+#elif defined(__unix__)
+	os = "Unix";
+#else
+	os = "Unknown";
+#endif
+	return os;
+}
+
+const char *get_compiler_name()
+{
+	const char *name;
+#if defined(_MSC_VER)
+#ifdef __clang__
+	name = get_clang_clangpp();
+#else
+	name = "MSVC";
+#endif
+#else
+	name = get_common_compiler_name();
+#endif
+	return name;
+}
+
+const char *get_compiler_ver()
+{
+	static char ver_static[16];
+	const char *ver;
+
+	(void)ver_static;  // silence compiler warning
+
+#if defined(_MSC_VER)
+#ifdef __clang_version__
+	ver = __clang_version__;
+#else
+	snprintf(ver_static, 16, "%d", _MSC_VER);
+	ver = (const char *)ver_static;
+#endif
+#elif defined(__clang_version__)
+	ver = __clang_version__;
+#elif defined(__GNUC__)
+	snprintf(ver_static, 16, "%d", __GNUC__);
+	ver = (const char *)ver_static;
+#else
+	ver = "Unknown";
+#endif
+	return ver;
+}
+
 
 int check_build_environment()
 {
-// OS: Windows or Linux ...
-#if defined(_MSC_VER)
-	info_nofl("OS: Windows, msvc: %d\n", _MSC_VER);
-#elif defined(_WINDOWS) // passed from Makefile $(0S)
-	info_nofl("OS: Windows, ");
-	check_compiler();
-#elif defined(__linux__)
-	info("OS: Linux, ");
-	check_compiler();
-#elif defined(__APPLE__)
-	info("OS: macOS, ");
-	check_compiler();
-#elif defined(__unix__)
-	info("OS: Unix\n");
+	// OS: Windows or Linux ...
+	const char *os = get_compiler_os();
+	debug("Compiler on OS: %s\n", os);
+	const char *compiler = get_compiler_name();
+	debug("Compiler name: %s\n", compiler);
+	const char *compiler_ver = get_compiler_ver();
+	debug("Compiler version: %s\n", compiler_ver);
+
+#ifdef _MSC_VER
+	debug("_MSC_VER is defined: %d\n", _MSC_VER);
 #else
-	info("OS: Unknown\n");
+	debug("-- _MSC_VER is not defined.\n");
 #endif
 
-#if defined(__GNUC__)
+#ifdef __GNUC__
 	debug("__GNUC__ is defined\n");
 #endif
 
@@ -172,10 +229,6 @@ int check_build_environment()
 
 #ifdef __clang__
 	debug("__clang__ is defined\n");
-#endif
-
-#ifdef _MSC_VER
-	debug("_MSC_VER is defined.\n");
 #endif
 
 #ifdef linux
@@ -253,5 +306,13 @@ void check_running_environment()
 {
 	prepare();
 }
+
+#ifndef _MSC_VER
+__WEAK int prepare()
+{
+	warn("Weak function %s is called.\n", __func__);
+	return 0;
+}
+#endif
 
 __END_DECLS
