@@ -45,7 +45,10 @@ void test_mem_buf_data(MccState ms)
 	unsigned long *p;
 	int i;
 
-	p = (unsigned long *)alloc_from_mem_buf(mb, size);
+	(void)mb;
+
+	p = (unsigned long *)allocm(size);
+	//p = (unsigned long *)alloc_from_mem_buf(mb, size);
 	assert(p);
 
 	memset(p, 0, size);

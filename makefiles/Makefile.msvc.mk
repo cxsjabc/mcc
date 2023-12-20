@@ -96,6 +96,7 @@ TEST_OUT = mcc_test.exe
 prepare_test:
 	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul
 	-@ mkdir $(BUILD_OBJ_DIR)\src >nul 2>nul
+	-@ mkdir $(BUILD_OBJ_DIR)\src\win
 	-@ mkdir $(BUILD_OBJ_DIR)\test >nul 2>nul
 
 test: prepare_test $(LINK_OBJS) $(LINK_TEST_OBJS)
