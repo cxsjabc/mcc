@@ -44,3 +44,5 @@ external/cpp/cpp_test
 1.i
 
 out/*
+
+__*_.c
