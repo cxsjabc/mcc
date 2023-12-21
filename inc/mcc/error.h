@@ -6,12 +6,16 @@
 
 enum 
 {
-	ERR_NONE = 1,
+	OK = 1,
+	ERR_NONE = OK,
 	ERR_FAIL = -1,
 	ERR_NO_MEM = -2,
 	ERR_UNKNOWN = -3,
 	ERR_FORK = -4,
 };
+
+#define TRUE 1
+#define FALSE 0
 
 #define ERR_RETURN(r) { LOG_HERE_ARGS("Error\n"); return (r); }
 #define OK_RETURN(r) { return (r); }
