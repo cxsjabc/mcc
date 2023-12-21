@@ -53,7 +53,8 @@
             "random": "c",
             "string": "c",
             "unordered_map": "c",
-            "vector": "c"
+            "vector": "c",
+            "stdint.h": "c"
         }
 	}
 }

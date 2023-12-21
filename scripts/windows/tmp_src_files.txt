@@ -13,6 +13,7 @@ src\mcc_state.obj \
 src\mem.obj \
 src\mem_buf.obj \
 src\print.obj \
+src\size.obj \
 src\string.obj \
 src\time.obj \
 src\token.obj \
@@ -31,6 +32,7 @@ test\test_id.obj \
 test\test_keyword.obj \
 test\test_mcc_state.obj \
 test\test_mem_buf.obj \
+test\test_size.obj \
 test\test_string.obj \
 test\test_token.obj \
 test\test_type.obj \
@@ -50,6 +52,7 @@ out\src\mcc_state.obj \
 out\src\mem.obj \
 out\src\mem_buf.obj \
 out\src\print.obj \
+out\src\size.obj \
 out\src\string.obj \
 out\src\time.obj \
 out\src\token.obj \
@@ -68,6 +71,7 @@ out\test\test_id.obj \
 out\test\test_keyword.obj \
 out\test\test_mcc_state.obj \
 out\test\test_mem_buf.obj \
+out\test\test_size.obj \
 out\test\test_string.obj \
 out\test\test_token.obj \
 out\test\test_type.obj \

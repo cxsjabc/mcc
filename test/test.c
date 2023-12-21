@@ -70,6 +70,10 @@ int main(int argc, char *argv[])
 	test_mcc_state();
 #endif
 
+#if ENABLE_TEST_SIZE
+	test_size();
+#endif
+
 	uninit_test();
 
 	always("Test end.\n");

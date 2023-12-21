@@ -144,6 +144,7 @@ prepare_test:
 
 test: prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
 	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
+	echo $(CC) > $(BUILD_OBJ_DIR)/previous_build
 
 -include $(BUILD_OBJ_DIR)/$(TEST_DIR)/*.d
 

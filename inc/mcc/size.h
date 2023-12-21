@@ -50,4 +50,12 @@
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
 
+#define SIZEOF(type) ((unsigned int)(sizeof(type)))
+
+__BEGIN_DECLS
+
+void check_type_size();
+
+__END_DECLS
+
 #endif
