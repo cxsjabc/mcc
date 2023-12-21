@@ -15,7 +15,8 @@
 #define ENABLE_TEST_COMPILE_LOG 0
 #define ENABLE_TEST_EXEC 0
 #define ENABLE_TEST_MCC_STATE 0
-#define ENABLE_TEST_SIZE 1
+#define ENABLE_TEST_SIZE 0
+#define ENABLE_TEST_HASH 1
 
 __BEGIN_DECLS
 
@@ -32,6 +33,7 @@ void test_compile_log();
 void test_exec();
 void test_mcc_state();
 void test_size();
+void test_hash();
 
 __END_DECLS
 

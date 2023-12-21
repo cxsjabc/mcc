@@ -54,7 +54,8 @@
             "string": "c",
             "unordered_map": "c",
             "vector": "c",
-            "stdint.h": "c"
+            "stdint.h": "c",
+            "hash.h": "c"
         }
 	}
 }

@@ -74,6 +74,10 @@ int main(int argc, char *argv[])
 	test_size();
 #endif
 
+#if ENABLE_TEST_HASH
+	test_hash();
+#endif
+
 	uninit_test();
 
 	always("Test end.\n");
