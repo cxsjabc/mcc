@@ -57,7 +57,9 @@
             "stdint.h": "c",
             "hash.h": "c",
             "__node_handle": "c",
-            "numeric": "c"
+            "numeric": "c",
+            "__tuple": "c",
+            "token_internal.h": "c"
         }
 	}
 }

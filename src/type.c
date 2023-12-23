@@ -12,7 +12,7 @@
 __BEGIN_DECLS
 
 // basic types
-Type types[VOID - BOOL + 1];
+Type types[VOID - BOOLEAN + 1];
 
 static const char * type_names[] = {
 	"bool",
@@ -27,7 +27,7 @@ static const char * type_names[] = {
 
 void init_types()
 {
-	TYPE_INIT(BOOL);
+	TYPE_INIT(BOOLEAN);
 	TYPE_INIT(CHAR);
 	TYPE_INIT(UCHAR);
 	TYPE_INIT(SHORT);

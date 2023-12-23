@@ -14,7 +14,7 @@ void test_type()
 	
 	init_types();
 
-	for (i = BOOL; i <= VOID; ++i) {
+	for (i = BOOLEAN; i <= VOID; ++i) {
 		const char *type_name;
 		PType p;
 

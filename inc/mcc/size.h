@@ -5,7 +5,7 @@
 
 // This is compiler-dependent.
 
-#define BOOL_SIZE 1
+#define BOOLEAN_SIZE 1
 #define CHAR_SIZE 1
 #define SHORT_SIZE 2
 #define INT_SIZE 4
@@ -27,7 +27,7 @@
 #define ULLONG_SIZE LLONG_SIZE
 
 // align
-#define BOOL_ALIGN BOOL_SIZE
+#define BOOLEAN_ALIGN BOOLEAN_SIZE
 #define CHAR_ALIGN CHAR_SIZE
 #define SHORT_ALIGN SHORT_SIZE
 #define INT_ALIGN INT_SIZE

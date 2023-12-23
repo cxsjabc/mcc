@@ -4,7 +4,7 @@
 #include "mcc/mcc_base.h"
 
 enum {
-	BOOL,
+	BOOLEAN,
 	CHAR, UCHAR,
 	SHORT, USHORT,
 	INT, UINT,

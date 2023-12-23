@@ -11,4 +11,7 @@
 #define __END_DECLS
 #endif
 
+// Programmers's tips macros
+#define __need_init
+
 #endif

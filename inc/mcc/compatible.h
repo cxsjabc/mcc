@@ -16,6 +16,8 @@ __BEGIN_DECLS
 #define __WEAK 	__attribute__((weak))
 #endif
 
+typedef unsigned char BOOL;
+
 __END_DECLS
 
 #endif

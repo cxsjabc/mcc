@@ -3,9 +3,12 @@
 
 #include "mcc/mcc_base.h"
 
+#define CHAR_CNT 128
+
 typedef enum {
 	CHAR_TYPE_DIGIT,
 	CHAR_TYPE_ALPHA,
+	CHAR_TYPE_OTHER,
 } CHAR_TYPE;
 
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
@@ -25,7 +28,10 @@ typedef enum {
 __BEGIN_DECLS
 
 int is_identifier(const char *str);
+__need_init void init_char_type_table();
+
 CHAR_TYPE get_char_type(char c);
+const char *get_char_type_str(CHAR_TYPE type);
 
 __END_DECLS
 
