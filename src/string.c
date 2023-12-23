@@ -79,6 +79,29 @@ PCstr alloc_with_cstr(const char *src, int len)
 	return p;
 }
 
+int cstr_append(PCstr p, const char *src, int len)
+{
+	int new_len;
+
+	if (!p || !src || len <= 0)
+		fatal("passing NULL parameter or length <= 0.\n");
+
+	new_len = p->len + len;
+	if (new_len + 1 > p->maxlen) {
+		char *rs = (char *)mcc_realloc(p->str, new_len + 1);
+		if (!rs) {
+			error("No enough memory!\n");
+			return ERR_NO_MEM;
+		}
+		p->str = rs;
+	}
+
+	strncpy(p->str + p->len, src, len);
+	p->str[new_len] = '\0';
+	p->len = new_len;
+	return OK;
+}
+
 int cstr_len(PCstr str)
 {
 	return str->len;

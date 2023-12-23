@@ -15,6 +15,7 @@ typedef enum token_enum
 typedef enum token_sub_type
 {
 	TK_SUB_TYPE_NONE = 0,
+
 	TK_SUB_TYPE_NUMBER = 0x1,
 	TK_SUB_TYPE_STRING = 0x2,
 	TK_SUB_TYPE_POINTER = 0x4,
@@ -23,6 +24,8 @@ typedef enum token_sub_type
 	TK_SUB_TYPE_FUNCTION = 0x20,
 	TK_SUB_TYPE_LABEL = 0x40,
 	TK_SUB_TYPE_CONSTANT = 0x80,
+
+	TK_SUB_TYPE_MAX_CNT = 8,  // ** Needs to update if change sub type enums **
 } Token_sub_type;
 
 typedef struct token_value
@@ -53,6 +56,9 @@ Token *token_alloc();
 void token_set_pointer(Token *pt, void *p);
 void token_set_str(Token *pt, char *s);
 void token_free();
+
+const char *token_enum_to_name(Token_enum t);
+const char *token_sub_type_enum_to_name(Token_sub_type sub_type);
 
 char *token_get_name(Token *pt);
 

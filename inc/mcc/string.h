@@ -14,6 +14,7 @@ __BEGIN_DECLS
 
 PCstr alloc_cstr(const int maxlen);
 int init_cstr(PCstr p, const char *src, int len);
+int cstr_append(PCstr p, const char *src, int len);
 void free_cstr(PCstr str);
 
 PCstr alloc_with_cstr(const char *src, int len);

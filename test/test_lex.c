@@ -27,7 +27,10 @@ void test_parse_tokens()
 		t = next_token(p);
 		if (!t)
 			break;
-		debug("Token: type(%d), subtype(%d), len(%d), name(%s)\n", t->type, t->sub_type, t->len, mcc_strdup(token_get_name(t), t->len));
+		debug("Token: type(%s), subtype(%s), len(%d), name(%s)\n",
+		      token_enum_to_name(t->type), 
+		      token_sub_type_enum_to_name(t->sub_type),
+		      t->len, mcc_strdup(token_get_name(t), t->len));
 
 		p += t->len;
 	} while (1);
