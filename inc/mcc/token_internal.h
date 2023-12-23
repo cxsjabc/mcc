@@ -3,6 +3,7 @@
 #define DEF_TOK(tok, str)
 #endif
 
+DEF_TOK(TOK_RESERVE, "") // this placeholder is a must, let keywords TOK_xxx > 0
 // keywords
 DEF_TOK(TOK_AUTO, "auto")
 DEF_TOK(TOK_BREAK, "break")
@@ -42,3 +43,9 @@ DEF_TOK(TOK_IDENTIFIER, "identifier")
 
 // preprocess token
 DEF_TOK(TOK_PREPROCESS, "#")
+
+// End of File
+DEF_TOK(TOK_EOF, "EOF")
+
+// Error token, this is not identifier "ERROR", it means wrong token!
+DEF_TOK(TOK_ERROR, "ERROR")

@@ -14,8 +14,7 @@ __BEGIN_DECLS
 
 void test_token()
 {
-	show_all_tokens();
-
+	// show_all_tokens();
 	return;
 }
 

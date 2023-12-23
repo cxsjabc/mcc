@@ -31,9 +31,11 @@ void *cpp_realloc(void *p, size_t size);
 // All threads will share the same memory buffer.
 // It's important to make them synchronous.
 #if USE_MEM_BUF
-#define allocm(size) { alloc_from_mem_buf(((MccState)pthread_getspecific(get_mcc_thread_key()))->global_buf, size) }
+void *allocm(size_t size);
 #else
 #define allocm(size) mcc_malloc(size)
 #endif
+
+void *allocmz(size_t size);
 
 #endif

@@ -16,7 +16,9 @@ __BEGIN_DECLS
 #define __WEAK 	__attribute__((weak))
 #endif
 
-typedef unsigned char BOOL;
+// Because BOOL is often defined by Windows or some 3rd party headers,
+// use LOGIC to avoid conflict.
+typedef unsigned char LOGIC;
 
 __END_DECLS
 

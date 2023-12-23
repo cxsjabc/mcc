@@ -14,6 +14,27 @@
 
 __BEGIN_DECLS
 
+void *allocm(size_t size)
+{
+	MccState ms;
+	MemBuf mb;
+
+	ms = (MccState)pthread_getspecific(get_mcc_thread_key());
+	if (!ms)
+		mb = &GlobalMemBuf;
+	else
+		mb = ms->global_buf;
+	return alloc_from_mem_buf(mb, size);
+}
+
+void *allocmz(size_t size)
+{
+	void *p = allocm(size);
+	if (p)
+		memset(p, 0, size);
+	return p;
+}
+
 __END_DECLS
 
 #ifdef __cplusplus

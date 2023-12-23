@@ -46,3 +46,5 @@ external/cpp/cpp_test
 out/*
 
 __*_.c
+
+mcc.code-workspace

@@ -31,6 +31,8 @@ int copy_ignore_char(char *d, const char *s, const int size, const char ignore);
 
 void skip_blanks(char **pp);
 
+char *mcc_strdup(char *s, int len);
+
 __END_DECLS
 
 #define STR_EQL(s1, s2) (strcmp((s1), (s2)) == 0)

@@ -11,6 +11,7 @@
 #include "mcc/error.h"
 #include "mcc/keyword.h"
 #include "mcc/size.h"
+#include "mcc/token.h"
 
 __BEGIN_DECLS
 
@@ -18,7 +19,7 @@ void test_keyword()
 {
 	const char *arr[] = { "int", "ino", "case", "break", "break1" };
 	int res_arr[5];
-	int right_arr[] = { 1, 0, 1, 1, 0 };
+	int right_arr[] = { TOK_INT, 0, TOK_CASE, TOK_BREAK, 0 };
 	unsigned int i;
 
 	for (i = 0; i < ARRAY_SIZE(arr); i++) {

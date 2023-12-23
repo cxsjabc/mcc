@@ -1,37 +1,60 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
+#include <stdint.h>
+
 #include "mcc/mcc_base.h"
 
-enum token_enum
+typedef enum token_enum
 {
 	#define DEF_TOK(t, s) t,
 	#include "mcc/token_internal.h"
 	#undef DEF_TOK
-};
+} Token_enum;
+
+typedef enum token_sub_type
+{
+	TK_SUB_TYPE_NONE = 0,
+	TK_SUB_TYPE_NUMBER = 0x1,
+	TK_SUB_TYPE_STRING = 0x2,
+	TK_SUB_TYPE_POINTER = 0x4,
+	TK_SUB_TYPE_REAL = 0x8,
+	TK_SUB_TYPE_VARIABLE = 0x10,
+	TK_SUB_TYPE_FUNCTION = 0x20,
+	TK_SUB_TYPE_LABEL = 0x40,
+	TK_SUB_TYPE_CONSTANT = 0x80,
+} Token_sub_type;
 
 typedef struct token_value
 {
 	union
 	{
-		char *str;
-		int i;
-		double d;
-		void* p;
+		uint64_t i;
+		long double d;
+		void *p;
 	} v;
-	BOOL is_str;
-	BOOL is_pointer;
-	BOOL is_integer;
-	BOOL is_real;
 } TokenValue;
 
 typedef struct token
 {
-	enum token_enum type;
+	Token_enum type; // TOKEN_INT, TOKEN_ID ...
+	Token_sub_type sub_type;
+
+	unsigned int len; // the token's length
 	TokenValue val;
 } Token;
 
+#define APPEND_TYPE(pt, sub_type) ((pt)->sub_type |= (sub_type))
+#define SET_TYPE(pt, sub_type) ((pt)->sub_type = (sub_type))
+
 __BEGIN_DECLS
+
+Token *token_alloc();
+void token_set_pointer(Token *pt, void *p);
+void token_set_str(Token *pt, char *s);
+void token_free();
+
+char *token_get_name(Token *pt);
 
 void show_all_tokens();
 

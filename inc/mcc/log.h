@@ -63,4 +63,6 @@
 
 #define LOGD(val)  do { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(#val "%d\n", (val)); } while(0)
 
+#define silence(fmt, ...)
+
 #endif

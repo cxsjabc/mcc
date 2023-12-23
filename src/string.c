@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -148,6 +149,18 @@ void skip_blanks(char **pp)
 	while (is_whitespace(*s))
 		++s;
 	*pp = s;
+}
+
+char *mcc_strdup(char *s, int len)
+{
+	char *p;
+
+	p = allocm(len + 1);
+	assert(p);
+	memcpy(p, s, len);
+	p[len] = '\0';
+
+	return p;
 }
 
 __END_DECLS
