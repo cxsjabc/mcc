@@ -5,6 +5,7 @@
 
 #include "mcc/mcc_base.h"
 #include "mcc/string.h"
+#include "mcc/type.h"
 
 typedef enum token_enum
 {
@@ -41,6 +42,7 @@ typedef struct token_value
 
 typedef struct token
 {
+	Type t;
 	Token_enum type; // TOKEN_INT, TOKEN_ID ...
 	Token_sub_type sub_type;
 

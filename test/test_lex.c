@@ -18,19 +18,19 @@ __BEGIN_DECLS
 void test_parse_tokens()
 {
 	Token t;
-	char *s = "int i = 10;";
+	char *s = "int i 0;";
 	char *p = s;
 
 	TEST_BEGIN;
 
 	do {
-		t = next_token(p);
+		t = next_token(&p);
 		if (!t)
 			break;
 		
 		token_dump(t);
 
-		p += t->len;
+		//p += t->len;
 	} while (1);
 	TEST_END;
 }

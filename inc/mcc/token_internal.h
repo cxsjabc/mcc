@@ -38,6 +38,9 @@ DEF_TOK(TOK_VOID, "void")
 DEF_TOK(TOK_VOLATILE, "volatile")
 DEF_TOK(TOK_WHILE, "while")
 
+// literal number or string
+DEF_TOK(TOK_LITERAL, "")
+
 // identifiers
 DEF_TOK(TOK_IDENTIFIER, "identifier")
 

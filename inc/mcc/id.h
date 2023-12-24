@@ -16,7 +16,7 @@ typedef enum {
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
 #define is_alpha(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z'))
 #define is_alnum(c) (is_digit(c) || is_alpha(c))
-#define is_xdigit(c) ((c) >= '0' && (c) <= '9' || (c) >= 'a' && (c) <= 'f' || (c) >= 'A' && (c) <= 'F')
+#define is_xdigit(c) (((c) >= '0' && (c) <= '9') || ((c) >= 'a' && (c) <= 'f') || ((c) >= 'A' && (c) <= 'F'))
 
 #define is_octal(c) ((c) >= '0' && (c) <= '7')
 #define is_hex(c) (is_xdigit(c))

@@ -12,6 +12,7 @@ enum
 	ERR_NO_MEM = -2,
 	ERR_UNKNOWN = -3,
 	ERR_FORK = -4,
+	ERR_INVALID_FORMAT = -5,
 };
 
 #define TRUE 1
