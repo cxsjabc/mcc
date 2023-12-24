@@ -13,3 +13,5 @@ endif
 
 # 32bit built
 C_FLAGS += -m32
+
+$(info "OS: $(OS)")

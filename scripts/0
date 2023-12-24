@@ -1,0 +1,14 @@
+#!/bin/bash
+# **** Warning!! It will remove all the out folder completely! ****
+
+# use "-f" can silence the "No such file or directory" warning
+RM_OPTINS="-f"
+
+make -f Makefile clean_test clean
+
+rm -rf out
+rm ${RM_OPTINS} mcc mcc_test m t
+rm ${RM_OPTINS} mcc.exe mcc_test.exe m.exe t.exe
+
+rm ${RM_OPTINS} mcc.ilk mcc.pdb mcc_test.ilk mcc_test.pdb mcc_test.exe.stackdump
+rm ${RM_OPTINS} m.ilk m.pdb t.ilk t.pdb m.exe.stackdump t.exe.stackdump
