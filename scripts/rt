@@ -1,8 +1,9 @@
 #!/bin/bash
 
 EXE_FILE=t
+ARGS=$@
 
-if [ -e "$EXE_FILE" ]; then ./${EXE_FILE}; exit 0; fi
+if [ -e "$EXE_FILE" ]; then ./${EXE_FILE} ${ARGS}; exit $?; fi
 
 bt
-if [ -e "$EXE_FILE" ]; then ./${EXE_FILE}; exit 0; fi
+if [ -e "$EXE_FILE" ]; then ./${EXE_FILE} ${ARGS}; exit $?; fi
