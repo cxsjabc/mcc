@@ -6,9 +6,11 @@
 #define CHAR_CNT 128
 
 typedef enum {
-	CHAR_TYPE_DIGIT,
-	CHAR_TYPE_ALPHA,
-	CHAR_TYPE_OTHER,
+	CHAR_TYPE_DIGIT = 0x1,
+	CHAR_TYPE_ALPHA = 0x2,
+	CHAR_TYPE_ALDIG = 0x4,
+	CHAR_TYPE_BLANK = 0x8,
+	CHAR_TYPE_OTHER = 0x80,
 } CHAR_TYPE;
 
 #define is_digit(c) ((c) >= '0' && (c) <= '9')
@@ -22,8 +24,17 @@ typedef enum {
 #define is_newline(c) ((c) == '\n' || (c) == '\r')
 #define is_whitespace(c) ((c) == ' ' || (c) == '\t' || (c) == '\n' || (c) == '\r' || (c) == '\f')
 
+#if CONFIG_USE_CHAR_MAP_TABLE
+#define is_id_start(c) (get_char_type(c) & CHAR_TYPE_ALPHA)
+#else
 #define is_id_start(c) (is_alpha(c) || (c) == '_')
+#endif
+
+#if CONFIG_USE_CHAR_MAP_TABLE
+#define is_id(c) (get_char_type(c) & CHAR_TYPE_ALDIG)
+#else
 #define is_id(c) (is_alnum(c) || (c) == '_')
+#endif
 
 __BEGIN_DECLS
 

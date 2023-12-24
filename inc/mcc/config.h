@@ -5,5 +5,6 @@
 // header files.
 
 #define CONFIG_VER_FROM_FILE 1
+#define CONFIG_USE_CHAR_MAP_TABLE 1
 
 #endif

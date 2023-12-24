@@ -1,0 +1,8 @@
+#!/bin/bash
+
+EXE_FILE=t
+
+if [ -e "$EXE_FILE" ]; then ./${EXE_FILE}; exit 0; fi
+
+bt
+if [ -e "$EXE_FILE" ]; then ./${EXE_FILE}; exit 0; fi

@@ -84,10 +84,10 @@ $(info CURR_COMP: $(CURR_COMP), PREV_COMP: $(PREV_COMP))
 
 MAIN_OBJ := main.o
 ifeq ($(OS), Windows_NT)
-OUT_FILE := mcc.exe
+OUT_FILE := m.exe
 NULL_FILE := NUL
 else
-OUT_FILE := mcc
+OUT_FILE := m
 NULL_FILE := /dev/null
 endif
 
@@ -132,9 +132,9 @@ TEST_BUILD_OBJS := $(patsubst %.o,$(BUILD_OBJ_DIR)/%.o, $(TEST_OBJS))
 TEST_BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(TEST_BUILD_OBJS))
 
 ifeq ($(OS), Windows_NT)
-TEST_OUT := mcc_test.exe
+TEST_OUT := t.exe
 else
-TEST_OUT := mcc_test
+TEST_OUT := t
 endif
 
 prepare_test:

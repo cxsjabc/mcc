@@ -38,14 +38,17 @@ __need_init void init_char_type_table()
 {
 	int i;
 
+	debug("char_type_table size: %d\n", SIZEOF(char_type_table));
 	for (i = 0; i < CHAR_CNT; i++) {
 		char c = (char)i;
 		if (isalpha(c))
-			char_type_table[i] = CHAR_TYPE_ALPHA;
+			char_type_table[i] |= CHAR_TYPE_ALPHA, char_type_table[i] |= CHAR_TYPE_ALDIG;
 		else if (isdigit(c))
-			char_type_table[i] = CHAR_TYPE_DIGIT;
+			char_type_table[i] |= CHAR_TYPE_DIGIT, char_type_table[i] |= CHAR_TYPE_ALDIG;
+		else if (isblank(c))
+			char_type_table[i] |= CHAR_TYPE_BLANK;
 		else
-			char_type_table[i] = CHAR_TYPE_OTHER;
+			char_type_table[i] |= CHAR_TYPE_OTHER;
 	}
 }
 

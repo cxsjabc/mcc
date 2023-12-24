@@ -3,13 +3,24 @@
 #include <stdio.h>
 
 #include "mcc/env.h"
+#include "mcc/id.h"
 #include "mcc/log.h"
 #include "mcc/mem_buf.h"
 #include "test.h"
 
 __BEGIN_DECLS
 
-void uninit_test()
+void test_prepare()
+{
+	check_build_environment();
+	check_running_environment();
+
+	setup_global_mem_buf();
+
+	init_char_type_table();
+}
+
+void test_postprocessing()
 {
 	uninit_global_mem_buf();
 }
@@ -18,9 +29,7 @@ int main(int argc, char *argv[])
 {
 	always("Test starting.\n");
 
-	check_build_environment();
-	check_running_environment();
-	setup_global_mem_buf();
+	test_prepare();
 
 #if ENABLE_TEST_ARGS
 	test_args();
@@ -82,7 +91,7 @@ int main(int argc, char *argv[])
 	test_type();
 #endif
 
-	uninit_test();
+	test_postprocessing();
 
 	always("Test end.\n");
 	return 0;

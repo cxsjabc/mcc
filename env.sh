@@ -1,3 +1,3 @@
 #!/bin/bash
 
-export PATH=./scripts:$PATH
+export PATH=./scripts:./scripts/linux:.:$PATH

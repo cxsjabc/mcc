@@ -33,8 +33,6 @@ void test_id()
 	int right_arr[] = { 1, 1, 0, 1, 1, 1, 0 };
 	unsigned int i;
 
-	init_char_type_table();
-
 	for (i = 0; i < ARRAY_SIZE(arr); i++) {
 		res_arr[i] = is_identifier(arr[i]);
 	}
