@@ -11,11 +11,11 @@
 
 __BEGIN_DECLS
 
-PCstr alloc_cstr(const int maxlen)
+Cstr cstr_alloc(const int maxlen)
 {
-	PCstr p;
+	Cstr p;
 
-	p = (PCstr)mcc_malloc(sizeof(Cstr));
+	p = (Cstr)mcc_malloc(sizeof(Cstr));
 	if (!p) {
 		error("No enough memory!\n");
 		return NULL;
@@ -34,7 +34,7 @@ PCstr alloc_cstr(const int maxlen)
 	return p;
 }
 
-int init_cstr(PCstr p, const char *src, int len)
+int cstr_init(Cstr p, const char *src, int len)
 {
 	if (!p || !src || len <= 0)
 		fatal("passing NULL parameter or length <= 0.\n");
@@ -55,9 +55,9 @@ int init_cstr(PCstr p, const char *src, int len)
 	return ERR_NONE;
 }
 
-void free_cstr(PCstr p)
+void cstr_free(Cstr p)
 {
-	if (p->str) {
+	if (p && p->str) {
 		mcc_free(p->str);
 		p->str = NULL;
 	}
@@ -65,21 +65,21 @@ void free_cstr(PCstr p)
 		mcc_free(p);
 }
 
-PCstr alloc_with_cstr(const char *src, int len)
+Cstr cstr_alloc_with(const char *src, int len)
 {
-	PCstr p;
+	Cstr p;
 	
-	p = alloc_cstr(len);
+	p = cstr_alloc(len);
 	if (!p) {
 		error("No enough memory!\n");
 		return NULL;
 	}
-	if (init_cstr(p, src, len) != ERR_NONE)
+	if (cstr_init(p, src, len) != ERR_NONE)
 		return NULL;
 	return p;
 }
 
-int cstr_append(PCstr p, const char *src, int len)
+int cstr_append(Cstr p, const char *src, int len)
 {
 	int new_len;
 
@@ -102,22 +102,31 @@ int cstr_append(PCstr p, const char *src, int len)
 	return OK;
 }
 
-int cstr_len(PCstr str)
+int cstr_len(Cstr str)
 {
 	return str->len;
 }
 
-int cstr_maxlen(PCstr str)
+int cstr_maxlen(Cstr str)
 {
 	return str->maxlen;
 }
 
-void cstr_show(PCstr p)
+void cstr_show(Cstr p)
 {
 	always("Cstr(%p): %s, len: %d, maxlen: %d\n", p, p->str ? p->str : "NULL", p->len, p->maxlen);
 }
 
-void replace_string_with(char *s, const char orig, const char dest)
+void str_dump_with_len(char *str, int len, const char *prefix)
+{
+	int i;
+
+	always("%s", prefix);
+	for (i = 0; i < len; i++)
+		always("%c", str[i]);
+}
+
+void str_replace_with(char *s, const char orig, const char dest)
 {
 	char cur;
 	while ((cur = *s) != '\0')
@@ -128,12 +137,12 @@ void replace_string_with(char *s, const char orig, const char dest)
 	}
 }
 
-int get_string_until_char(const char *s, char **pstart, char delim)
+int str_get_until_char(const char *s, char **pstart, char delim)
 {
 	char *p = (char *)s, *p1 = (char *)s;
 	int len;
 
-	skip_blanks(&p1);
+	str_skip_blanks(&p1);
 	p = p1;
 	if (*p != delim)
 		*pstart = p, len = 1, ++p;
@@ -147,7 +156,7 @@ int get_string_until_char(const char *s, char **pstart, char delim)
 	return len;
 }
 
-int copy_ignore_char(char *d, const char *s, const int size, const char ignore)
+int str_copy_ignore_ch(char *d, const char *s, const int size, const char ignore)
 {
 	int i = 0;
 	char c;
@@ -166,7 +175,7 @@ int copy_ignore_char(char *d, const char *s, const int size, const char ignore)
 	return i;
 }
 
-void skip_blanks(char **pp)
+void str_skip_blanks(char **pp)
 {
 	char *s = *pp;
 	while (is_whitespace(*s))

@@ -29,7 +29,7 @@ const char *gen_build_ver()
 
 	debug("date: %s, time: %s\n", build_date_copy, build_time_copy);
 	// get month string
-	len = get_string_until_char(build_date_copy, &pstart, ' ');
+	len = str_get_until_char(build_date_copy, &pstart, ' ');
 	if (len <= 0) {
 		fprintf(stderr, "Failed to get build month string.\n");
 		return NULL;
@@ -45,7 +45,7 @@ const char *gen_build_ver()
 	}
 
 	// get day
-	len = get_string_until_char(pstart + len + 1, &pstart, ' ');
+	len = str_get_until_char(pstart + len + 1, &pstart, ' ');
 	if (len <= 0) {
 		fprintf(stderr, "Failed to get build day string, len(%d), p(%p, %c).\n", len, pstart, *pstart);
 		return NULL;
@@ -54,7 +54,7 @@ const char *gen_build_ver()
 	day = atoi(pstart);
 
 	// get year
-	len = get_string_until_char(pstart + len + 1, &pstart, ' ');
+	len = str_get_until_char(pstart + len + 1, &pstart, ' ');
 	if (len <= 0) {
 		fprintf(stderr, "Failed to get build year string.\n");
 		return NULL;
@@ -65,7 +65,7 @@ const char *gen_build_ver()
 	len = sprintf(build_ver, "%d%d%d", year, mon, day);
 
 	// get timestamp
-	len1 = copy_ignore_char(build_ver + len, build_time_copy, 128 - strlen(build_ver) - 1, ':');
+	len1 = str_copy_ignore_ch(build_ver + len, build_time_copy, 128 - strlen(build_ver) - 1, ':');
 	build_ver[len + len1] = '\0';
 
 	return build_ver;

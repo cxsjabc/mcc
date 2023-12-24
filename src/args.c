@@ -17,7 +17,7 @@ int is_show_build_version, is_show_help;
 int is_preprocess;
 int is_output_file;
 
-static Cstr out_file;
+static struct cstr out_file;
 
 const char *get_output_file_name()
 {
@@ -39,7 +39,7 @@ int parse_args(int argc, char *argv[], MccState ms)
 			is_preprocess = 1;
 			++argv, --argc;
 			if (*argv) {
-				r = init_cstr(&out_file, *argv, strlen(*argv));
+				r = cstr_init(&out_file, *argv, strlen(*argv));
 				if (r != ERR_NONE)
 					ERR_RETURN(r);
 				debug("Preprocessed file output name: %s\n", get_output_file_name());

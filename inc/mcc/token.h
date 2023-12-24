@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "mcc/mcc_base.h"
+#include "mcc/string.h"
 
 typedef enum token_enum
 {
@@ -36,7 +37,7 @@ typedef struct token_value
 		long double d;
 		void *p;
 	} v;
-} TokenValue;
+} *TokenValue;
 
 typedef struct token
 {
@@ -44,23 +45,25 @@ typedef struct token
 	Token_sub_type sub_type;
 
 	unsigned int len; // the token's length
-	TokenValue val;
-} Token;
+	struct token_value val;
+} *Token;
 
 #define APPEND_TYPE(pt, sub_type) ((pt)->sub_type |= (sub_type))
 #define SET_TYPE(pt, sub_type) ((pt)->sub_type = (sub_type))
 
 __BEGIN_DECLS
 
-Token *token_alloc();
-void token_set_pointer(Token *pt, void *p);
-void token_set_str(Token *pt, char *s);
+Token token_alloc();
+void token_set_pointer(Token pt, void *p);
+void token_set_str(Token pt, char *s);
 void token_free();
 
-const char *token_enum_to_name(Token_enum t);
-const char *token_sub_type_enum_to_name(Token_sub_type sub_type);
+void token_dump(Token pt);
 
-char *token_get_name(Token *pt);
+const char *token_enum_to_name(Token_enum t);
+Cstr token_sub_type_enum_to_name(Token_sub_type sub_type);
+
+char *token_get_name(Token pt);
 
 void show_all_tokens();
 

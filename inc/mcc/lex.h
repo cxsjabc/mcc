@@ -6,10 +6,10 @@
 
 __BEGIN_DECLS
 
-Token *next_token(char *s);
+Token next_token(char *s);
 
-int parse_identifier(char *s, Token **pt);
-int parse_number(char *s, Token **pt);
+int parse_identifier(char *s, Token *pt);
+int parse_number(char *s, Token *pt);
 
 __END_DECLS
 

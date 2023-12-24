@@ -37,38 +37,38 @@ const char *token_enum_to_name(Token_enum t)
 }
 
 // ** This will generate new string, so, caller should free the memory! **
-const char *token_sub_type_enum_to_name(Token_sub_type sub_type)
+Cstr token_sub_type_enum_to_name(Token_sub_type sub_type)
 {
 	int i, r;
-	PCstr cstr;
+	Cstr cstr;
 	
-	cstr = alloc_cstr(128);
+	cstr = cstr_alloc(128);
 	assert(cstr);
 	for (i = 0; i < TK_SUB_TYPE_MAX_CNT; ++i) {
-		debug("token sub type: 0x%x 0x%x\n", sub_type, (1 << i));
+		silence("token sub type: 0x%x 0x%x\n", sub_type, (1 << i));
 		if (sub_type & (1 << i)) {
 			r = cstr_append(cstr, TokenSubTypeNames[i + 1], strlen(TokenSubTypeNames[i + 1]));
 			if (r != OK) {
-				free_cstr(cstr);
+				cstr_free(cstr);
 				return NULL;
 			}
 		}
 	}
-	return cstr->str;
+	return cstr;
 }
 
-Token *token_alloc()
+Token token_alloc()
 {
-	return (Token *)allocmz(sizeof(Token));
+	return (Token)allocmz(sizeof(struct token));
 }
 
-void token_set_pointer(Token *pt, void *p)
+void token_set_pointer(Token pt, void *p)
 {
 	pt->val.v.p = p;
 	pt->sub_type |= TK_SUB_TYPE_POINTER;
 }
 
-void token_set_str(Token *pt, char *s)
+void token_set_str(Token pt, char *s)
 {
 	token_set_pointer(pt, s);
 	pt->sub_type |= TK_SUB_TYPE_STRING;
@@ -80,7 +80,31 @@ void token_free()
 	// it will be freed after the whole compilation is done.
 }
 
-char *token_get_name(Token *pt)
+void token_dump(Token t)
+{
+	Cstr str;
+	char *sub_type_name = NULL;
+	char *name;
+
+	if (!t) {
+		always("Token: NULL.\n");
+		return;
+	}
+	str = token_sub_type_enum_to_name(t->sub_type);
+	if (str)
+		sub_type_name = str->str;
+	name = token_get_name(t);
+	always("Token: type(%s), subtype(%s), len(%d)",
+		token_enum_to_name(t->type), 
+		sub_type_name,
+		t->len);
+	str_dump_with_len(name, t->len, ", name: ");
+	always("\n");
+
+	cstr_free(str);
+}
+
+char *token_get_name(Token pt)
 {
 	if (pt->type == TOK_IDENTIFIER || (pt->type >= TOK_AUTO && pt->type <= TOK_WHILE))
 		return (char *)pt->val.v.p;

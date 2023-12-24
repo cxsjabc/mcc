@@ -17,7 +17,7 @@ __BEGIN_DECLS
 
 void test_parse_tokens()
 {
-	struct token *t;
+	Token t;
 	char *s = "int i = 10;";
 	char *p = s;
 
@@ -27,10 +27,8 @@ void test_parse_tokens()
 		t = next_token(p);
 		if (!t)
 			break;
-		debug("Token: type(%s), subtype(%s), len(%d), name(%s)\n",
-		      token_enum_to_name(t->type), 
-		      token_sub_type_enum_to_name(t->sub_type),
-		      t->len, mcc_strdup(token_get_name(t), t->len));
+		
+		token_dump(t);
 
 		p += t->len;
 	} while (1);

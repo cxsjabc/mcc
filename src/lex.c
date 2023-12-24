@@ -10,14 +10,14 @@
 
 __BEGIN_DECLS
 
-Token *next_token(char *s)
+Token next_token(char *s)
 {
 	char *ps;
 	char c;
 	int r;
-	Token *pt = NULL;
+	Token pt = NULL;
 
-	skip_blanks(&s);
+	str_skip_blanks(&s);
 	ps = s;
 	LHD;
 	c = *ps;
@@ -35,9 +35,9 @@ Token *next_token(char *s)
 	return pt;
 }
 
-int parse_identifier(char *s, Token **ppt)
+int parse_identifier(char *s, Token *ppt)
 {
-	Token *pt = *ppt;
+	Token pt = *ppt;
 	char *b = s - 1;
 	int tok;
 
@@ -63,7 +63,7 @@ int parse_identifier(char *s, Token **ppt)
 	return OK;
 }
 
-int parse_number(char *s, Token **pt)
+int parse_number(char *s, Token *pt)
 {
 	return OK;
 }

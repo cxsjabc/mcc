@@ -32,8 +32,10 @@ void *cpp_realloc(void *p, size_t size);
 // It's important to make them synchronous.
 #if USE_MEM_BUF
 void *allocm(size_t size);
+#define freem(p)
 #else
 #define allocm(size) mcc_malloc(size)
+#define freem(p) mcc_free(p)
 #endif
 
 void *allocmz(size_t size);

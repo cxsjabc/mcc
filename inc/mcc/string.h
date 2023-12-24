@@ -8,29 +8,31 @@ typedef struct cstr
 	char *str;
 	int len;
 	int maxlen;
-} Cstr, *PCstr;
+} *Cstr;
 
 __BEGIN_DECLS
 
-PCstr alloc_cstr(const int maxlen);
-int init_cstr(PCstr p, const char *src, int len);
-int cstr_append(PCstr p, const char *src, int len);
-void free_cstr(PCstr str);
+Cstr cstr_alloc(const int maxlen);
+int cstr_init(Cstr p, const char *src, int len);
+int cstr_append(Cstr p, const char *src, int len);
+void cstr_free(Cstr str);
 
-PCstr alloc_with_cstr(const char *src, int len);
+Cstr cstr_alloc_with(const char *src, int len);
 
-int cstr_len(PCstr str);
-int cstr_maxlen(PCstr str);
-//int cstr_append(PCstr str, const char *src, int len);
+int cstr_len(Cstr str);
+int cstr_maxlen(Cstr str);
+//int cstr_append(Cstr str, const char *src, int len);
 
-void cstr_show(PCstr p);
+void cstr_show(Cstr p);
 
-void replace_string_with(char *s, const char orig, const char dest);
-int get_string_until_char(const char *s, char **pstart, char delim);
+void str_dump_with_len(char *str, int len, const char *prefix);
 
-int copy_ignore_char(char *d, const char *s, const int size, const char ignore);
+void str_replace_with(char *s, const char orig, const char dest);
+int str_get_until_char(const char *s, char **pstart, char delim);
 
-void skip_blanks(char **pp);
+int str_copy_ignore_ch(char *d, const char *s, const int size, const char ignore);
+
+void str_skip_blanks(char **pp);
 
 char *mcc_strdup(char *s, int len);
 
