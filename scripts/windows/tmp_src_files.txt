@@ -5,6 +5,7 @@ src\compile_log.obj \
 src\env.obj \
 src\exec.obj \
 src\file.obj \
+src\hash.obj \
 src\help.obj \
 src\id.obj \
 src\keyword.obj \
@@ -28,8 +29,10 @@ test\test_array.obj \
 test\test_compile_log.obj \
 test\test_exec.obj \
 test\test_file.obj \
+test\test_hash.obj \
 test\test_id.obj \
 test\test_keyword.obj \
+test\test_lex.obj \
 test\test_mcc_state.obj \
 test\test_mem_buf.obj \
 test\test_size.obj \
@@ -44,6 +47,7 @@ out\src\compile_log.obj \
 out\src\env.obj \
 out\src\exec.obj \
 out\src\file.obj \
+out\src\hash.obj \
 out\src\help.obj \
 out\src\id.obj \
 out\src\keyword.obj \
@@ -67,8 +71,10 @@ out\test\test_array.obj \
 out\test\test_compile_log.obj \
 out\test\test_exec.obj \
 out\test\test_file.obj \
+out\test\test_hash.obj \
 out\test\test_id.obj \
 out\test\test_keyword.obj \
+out\test\test_lex.obj \
 out\test\test_mcc_state.obj \
 out\test\test_mem_buf.obj \
 out\test\test_size.obj \

@@ -10,7 +10,7 @@ set MSVC_ARCH=x64
 set OUT_DIR=out
 set PREVIOUS_BUILD=win_arch.txt
 
-mkdir %OUT_DIR%
+mkdir %OUT_DIR% %OUT_DIR%\src
 :: TODO: strange that, it may be executed three times, then VSCMD_VCVARSALL_INIT is ok.
 rem echo "VSCMD_VCVARSALL_INIT: %VSCMD_VCVARSALL_INIT%"
 
@@ -26,16 +26,19 @@ if %errorlevel% equ 0 (
 )
 
 set WIN_GEN_SRC=scripts\windows\win_gen_src.bat
+set WIN_GEN_DEPS=scripts\windows\gen_deps.bat
 
 if "%1" == "" (
     :: generate source files
     call %WIN_GEN_SRC%
+    call %WIN_GEN_DEPS% src
 
     :: call msvc nmake.exe
     nmake.exe -f makefiles\Makefile.msvc.mk mcc
 ) else if "%1" == "mcc" (
     :: generate source files
     call %WIN_GEN_SRC%
+    call %WIN_GEN_DEPS%
 
     :: call msvc nmake.exe
     nmake.exe -f makefiles\Makefile.msvc.mk mcc
@@ -44,6 +47,7 @@ if "%1" == "" (
     del %OUT_DIR%\%PREVIOUS_BUILD%
 )  else if "%1" == "test" (
     call %WIN_GEN_SRC%
+    call %WIN_GEN_DEPS%
 
     nmake.exe -f makefiles\Makefile.msvc.mk test
 ) else if "%1" == "clean_test" (

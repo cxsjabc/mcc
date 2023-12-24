@@ -13,11 +13,14 @@
 CUR_DIR = .
 
 USE_MSVC = 1
+
 WIN_GEN_SRC_FILES = scripts\windows\tmp_src_files.txt
+WIN_GEN_DEPS = out\src\src.deps.d
 
 !ifdef COMSPEC
 !message "nmake is: $(MAKE)"
 !INCLUDE $(WIN_GEN_SRC_FILES)
+!INCLUDE $(WIN_GEN_DEPS)
 !else
 !message "make: $(MAKE)"
 !error "No msvc environment!"
@@ -73,7 +76,7 @@ prepare:
 	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul
 	-@ mkdir $(BUILD_OBJ_DIR)\src $(BUILD_OBJ_DIR)\src\win >nul 2>nul
 
-all: prepare $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ)
+all: prepare $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ) inc\mcc\env.h
 	$(LINK) /out:$(OUT_FILE) $(LINK_OBJS) $(BUILD_OBJ_DIR)\$(MAIN_OBJ) $(C_LINKFLAGS)
 
 clean:
