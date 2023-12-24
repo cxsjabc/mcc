@@ -30,7 +30,7 @@ Token next_token(char **ps)
 	else if (is_digit(c))
 		r = parse_number(&s, &pt);
 	else
-		r = ERR_UNKNOWN;
+		r = parse_other_token(&s, &pt);
 
 	LHD;
 	if (r != OK)
@@ -38,6 +38,109 @@ Token next_token(char **ps)
 	*ps = s;
 	LHD;
 	return pt;
+}
+
+int parse_other_token(char **ps, Token *pt)
+{
+	Token t = *pt;
+	char *s = *ps;
+	char *b = s;
+	int tok;
+
+	LHD;
+	t = token_alloc();
+	assert(t);
+	LHD;
+	switch (*s) {
+	case '(':
+		tok = TOK_LPAREN;
+		break;
+	case ')':
+		tok = TOK_RPAREN;
+		break;
+	case '{':
+		tok = TOK_LBRACE;
+		break;
+	case '}':
+		tok = TOK_RBRACE;
+		break;
+	case '[':
+		tok = TOK_LBRACKET;
+		break;
+	case ']':
+		tok = TOK_RBRACKET;
+		break;
+	case ';':
+		tok = TOK_SEMICOLON;
+		break;
+	case ',':
+		tok = TOK_COMMA;
+		break;
+	case '#':
+		tok = TOK_PREP;
+		break;
+	case '=':
+		tok = TOK_ASSIGN;
+		break;
+	case '+':
+		tok = TOK_PLUS;
+		break;
+	case '-':
+		tok = TOK_MINUS;
+		break;
+	case '*':
+		tok = TOK_STAR;
+		break;
+	case '/':
+		tok = TOK_DIV;
+		break;
+	case '%':
+		tok = TOK_MOD;
+		break;
+	case '!':
+		tok = TOK_NOT;
+		break;
+	case '<':
+		tok = TOK_LESS;
+		break;
+	case '>':
+		tok = TOK_GREATER;
+		break;
+	case '&':
+		tok = TOK_AND;
+		break;
+	case '|':
+		tok = TOK_OR;
+		break;
+	case '^':
+		tok = TOK_XOR;
+		break;
+	case '?':
+		tok = TOK_QUESTION;
+		break;
+	case ':':
+		tok = TOK_COLON;
+		break;
+	case '~':
+		tok = TOK_TILDE;
+		break;
+	case '.':
+		tok = TOK_DOT;
+		break;
+	case '"':
+		tok = TOK_QUOTE;
+		break;
+	default:
+		tok = TOK_RESERVE;
+		break;
+	}
+
+	t->len = 1; // TODO
+	t->type = tok;
+	debug("Parse \"%s\", len: %d\n", b, t->len);
+	*ps = s + 1;
+
+	return OK;
 }
 
 int parse_identifier(char **ps, Token *ppt)
