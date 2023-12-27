@@ -1,6 +1,8 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "mcc/error.h"
 #include "mcc/file.h"
@@ -9,6 +11,37 @@
 #include "mcc/string.h"
 
 __BEGIN_DECLS
+
+File file_open(const char *name)
+{
+	int fd;
+	File f;
+
+	f = allocm(sizeof(struct file));
+	NULL_RETURN(f, "open file failed\n");
+
+	fd = open(name, O_RDONLY);
+	if (fd < 0) {
+		error("open file %s failed\n", name);
+		freem(f);
+		return NULL;
+	}
+
+	f->fd = fd;
+	f->name = (char *)name;
+	f->buf = f->buf_end = NULL;
+
+	return f;
+}
+
+void file_close(File f)
+{
+	if (f) {
+		if (f->fd >= 0)
+			close(f->fd);
+		freem(f);
+	}
+}
 
 // Matched with FileType
 const char *FileTypeNames[] = {

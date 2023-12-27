@@ -3,6 +3,8 @@
 
 #include "mcc/mcc_base.h"
 
+#define IO_SIZE 10
+
 typedef enum file_type
 {
 	FILE_TYPE_UNKNOWN = -1,
@@ -18,7 +20,21 @@ typedef enum file_type
 	FILE_TYPE_LIB_PATH,	
 } FileType;
 
+typedef struct file
+{
+	char *buf;
+	char *buf_end;
+
+	int fd;
+	char *name;
+
+	struct file *prev;
+} *File;
+
 __BEGIN_DECLS
+
+File file_open(const char *name);
+void file_close(File f);
 
 extern const char *FileTypeNames[];
 

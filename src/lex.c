@@ -1,15 +1,58 @@
 #include <assert.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "mcc/compile_log.h"
 #include "mcc/error.h"
+#include "mcc/file.h"
 #include "mcc/id.h"
 #include "mcc/keyword.h"
 #include "mcc/lex.h"
 #include "mcc/log.h"
+#include "mcc/mem.h"
 #include "mcc/string.h"
 
 __BEGIN_DECLS
+
+int process_eob(File f)
+{
+	int len;
+	
+	LHD;
+	if (f->buf == f->buf_end) {
+		LHD;
+		if (f->buf == NULL) {
+			LHD;
+			f->buf = allocm(IO_SIZE);
+			assert(f->buf);
+		}
+		len = read(f->fd, f->buf, IO_SIZE);
+		debug("len: %d\n", len);
+		LHD;
+		if (len <= 0) {
+			perror("read file error\n");
+			return EOF;
+		}
+		f->buf_end = f->buf + len;
+		return f->buf[0];
+	}
+	return EOF;
+}
+
+int next_char(File f)
+{
+	if (f->buf != NULL && f->buf < f->buf_end) {
+		LHD;
+		return *f->buf++;
+	}
+	else {
+		if (f->buf == NULL || *f->buf == EOB)
+			return process_eob(f);
+		else
+			fatal("Why so?\n");
+	}
+	return EOF;
+}
 
 Token next_token(char **ps)
 {

@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "mcc/error.h"
+#include "mcc/file.h"
 #include "mcc/lex.h"
 #include "mcc/log.h"
 #include "mcc/string.h"
@@ -35,10 +36,30 @@ void test_parse_tokens()
 	TEST_END;
 }
 
+void test_chars_from_file()
+{
+	File f;
+	int c = 0;
+	char *s = "./test/data/2.source";
+
+	TEST_BEGIN;
+	f = file_open(s);
+	assert(f);
+
+	while (c != EOF) {
+		c = next_char(f);
+		debug_nofl("%c", c);
+	}
+
+	file_close(f);
+	TEST_END;
+}
+
 void test_lex()
 {
 	TEST_BEGIN;
 	test_parse_tokens();
+	test_chars_from_file();
 	TEST_END;
 	return;
 }
