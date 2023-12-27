@@ -17,24 +17,23 @@ __BEGIN_DECLS
 int process_eob(File f)
 {
 	int len;
-	
-	LHD;
+
 	if (f->buf == f->buf_end) {
-		LHD;
 		if (f->buf == NULL) {
-			LHD;
 			f->buf = allocm(IO_SIZE);
 			assert(f->buf);
 		}
-		len = read(f->fd, f->buf, IO_SIZE);
-		debug("len: %d\n", len);
-		LHD;
-		if (len <= 0) {
-			perror("read file error\n");
+		len = read(f->fd, f->buf, IO_SIZE - 1);
+		silence("len: %d\n", len);
+		if (len < 0) {
+			perror("read file error");
 			return EOF;
-		}
+		} else if (len == 0)
+			return EOF;
+		// str_dump_with_len(f->buf, len, "");
 		f->buf_end = f->buf + len;
-		return f->buf[0];
+		f->buf_end[0] = EOB;
+		return *f->buf++;
 	}
 	return EOF;
 }
@@ -42,7 +41,6 @@ int process_eob(File f)
 int next_char(File f)
 {
 	if (f->buf != NULL && f->buf < f->buf_end) {
-		LHD;
 		return *f->buf++;
 	}
 	else {

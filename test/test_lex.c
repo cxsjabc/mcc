@@ -46,10 +46,10 @@ void test_chars_from_file()
 	f = file_open(s);
 	assert(f);
 
-	while (c != EOF) {
+	do {
 		c = next_char(f);
 		debug_nofl("%c", c);
-	}
+	} while (c != EOF);
 
 	file_close(f);
 	TEST_END;

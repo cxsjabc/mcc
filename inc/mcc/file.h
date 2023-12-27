@@ -3,7 +3,7 @@
 
 #include "mcc/mcc_base.h"
 
-#define IO_SIZE 10
+#define IO_SIZE 4096
 
 typedef enum file_type
 {
