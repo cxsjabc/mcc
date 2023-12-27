@@ -10,6 +10,7 @@
 #include "mcc/lex.h"
 #include "mcc/log.h"
 #include "mcc/mem.h"
+#include "mcc/preprocess.h"
 #include "mcc/string.h"
 
 __BEGIN_DECLS
@@ -81,6 +82,11 @@ Token next_token(char **ps)
 	return pt;
 }
 
+Token next(File f)
+{
+	return next_token(&f->buf);
+}
+
 int parse_other_token(char **ps, Token *pt)
 {
 	Token t = *pt;
@@ -93,6 +99,11 @@ int parse_other_token(char **ps, Token *pt)
 	assert(t);
 	LHD;
 	switch (*s) {
+	case '#':
+		tok = TOK_PREP;
+		++s;
+		pp_process_str(&s);
+		break;
 	case '(':
 		tok = TOK_LPAREN;
 		break;
@@ -116,9 +127,6 @@ int parse_other_token(char **ps, Token *pt)
 		break;
 	case ',':
 		tok = TOK_COMMA;
-		break;
-	case '#':
-		tok = TOK_PREP;
 		break;
 	case '=':
 		tok = TOK_ASSIGN;
@@ -179,7 +187,7 @@ int parse_other_token(char **ps, Token *pt)
 	t->len = 1; // TODO
 	t->type = tok;
 	debug("Parse \"%s\", len: %d\n", b, t->len);
-	*ps = s + 1;
+	*ps = s;
 
 	return OK;
 }

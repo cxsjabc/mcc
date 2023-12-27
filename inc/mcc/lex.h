@@ -16,6 +16,7 @@ void lex_cal_tok_type(Token t);
 
 int process_eob(File f);
 int next_char(File f);
+Token next(File f);
 
 __END_DECLS
 

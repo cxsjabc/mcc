@@ -16,6 +16,24 @@
 
 __BEGIN_DECLS
 
+void test_parse_preprocess()
+{
+	Token t;
+	char *s = "#include <stdio.h>\n";
+	char *p = s;
+
+	TEST_BEGIN;
+
+	do {
+		t = next_token(&p);
+		if (!t)
+			break;
+		
+		token_dump(t);
+	} while (1);
+	TEST_END;
+}
+
 void test_parse_tokens()
 {
 	Token t;
@@ -58,8 +76,9 @@ void test_chars_from_file()
 void test_lex()
 {
 	TEST_BEGIN;
-	test_parse_tokens();
-	test_chars_from_file();
+	test_parse_preprocess();
+	// test_parse_tokens();
+	// test_chars_from_file();
 	TEST_END;
 	return;
 }

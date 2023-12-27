@@ -3,6 +3,8 @@
 
 #include "mcc/mcc_base.h"
 
+struct mcc_state;
+
 #define IO_SIZE 4096
 
 typedef enum file_type
@@ -29,6 +31,7 @@ typedef struct file
 	char *name;
 
 	struct file *prev;
+	struct mcc_state *ms;
 } *File;
 
 __BEGIN_DECLS

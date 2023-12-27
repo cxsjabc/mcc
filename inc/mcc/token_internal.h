@@ -46,6 +46,7 @@ DEF_TOK(TOK_IDENTIFIER, "identifier")
 
 // preprocess token
 DEF_TOK(TOK_PREP, "#")
+DEF_TOK(TOK_INCLUDE, "include")
 
 DEF_TOK(TOK_NOT, "!")
 DEF_TOK(TOK_QUOTE, "\"")
