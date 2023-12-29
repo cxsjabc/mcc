@@ -87,6 +87,16 @@ Token next(File f)
 	return next_token(&f->buf);
 }
 
+int skip_blanks(File f)
+{
+	int c;
+
+	do {
+		c = next_char(f);
+	} while (is_whitespace(c));
+	return c;
+}
+
 int parse_other_token(char **ps, Token *pt)
 {
 	Token t = *pt;
