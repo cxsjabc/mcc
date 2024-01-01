@@ -24,7 +24,7 @@ int pp_process_str(char **ps)
 	Token t;
 	int r = OK;
 	LHD;
-	t = next_token(ps);
+	t = str_next_token(ps);
 	switch (t->type)
 	{
 	case TOK_INCLUDE:

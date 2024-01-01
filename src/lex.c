@@ -53,7 +53,7 @@ int next_char(File f)
 	return EOF;
 }
 
-Token next_token(char **ps)
+Token str_next_token(char **ps)
 {
 	char *s;
 	char c;
@@ -68,11 +68,11 @@ Token next_token(char **ps)
 	LHD;
 	c = *s;
 	if (is_id_start(c))
-		r = parse_identifier(&s, &pt);
+		r = str_parse_identifier(&s, &pt);
 	else if (is_digit(c))
-		r = parse_number(&s, &pt);
+		r = str_parse_number(&s, &pt);
 	else
-		r = parse_other_token(&s, &pt);
+		r = str_parse_other_token(&s, &pt);
 
 	LHD;
 	if (r != OK)
@@ -84,7 +84,30 @@ Token next_token(char **ps)
 
 Token next(File f)
 {
-	return next_token(&f->buf);
+	char *s;
+	char c;
+	int r;
+	Token pt = NULL;
+
+	s = f->buf;
+	silence("token start: %s\n", s);
+	c = skip_blanks(f);
+	silence("after skip blanks: token start: %s\n", s);
+	(void)s;
+	
+	LHD;
+	if (is_id_start(c))
+		r = parse_identifier(f, &pt);
+	else if (is_digit(c))
+		r = parse_number(f, &pt);
+	else
+		r = parse_other_token(f, &pt);
+
+	LHD;
+	if (r != OK)
+		return NULL;
+	LHD;
+	return pt;
 }
 
 int skip_blanks(File f)
@@ -97,7 +120,256 @@ int skip_blanks(File f)
 	return c;
 }
 
-int parse_other_token(char **ps, Token *pt)
+int parse_identifier(File f, Token *ppt)
+{
+	Token pt = *ppt;
+	char *s = f->buf;
+	char *b = s;
+	int tok;
+	int c;
+	char *data;
+
+	++s;
+	LHD;
+	pt = token_alloc();
+	assert(pt);
+	LHD;
+	c = next_char(f);
+	while (is_id(c)) {
+		c = next_char(f);
+	}
+
+	pt->len = f->buf - s;
+	if ((tok = is_keyword_with_len(b, pt->len)))
+		pt->type = tok;
+	else {
+		pt->type = TOK_IDENTIFIER;
+	}
+	data = allocm(pt->len + 1);
+	assert(data);
+	memcpy(data, b, pt->len);
+	data[pt->len] = '\0';
+	pt->val.v.p = data;
+	*ppt = pt;
+	debug("Identifier/Keyword \"%s\", len: %d\n", (char *)pt->val.v.p, pt->len);
+	LHD;
+	return OK;
+}
+
+int parse_number(File f, Token *pt)
+{
+	Token t = *pt;
+	char *s = f->buf;
+	char cb = *s;
+	int base = 10;
+	unsigned long long v = 0ULL;
+	char c;
+
+	assert(sizeof(t->val.v.i) >= sizeof(v));
+	c = next_char(f);
+	LHD;
+	t = token_alloc();
+	assert(t);
+	LHD;
+	if (cb == '0') {
+		if (c == 'x' || c == 'X')
+			base = 16;
+		else if (is_octal(c))
+			v = c - '0', base = 8;
+		else
+			base = 0;
+		if (base != 0)
+			c = next_char(f);
+	}
+	debug("Base: %d\n", base);
+	if (base == 10) {
+		v = cb - '0';
+		while (is_digit(c)) {
+			v *= 10;
+			v += c - '0';
+			c = next_char(f);
+		}
+	reparse:
+		if (c == 'u' || c == 'U') {
+			if (!t->t.is_unsigned)
+				t->t.is_unsigned = 1;
+			else {
+				cerror("Multi %c character for integer.\n", c);
+				return ERR_INVALID_FORMAT;
+			}
+			c = next_char(f);
+			goto reparse;
+		} else if (c == 'l' || c == 'L') {
+			if (t->t.is_long == 0)
+				t->t.is_long = 1;
+			else if (t->t.is_long == 1) {
+				if (t->t.is_unsigned && (*(s - 1) == 'u' || *(s - 1) == 'U')) {
+					cerror("Wrong %c character for integer.\n", c);
+					return ERR_INVALID_FORMAT;
+				}
+				t->t.is_long = 3;
+			} else {
+				cerror("Wrong %c character for integer.\n", c);
+				return ERR_INVALID_FORMAT;
+			}
+			c = next_char(f);
+			goto reparse;
+		} else if (is_alpha(c)) {
+			cerror("Invalid character %c for integer.\n", c);
+			return ERR_INVALID_FORMAT;
+		} else
+			goto int_scan_done;
+	} else if (base == 16) {
+		v = cb - '0';
+		while (is_xdigit(c)) {
+			v *= 16;
+			v += c - '0';
+			c = next_char(f);
+		}
+		if (is_alpha(c)) {
+			cerror("Invalid character %c for hex integer.\n", c);
+			return ERR_INVALID_FORMAT;
+		} else
+			goto hex_scan_done;
+	} else if (base == 8) {
+		while (is_xdigit(c)) {
+			v *= 8;
+			v += c - '0';
+			c = next_char(f);
+		}
+		if (is_alpha(c)) {
+			cerror("Invalid character %c for hex integer.\n", c);
+			return ERR_INVALID_FORMAT;
+		} else
+			goto hex_scan_done;
+	} else if (base == 0) {
+		LHD;
+		if (is_alpha(c)) {
+			cerror("Invalid character %c for integer.\n", c);
+			return ERR_INVALID_FORMAT;
+		} else
+			goto int_scan_done;
+	} else {
+		fatal("Never should be here!\n");
+		return ERR_FAIL;
+	}
+
+int_scan_done:
+hex_scan_done:
+	t->len = f->buf - s;
+	lex_cal_tok_type(t);
+	t->type = TOK_LITERAL;
+	t->sub_type = TK_SUB_TYPE_NUMBER | TK_SUB_TYPE_CONSTANT;
+	t->val.v.i = (uint64_t)v;
+	*pt = t;
+	debug("Number \"%ld\", len: %d\n", t->val.v.i, t->len);
+	LHD;
+	return OK;
+}
+
+int parse_other_token(File f, Token *pt)
+{
+	Token t = *pt;
+	int tok;
+	int c;
+
+	LHD;
+	t = token_alloc();
+	assert(t);
+	LHD;
+	c = next_char(f);
+	switch (c) {
+	case '#':
+		tok = TOK_PREP;
+		break;
+	case '(':
+		tok = TOK_LPAREN;
+		break;
+	case ')':
+		tok = TOK_RPAREN;
+		break;
+	case '{':
+		tok = TOK_LBRACE;
+		break;
+	case '}':
+		tok = TOK_RBRACE;
+		break;
+	case '[':
+		tok = TOK_LBRACKET;
+		break;
+	case ']':
+		tok = TOK_RBRACKET;
+		break;
+	case ';':
+		tok = TOK_SEMICOLON;
+		break;
+	case ',':
+		tok = TOK_COMMA;
+		break;
+	case '=':
+		tok = TOK_ASSIGN;
+		break;
+	case '+':
+		tok = TOK_PLUS;
+		break;
+	case '-':
+		tok = TOK_MINUS;
+		break;
+	case '*':
+		tok = TOK_STAR;
+		break;
+	case '/':
+		tok = TOK_DIV;
+		break;
+	case '%':
+		tok = TOK_MOD;
+		break;
+	case '!':
+		tok = TOK_NOT;
+		break;
+	case '<':
+		tok = TOK_LESS;
+		break;
+	case '>':
+		tok = TOK_GREATER;
+		break;
+	case '&':
+		tok = TOK_AND;
+		break;
+	case '|':
+		tok = TOK_OR;
+		break;
+	case '^':
+		tok = TOK_XOR;
+		break;
+	case '?':
+		tok = TOK_QUESTION;
+		break;
+	case ':':
+		tok = TOK_COLON;
+		break;
+	case '~':
+		tok = TOK_TILDE;
+		break;
+	case '.':
+		tok = TOK_DOT;
+		break;
+	case '"':
+		tok = TOK_QUOTE;
+		break;
+	default:
+		tok = TOK_RESERVE;
+		break;
+	}
+
+	t->len = 1; // TODO
+	t->type = tok;
+	debug("Token \"%c\", len: %d\n", c, t->len);
+
+	return OK;
+}
+
+int str_parse_other_token(char **ps, Token *pt)
 {
 	Token t = *pt;
 	char *s = *ps;
@@ -202,7 +474,7 @@ int parse_other_token(char **ps, Token *pt)
 	return OK;
 }
 
-int parse_identifier(char **ps, Token *ppt)
+int str_parse_identifier(char **ps, Token *ppt)
 {
 	Token pt = *ppt;
 	char *s = *ps;
@@ -233,7 +505,7 @@ int parse_identifier(char **ps, Token *ppt)
 	return OK;
 }
 
-int parse_number(char **ps, Token *pt)
+int str_parse_number(char **ps, Token *pt)
 {
 	Token t = *pt;
 	char *s = *ps;

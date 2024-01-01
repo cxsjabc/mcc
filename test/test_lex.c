@@ -25,7 +25,7 @@ void test_parse_preprocess()
 	TEST_BEGIN;
 
 	do {
-		t = next_token(&p);
+		t = str_next_token(&p);
 		if (!t)
 			break;
 		
@@ -43,7 +43,7 @@ void test_parse_tokens()
 	TEST_BEGIN;
 
 	do {
-		t = next_token(&p);
+		t = str_next_token(&p);
 		if (!t)
 			break;
 		
@@ -58,16 +58,20 @@ void test_chars_from_file()
 {
 	File f;
 	int c = 0;
-	char *s = "./test/data/2.source";
+	char *s = "./test/data/lex.source";
+	Token t;
 
+	(void)c;
 	TEST_BEGIN;
 	f = file_open(s);
 	assert(f);
 
 	do {
-		c = next_char(f);
-		debug_nofl("%c", c);
-	} while (c != EOF);
+		//c = next_char(f);
+		//debug_nofl("%c", c);
+		t = next(f);
+		token_dump(t);
+	} while (t != NULL);
 
 	file_close(f);
 	TEST_END;
@@ -76,9 +80,9 @@ void test_chars_from_file()
 void test_lex()
 {
 	TEST_BEGIN;
-	test_parse_preprocess();
+	//test_parse_preprocess();
 	// test_parse_tokens();
-	// test_chars_from_file();
+	test_chars_from_file();
 	TEST_END;
 	return;
 }

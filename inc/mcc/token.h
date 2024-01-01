@@ -39,7 +39,7 @@ typedef struct token_value
 {
 	union
 	{
-		uint64_t i;
+		int64_t i;
 		long double d;
 		void *p;
 	} v;
