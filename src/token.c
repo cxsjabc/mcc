@@ -99,12 +99,9 @@ void token_dump(Token t)
 		sub_type_name,
 		t->len);
 	if (name)
-		str_dump_with_len(name, t->len, ", name: ");
+		str_dump_with_len(name, t->len, ", name: "), always("\n");
 	else if (t->sub_type & TK_SUB_TYPE_NUMBER)
-		always(" number: 0x%lx", t->val.v.i);
-	else
-		fatal("Not string or number, What kind?\n");
-	always("\n");
+		always(" number: 0x%lx", t->val.v.i), always("\n");
 
 	cstr_free(str);
 }

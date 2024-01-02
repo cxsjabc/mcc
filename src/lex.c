@@ -90,9 +90,9 @@ Token next(File f)
 	Token pt = NULL;
 
 	s = f->buf;
-	silence("token start: %s\n", s);
+	silence("token start: %c\n", *s);
 	c = skip_blanks(f);
-	silence("after skip blanks: token start: %s\n", s);
+	silence("after skip blanks: token start: %c\n", f->buf - 1);
 	(void)s;
 	
 	LHD;
@@ -123,13 +123,12 @@ int skip_blanks(File f)
 int parse_identifier(File f, Token *ppt)
 {
 	Token pt = *ppt;
-	char *s = f->buf;
+	char *s = f->buf - 1;
 	char *b = s;
 	int tok;
 	int c;
 	char *data;
 
-	++s;
 	LHD;
 	pt = token_alloc();
 	assert(pt);
@@ -139,7 +138,7 @@ int parse_identifier(File f, Token *ppt)
 		c = next_char(f);
 	}
 
-	pt->len = f->buf - s;
+	pt->len = f->buf - 1 - s;
 	if ((tok = is_keyword_with_len(b, pt->len)))
 		pt->type = tok;
 	else {
@@ -159,7 +158,7 @@ int parse_identifier(File f, Token *ppt)
 int parse_number(File f, Token *pt)
 {
 	Token t = *pt;
-	char *s = f->buf;
+	char *s = f->buf - 1;
 	char cb = *s;
 	int base = 10;
 	unsigned long long v = 0ULL;
@@ -256,7 +255,7 @@ int parse_number(File f, Token *pt)
 
 int_scan_done:
 hex_scan_done:
-	t->len = f->buf - s;
+	t->len = f->buf - 1 - s;
 	lex_cal_tok_type(t);
 	t->type = TOK_LITERAL;
 	t->sub_type = TK_SUB_TYPE_NUMBER | TK_SUB_TYPE_CONSTANT;
@@ -272,99 +271,145 @@ int parse_other_token(File f, Token *pt)
 	Token t = *pt;
 	int tok;
 	int c;
+	char *s = f->buf - 1;
 
 	LHD;
 	t = token_alloc();
 	assert(t);
 	LHD;
-	c = next_char(f);
+	c = *s;
+	debug("Token start: %c\n", c);
 	switch (c) {
 	case '#':
 		tok = TOK_PREP;
+		c = next_char(f);
 		break;
 	case '(':
 		tok = TOK_LPAREN;
+		c = next_char(f);
 		break;
 	case ')':
 		tok = TOK_RPAREN;
+		c = next_char(f);
 		break;
 	case '{':
 		tok = TOK_LBRACE;
+		c = next_char(f);
 		break;
 	case '}':
 		tok = TOK_RBRACE;
+		c = next_char(f);
 		break;
 	case '[':
 		tok = TOK_LBRACKET;
+		c = next_char(f);
 		break;
 	case ']':
 		tok = TOK_RBRACKET;
+		c = next_char(f);
 		break;
 	case ';':
+		LHD;
 		tok = TOK_SEMICOLON;
+		c = next_char(f);
+		debug("file buf: %c\n", *(f->buf));
 		break;
 	case ',':
 		tok = TOK_COMMA;
+		c = next_char(f);
 		break;
 	case '=':
-		tok = TOK_ASSIGN;
+		c = next_char(f);
+		if (c == '=')
+			tok = TOK_EQUAL, c = next_char(f);
+		else
+			--f->buf, tok = TOK_ASSIGN;
 		break;
 	case '+':
-		tok = TOK_PLUS;
+		c = next_char(f);
+		if (c == '=')
+			tok = TOK_ADD_ASSIGN, c = next_char(f);
+		else if (c == '+')
+			tok = TOK_INC, c = next_char(f);
+		else
+			--f->buf, tok = TOK_PLUS;
 		break;
 	case '-':
 		tok = TOK_MINUS;
+		c = next_char(f);
 		break;
 	case '*':
+		c = next_char(f);
 		tok = TOK_STAR;
 		break;
 	case '/':
+		c = next_char(f);
 		tok = TOK_DIV;
 		break;
 	case '%':
+		c = next_char(f);
 		tok = TOK_MOD;
 		break;
 	case '!':
+		c = next_char(f);
 		tok = TOK_NOT;
 		break;
 	case '<':
+		c = next_char(f);
 		tok = TOK_LESS;
 		break;
 	case '>':
+		c = next_char(f);
 		tok = TOK_GREATER;
 		break;
 	case '&':
+		c = next_char(f);
 		tok = TOK_AND;
 		break;
 	case '|':
+		c = next_char(f);
 		tok = TOK_OR;
 		break;
 	case '^':
+		c = next_char(f);
 		tok = TOK_XOR;
 		break;
 	case '?':
+		c = next_char(f);
 		tok = TOK_QUESTION;
 		break;
 	case ':':
+		c = next_char(f);
 		tok = TOK_COLON;
 		break;
 	case '~':
+		c = next_char(f);
 		tok = TOK_TILDE;
 		break;
 	case '.':
+		c = next_char(f);
 		tok = TOK_DOT;
 		break;
 	case '"':
+		c = next_char(f);
 		tok = TOK_QUOTE;
 		break;
+	case EOF:
+		LHD;
+		tok = TOK_EOF;
+		*pt = NULL;
+		return EOF;
 	default:
+		LHD;
 		tok = TOK_RESERVE;
+		c = next_char(f);
 		break;
 	}
 
-	t->len = 1; // TODO
+	t->len = f->buf - s; // TODO
 	t->type = tok;
-	debug("Token \"%c\", len: %d\n", c, t->len);
+	*pt = t;
+	debug("Token \"%s(%d)\", len: %d\n", token_enum_to_name(tok), tok, t->len);
 
 	return OK;
 }

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "mcc/error.h"
 #include "mcc/file.h"
@@ -62,17 +63,26 @@ void test_chars_from_file()
 	Token t;
 
 	(void)c;
+	(void)t;
+
 	TEST_BEGIN;
 	f = file_open(s);
 	assert(f);
 
+#if 0
 	do {
-		//c = next_char(f);
-		//debug_nofl("%c", c);
+		c = next_char(f);
+		debug_nofl("%c", c);
+	} while (c != EOF);
+#endif
+
+#if 1
+	do {
 		t = next(f);
 		token_dump(t);
+		sleep(1);
 	} while (t != NULL);
-
+#endif
 	file_close(f);
 	TEST_END;
 }
