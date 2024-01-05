@@ -25,15 +25,16 @@ int process_eob(File f)
 			assert(f->buf);
 		}
 		len = read(f->fd, f->buf, IO_SIZE - 1);
-		silence("len: %d\n", len);
+		debug("len: %d\n", len);
 		if (len < 0) {
 			perror("read file error");
 			return EOF;
 		} else if (len == 0)
 			return EOF;
-		// str_dump_with_len(f->buf, len, "");
+		str_dump_with_len(f->buf, len, "");
 		f->buf_end = f->buf + len;
-		f->buf_end[0] = EOB;
+		if (len == IO_SIZE - 1)
+			f->buf_end[0] = EOB;
 		return *f->buf++;
 	}
 	return EOF;
@@ -48,7 +49,7 @@ int next_char(File f)
 		if (f->buf == NULL || *f->buf == EOB)
 			return process_eob(f);
 		else
-			fatal("Why so?\n");
+			return EOF;
 	}
 	return EOF;
 }
@@ -90,10 +91,18 @@ Token next(File f)
 	Token pt = NULL;
 
 	s = f->buf;
-	silence("token start: %c\n", *s);
+	debug("next: %p\n", s);
+	debug("token start: %c\n", s != NULL ? *s : ' ');
+	LHD;
 	c = skip_blanks(f);
-	silence("after skip blanks: token start: %c\n", f->buf - 1);
+	LHD;
+	debug("c: %c(%d)\n", c, c);
+	if (c != EOF)
+		debug("after skip blanks: token start: %c\n", *(f->buf - 1));
+	else
+		return NULL;
 	(void)s;
+	LHD;
 	
 	LHD;
 	if (is_id_start(c))
@@ -255,7 +264,7 @@ int parse_number(File f, Token *pt)
 
 int_scan_done:
 hex_scan_done:
-	t->len = f->buf - 1 - s;
+	t->len = f->buf - s;
 	lex_cal_tok_type(t);
 	t->type = TOK_LITERAL;
 	t->sub_type = TK_SUB_TYPE_NUMBER | TK_SUB_TYPE_CONSTANT;
