@@ -7,6 +7,11 @@
 #include "mcc/string.h"
 #include "mcc/type.h"
 
+#define EOB '\\'
+#ifndef EOF
+#define EOF (-1)
+#endif
+
 typedef enum token_enum
 {
 	#define DEF_TOK(t, s) t,
@@ -34,7 +39,7 @@ typedef struct token_value
 {
 	union
 	{
-		uint64_t i;
+		int64_t i;
 		long double d;
 		void *p;
 	} v;

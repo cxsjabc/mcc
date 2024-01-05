@@ -21,10 +21,10 @@ enum
 #define ERR_RETURN(r) { LOG_HERE_ARGS("Error\n"); return (r); }
 #define OK_RETURN(r) { return (r); }
 
-#define NULL_RETURN(r, err_str) \
+#define NULL_RETURN(r, err_str, ...) \
 { \
 	if (!(r)) { \
-		LOG_HERE_ARGS(err_str); \
+		LOG_HERE_ARGS(err_str, ##__VA_ARGS__); \
 		return NULL; \
 	} \
 }
