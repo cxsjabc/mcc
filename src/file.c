@@ -72,7 +72,7 @@ int get_file_type(const char *path)
 	else if (strcmp(ext, ".exe") == 0)
 		return FILE_TYPE_EXE;
 	else
-		return FILE_TYPE_UNKNOWN;
+		return FILE_TYPE_UNK;
 }
 
 int is_absolute_path(const char *path)

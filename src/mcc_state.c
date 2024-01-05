@@ -96,7 +96,7 @@ int mcc_state_add_files(MccState ms, const char *path, FileType type)
 
 	assert(ms);
 
-	if (type == FILE_TYPE_UNKNOWN)
+	if (type == FILE_TYPE_UNK)
 		type = (FileType)get_file_type(path);
 
 	switch (type)

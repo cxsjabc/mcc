@@ -9,7 +9,7 @@ struct mcc_state;
 
 typedef enum file_type
 {
-	FILE_TYPE_UNKNOWN = -1,
+	FILE_TYPE_UNK = -1,
 
 	FILE_TYPE_C,
 	FILE_TYPE_HEADER,

@@ -15,12 +15,20 @@ CUR_DIR = .
 USE_MSVC = 1
 
 WIN_GEN_SRC_FILES = scripts\windows\tmp_src_files.txt
-WIN_GEN_DEPS = out\src\src.deps.d
+WIN_GEN_SRC_DEPS = out\src\src.deps.win
+WIN_GEN_TEST_DEPS = out\test\test.deps.win
+
+!IF EXISTS($(WIN_GEN_SRC_DEPS))
+!INCLUDE $(WIN_GEN_SRC_DEPS)
+!ENDIF
+
+!IF EXISTS($(WIN_GEN_TEST_DEPS))
+!INCLUDE $(WIN_GEN_TEST_DEPS)
+!ENDIF
 
 !ifdef COMSPEC
 !message "nmake is: $(MAKE)"
 !INCLUDE $(WIN_GEN_SRC_FILES)
-!INCLUDE $(WIN_GEN_DEPS)
 !else
 !message "make: $(MAKE)"
 !error "No msvc environment!"
@@ -48,7 +56,7 @@ LINK = link.exe
 AWK = awk.exe
 
 MAIN_OBJ = main.obj
-OUT_FILE = mcc.exe
+OUT_FILE = m.exe
 
 #SRCS = src\type.c
 #OBJS = src\type.obj src\args.obj
@@ -94,7 +102,7 @@ TEST_DIR = test
 # MSVC
 TEST_SRCS = test\test.c
 #TEST_OBJS = test\test.obj #$(patsubst %.c,%.obj, $(TEST_SRCS))
-TEST_OUT = mcc_test.exe
+TEST_OUT = t.exe
 
 prepare_test:
 	-@ mkdir $(BUILD_OBJ_DIR) >nul 2>nul

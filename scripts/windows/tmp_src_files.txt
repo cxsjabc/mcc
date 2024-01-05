@@ -13,6 +13,7 @@ src\lex.obj \
 src\mcc_state.obj \
 src\mem.obj \
 src\mem_buf.obj \
+src\preprocess.obj \
 src\print.obj \
 src\size.obj \
 src\string.obj \
@@ -55,6 +56,7 @@ out\src\lex.obj \
 out\src\mcc_state.obj \
 out\src\mem.obj \
 out\src\mem_buf.obj \
+out\src\preprocess.obj \
 out\src\print.obj \
 out\src\size.obj \
 out\src\string.obj \

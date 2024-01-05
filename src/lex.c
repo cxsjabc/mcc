@@ -676,14 +676,14 @@ void lex_cal_tok_type(Token t)
 
 	if (t->t.is_unsigned == 1) {
 		if (t->t.is_long == 1)
-			t->t.category = ULONG;
+			t->t.category = ULONG_T;
 		else if (t->t.is_long == 3)
-			t->t.category = ULLONG;
+			t->t.category = ULLONG_T;
 	} else {
 		if (t->t.is_long == 1)
-			t->t.category = LONG;
+			t->t.category = LONG_T;
 		else if (t->t.is_long == 3)
-			t->t.category = LLONG;
+			t->t.category = LLONG_T;
 	}
 }
 

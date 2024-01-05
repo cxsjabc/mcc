@@ -48,7 +48,7 @@ int parse_args(int argc, char *argv[], MccState ms)
 			const char *p = *argv;
 			int is_include_path = p[1] == 'I';
 			int is_lib_path = p[1] == 'L';
-			int file_type = FILE_TYPE_UNKNOWN;
+			int file_type = FILE_TYPE_UNK;
 			
 			if (is_include_path)
 				file_type = FILE_TYPE_HEADER_PATH;

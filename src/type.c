@@ -12,7 +12,7 @@
 __BEGIN_DECLS
 
 // basic types
-Type types[VOID - BOOLEAN + 1];
+Type types[VOID_T - BOOLEAN_T + 1];
 
 static const char * type_names[] = {
 	"bool",
@@ -27,28 +27,28 @@ static const char * type_names[] = {
 
 void init_types()
 {
-	TYPE_INIT(BOOLEAN);
-	TYPE_INIT(CHAR);
-	TYPE_INIT(UCHAR);
-	TYPE_INIT(SHORT);
-	TYPE_INIT(USHORT);
-	TYPE_INIT(INT);
-	TYPE_INIT(UINT);
-	TYPE_INIT(LONG);
-	TYPE_INIT(ULONG);
-	TYPE_INIT(LLONG);
-	TYPE_INIT(ULLONG);
-	TYPE_INIT(FLOAT);
-	TYPE_INIT(DOUBLE);
-	TYPE_INIT(LDOUBLE);
-	TYPE_INIT(LLDOUBLE);
-	TYPE_INIT(PTR);
-	TYPE_INIT(VOID);
+	TYPE_INIT(BOOLEAN_T);
+	TYPE_INIT(CHAR_T);
+	TYPE_INIT(UCHAR_T);
+	TYPE_INIT(SHORT_T);
+	TYPE_INIT(USHORT_T);
+	TYPE_INIT(INT_T);
+	TYPE_INIT(UINT_T);
+	TYPE_INIT(LONG_T);
+	TYPE_INIT(ULONG_T);
+	TYPE_INIT(LLONG_T);
+	TYPE_INIT(ULLONG_T);
+	TYPE_INIT(FLOAT_T);
+	TYPE_INIT(DOUBLE_T);
+	TYPE_INIT(LDOUBLE_T);
+	TYPE_INIT(LLDOUBLE_T);
+	TYPE_INIT(PTR_T);
+	TYPE_INIT(VOID_T);
 }
 
 PType get_type_info(int type)
 {
-	if (type < 0 || type > VOID) {
+	if (type < 0 || type > VOID_T) {
 		debug("type: %d\n", type);
 		return NULL;
 	}

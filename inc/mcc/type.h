@@ -4,19 +4,19 @@
 #include "mcc/mcc_base.h"
 
 enum {
-	BOOLEAN,
-	CHAR, UCHAR,
-	SHORT, USHORT,
-	INT, UINT,
-	LONG, ULONG, LLONG, ULLONG,
-	FLOAT, DOUBLE, LDOUBLE, LLDOUBLE,
-	PTR, VOID,
-	FUNC, ARRAY, UNION, STRUCT,
+	BOOLEAN_T,
+	CHAR_T, UCHAR_T,
+	SHORT_T, USHORT_T,
+	INT_T, UINT_T,
+	LONG_T, ULONG_T, LLONG_T, ULLONG_T,
+	FLOAT_T, DOUBLE_T, LDOUBLE_T, LLDOUBLE_T,
+	PTR_T, VOID_T,
+	FUNC_T, ARRAY_T, UNION_T, STRUCT_T,
 };
 
 typedef struct type
 {
-	int category; // INT or UINT or LONG ...
+	int category; // INT_T or UINT_T or LONG_T ...
 	int is_unsigned : 1;
 	int is_long : 2; // b'11 means "long long"
 	int size;   // int: 4 bytes

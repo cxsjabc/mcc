@@ -6,6 +6,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "mcc/mcc_arch.h"
 #include "mcc/error.h"
 #include "mcc/file.h"
 #include "mcc/lex.h"

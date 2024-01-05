@@ -41,7 +41,7 @@ if "%1" == "" (
 ) else if "%1" == "mcc" (
     :: generate source files
     call %WIN_GEN_SRC%
-    call %WIN_GEN_DEPS%
+    call %WIN_GEN_DEPS% src
 
     :: call msvc nmake.exe
     nmake.exe -f makefiles\Makefile.msvc.mk mcc
@@ -49,8 +49,9 @@ if "%1" == "" (
     nmake.exe -f makefiles\Makefile.msvc.mk clean
     del %OUT_DIR%\%PREVIOUS_BUILD%
 )  else if "%1" == "test" (
+    mkdir %OUT_DIR%\test
     call %WIN_GEN_SRC%
-    call %WIN_GEN_DEPS%
+    call %WIN_GEN_DEPS% src test
 
     nmake.exe -f makefiles\Makefile.msvc.mk test
 ) else if "%1" == "clean_test" (
