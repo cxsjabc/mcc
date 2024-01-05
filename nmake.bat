@@ -3,7 +3,10 @@
 
 :: vs2019 environment
 :: ^*^* You should configure the path by your computer^'s path ^*^*
-set MSVC_ENV_BAT="D:\ProgramFiles\MicrosoftVisualStudio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+:: example: set MSVC_ENV_BAT="D:\ProgramFiles\MicrosoftVisualStudio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat"
+call _local_config.bat
+
+echo "MSVC_ENV_BAT: %MSVC_ENV_BAT%"
 :: x64 or x86, default x64
 set MSVC_ARCH=x64
 
