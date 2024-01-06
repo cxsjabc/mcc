@@ -198,20 +198,22 @@ int parse_number(File f, Token *pt)
 			c = next_char(f);
 		}
 	reparse:
+		debug("parse: %c(is_unsigned: %d, is_long: %d)\n", c, t->t.is_unsigned, t->t.is_long);
 		if (c == 'u' || c == 'U') {
-			if (!t->t.is_unsigned)
+			if (t->t.is_unsigned == 0)
 				t->t.is_unsigned = 1;
 			else {
 				cerror("Multi %c character for integer.\n", c);
 				return ERR_INVALID_FORMAT;
 			}
 			c = next_char(f);
+			debug("is_unsigned: %d, is_long: %d\n", t->t.is_unsigned, t->t.is_long);
 			goto reparse;
 		} else if (c == 'l' || c == 'L') {
 			if (t->t.is_long == 0)
 				t->t.is_long = 1;
 			else if (t->t.is_long == 1) {
-				if (t->t.is_unsigned && (*(s - 1) == 'u' || *(s - 1) == 'U')) {
+				if (t->t.is_unsigned && (*(f->buf - 2) == 'u' || *(f->buf - 2) == 'U')) {
 					cerror("Wrong %c character for integer.\n", c);
 					return ERR_INVALID_FORMAT;
 				}
@@ -221,6 +223,7 @@ int parse_number(File f, Token *pt)
 				return ERR_INVALID_FORMAT;
 			}
 			c = next_char(f);
+			debug("is_unsigned: %d, is_long: %d\n", t->t.is_unsigned, t->t.is_long);
 			goto reparse;
 		} else if (is_alpha(c)) {
 			cerror("Invalid character %c for integer.\n", c);
@@ -264,6 +267,7 @@ int parse_number(File f, Token *pt)
 
 int_scan_done:
 hex_scan_done:
+	--f->buf;
 	t->len = f->buf - s;
 	lex_cal_tok_type(t);
 	t->type = TOK_LITERAL;
@@ -672,6 +676,7 @@ hex_scan_done:
 
 void lex_cal_tok_type(Token t)
 {
+	debug("is long: %d\n", t->t.is_long);
 	assert(t->t.is_long == 0 || t->t.is_long == 1 || t->t.is_long == 3);
 
 	if (t->t.is_unsigned == 1) {

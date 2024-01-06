@@ -17,8 +17,8 @@ enum {
 typedef struct type
 {
 	int category; // INT_T or UINT_T or LONG_T ...
-	int is_unsigned : 1;
-	int is_long : 2; // b'11 means "long long"
+	unsigned int is_unsigned : 1;
+	unsigned int is_long : 2; // b'11 means "long long"
 	int size;   // int: 4 bytes
 	int align;  // int: 4 bytes
 } Type, *PType;

@@ -60,7 +60,7 @@ void test_chars_from_file()
 {
 	File f;
 	int c = 0;
-	char *s = "./test/data/lex.source";
+	char *s = "./lex.source";
 	Token t;
 
 	(void)c;
@@ -81,7 +81,7 @@ void test_chars_from_file()
 	do {
 		t = next(f);
 		token_dump(t);
-		sleep(1);
+		// sleep(1);
 	} while (t != NULL);
 #endif
 	file_close(f);
