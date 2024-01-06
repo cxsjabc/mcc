@@ -269,7 +269,8 @@ int parse_number(File f, Token *pt)
 
 int_scan_done:
 hex_scan_done:
-	--f->buf;
+	if (c != EOF)
+		--f->buf;
 	t->len = f->buf - s;
 	lex_cal_tok_type(t);
 	t->type = TOK_LITERAL;
@@ -701,11 +702,15 @@ void lex_cal_tok_type(Token t)
 			t->t.category = ULONG_T;
 		else if (t->t.is_long == 3)
 			t->t.category = ULLONG_T;
+		else
+			t->t.category = UINT_T;
 	} else {
 		if (t->t.is_long == 1)
 			t->t.category = LONG_T;
 		else if (t->t.is_long == 3)
 			t->t.category = LLONG_T;
+		else
+			t->t.category = INT_T;
 	}
 }
 

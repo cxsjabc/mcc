@@ -1,6 +1,7 @@
 #define NO_DEBUG 0
 
 #include <assert.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -158,27 +159,72 @@ int verify_token(DynArray a, const char *expect_file)
 	return ret;
 }
 
-void test_chars_from_file()
+void test_chars_from_file(const char *file)
 {
-	char *s = "./test/data/lex_int_const";
+	const char *s = file; // "./test/data/lex_int_const"
+	Cstr expect_file;
 	DynArray a;
 	int r;
 
 	TEST_BEGIN;
+	expect_file = cstr_alloc(128);
+	assert(expect_file);
+	r = cstr_append(expect_file, s, strlen(s));
+	assert(r == OK);
+	r = cstr_append(expect_file, ".expect", strlen(".expect"));
+	assert(r == OK);
+
+	debug("File full path: %s, expect file: %s\n", file, expect_file->str);
 	a = parse_tokens_from_file(s);
-	r = verify_token(a, "./test/data/lex_int_const.expect");
+	r = verify_token(a, expect_file->str);
 	debug("ret: %d\n", r);
 	assert(r > 0);
 	dynamic_array_destroy(a);
 	TEST_END;
 }
 
+void test_lex_by_folder(const char *folder, const char *file_prefix)
+{
+	DIR *dir = opendir(folder);
+	struct dirent *entry;
+	Cstr path;
+	int r;
+
+	if (!dir)
+		assert("Empty directory\n");
+
+	while ((entry = readdir(dir)) != NULL) {
+		if (STR_EQL(entry->d_name, ".") || STR_EQL(entry->d_name, ".."))
+			continue;
+		if (strcmp(entry->d_name + strlen(entry->d_name) - strlen(".expect"), ".expect") == 0)
+			continue;
+		if (file_prefix != NULL) {
+			if(strstr(entry->d_name, file_prefix) != entry->d_name) {
+				continue;
+			}
+		}
+		debug("File: %s\n", entry->d_name);
+
+		path = cstr_alloc(128);
+		assert(path);
+		r = cstr_append(path, folder, strlen(folder));
+		assert(r == OK);
+		r = cstr_append(path, "/", strlen("/"));
+		assert(r == OK);
+		r = cstr_append(path, entry->d_name, strlen(entry->d_name));
+		assert(r == OK);
+
+		test_chars_from_file(path->str);
+	}
+}
+
 void test_lex()
 {
 	TEST_BEGIN;
-	//test_parse_preprocess();
+	// test_parse_preprocess();
 	// test_parse_tokens();
-	test_chars_from_file();
+	// test_chars_from_file("./test/data/lex/lex_int_const1");
+	test_lex_by_folder("./test/data/lex", NULL);
 	TEST_END;
 	return;
 }
