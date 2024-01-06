@@ -54,17 +54,17 @@ void setup_mcc_state(MccState ms)
 	ms->global_buf = init_mem_buf(4096); // default 4KB buffer
 	assert(ms->global_buf);
 
-	ms->include_paths = create_dynamic_array(32);
+	ms->include_paths = dynamic_array_create(32);
 	assert(ms->include_paths);
 	ms->include_paths->to_string = NULL;
 	
-	ms->src_files = create_dynamic_array(2);
+	ms->src_files = dynamic_array_create(2);
 	assert(ms->src_files);
 
-	ms->lib_paths = create_dynamic_array(0);
+	ms->lib_paths = dynamic_array_create(0);
 	assert(ms->lib_paths);
 
-	ms->obj_files = create_dynamic_array(0);
+	ms->obj_files = dynamic_array_create(0);
 	assert(ms->obj_files);
 }
 
@@ -72,10 +72,10 @@ void clean_mcc_state(MccState ms)
 {
 	assert(ms);
 
-	destroy_dynamic_array(ms->include_paths);
-	destroy_dynamic_array(ms->src_files);
-	destroy_dynamic_array(ms->lib_paths);
-	destroy_dynamic_array(ms->obj_files);
+	dynamic_array_destroy(ms->include_paths);
+	dynamic_array_destroy(ms->src_files);
+	dynamic_array_destroy(ms->lib_paths);
+	dynamic_array_destroy(ms->obj_files);
 }
 
 void dump_mcc_state(MccState ms)

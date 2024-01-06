@@ -22,8 +22,8 @@ typedef struct dynamic_array
 	void (*destroy)(void *);
 } *DynArray;
 
-DynArray create_dynamic_array(unsigned int size);
-void destroy_dynamic_array(DynArray arr);
+DynArray dynamic_array_create(unsigned int size);
+void dynamic_array_destroy(DynArray arr);
 
 int dynamic_array_push(DynArray arr, void *data);
 void *dynamic_array_pop(DynArray arr);

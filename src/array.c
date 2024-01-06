@@ -56,7 +56,7 @@ void dump_array(void *arr, int size)
 }
 
 // Dynamic Array
-DynArray create_dynamic_array(unsigned int size)
+DynArray dynamic_array_create(unsigned int size)
 {
 	DynArray arr;
 
@@ -83,7 +83,7 @@ DynArray create_dynamic_array(unsigned int size)
 	return arr;
 }
 
-void destroy_dynamic_array(DynArray arr)
+void dynamic_array_destroy(DynArray arr)
 {
 	int i;
 	assert(arr);

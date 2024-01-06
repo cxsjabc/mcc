@@ -84,7 +84,7 @@ void token_dump(Token t)
 {
 	Cstr str;
 	char *sub_type_name = NULL;
-	char *name;
+	const char *name;
 
 	if (!t) {
 		always("Token: NULL.\n");
@@ -106,10 +106,14 @@ void token_dump(Token t)
 	cstr_free(str);
 }
 
-char *token_get_name(Token pt)
+const char *token_get_name(Token pt)
 {
-	if (pt->type == TOK_IDENTIFIER || (pt->type >= TOK_AUTO && pt->type <= TOK_WHILE))
-		return (char *)pt->val.v.p;
+	if (pt->type == TOK_IDENTIFIER)
+		return (char *)pt->name;
+	else if (pt->type >= TOK_AUTO && pt->type <= TOK_TILDE)
+		return token_enum_to_name(pt->type);
+	else if (pt->type == TOK_LITERAL)
+		return (char *)pt->name;
 	return NULL;
 }
 
@@ -125,6 +129,14 @@ void show_all_tokens()
 			printf("\n");
 	}
 	printf("\n");
+}
+
+const char *token_get_type_name(Token t)
+{
+	int cate;
+
+	cate = t->t.category;
+	return get_type_names(cate);
 }
 
 __END_DECLS

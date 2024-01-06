@@ -30,7 +30,7 @@ int preprocess(const char *file, const char *prog)
 
 #if defined(_WINDOWS) || defined(_MSC_VER) // Windows (if clang or gcc on Windows are also available)
 	char *pp_file = alloc_preprocessed_file_name(file);
-	arr = create_dynamic_array(4);
+	arr = dynamic_array_create(4);
 	assert(arr);
 	dynamic_array_push(arr, (void *)prog);
 #if defined(_MSC_VER) && !defined(__clang__) // Windows clang-16 also defines _MSC_VER, ignore it!
@@ -68,7 +68,7 @@ int preprocess(const char *file, const char *prog)
 	r = spawnvp(_P_WAIT, prog, (const char *const *)argv);
 #endif
 #endif
-	destroy_dynamic_array(arr);
+	dynamic_array_destroy(arr);
 #elif defined(__GNUC__) // *nix: Ubuntu or clang
 	pid_t p;
 	int status;
@@ -82,7 +82,7 @@ int preprocess(const char *file, const char *prog)
 		char *pp_file = alloc_preprocessed_file_name(file);
 		debug("child starting...\n");
 
-		arr = create_dynamic_array(4);
+		arr = dynamic_array_create(4);
 		assert(arr);
 		dynamic_array_push(arr, (void *)exec_path);
 		dynamic_array_push(arr, (void *)"-E");
@@ -102,7 +102,7 @@ int preprocess(const char *file, const char *prog)
 		r = execvp(exec_path, argv);
 		if (r == -1) {
 			error("Execv child failed: %d, errno: %d\n", r, errno);
-			destroy_dynamic_array(arr);
+			dynamic_array_destroy(arr);
 		}
 		else
 			error("Child never execute here\n");

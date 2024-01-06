@@ -25,7 +25,7 @@ void test_int_array()
 	buf = init_mem_buf(0);
 	assert(buf);
 
-	arr = create_dynamic_array(2);
+	arr = dynamic_array_create(2);
 	assert(arr);
 
 	//arr->compare = strcmp;
@@ -44,7 +44,7 @@ void test_int_array()
 
 	dump_dynamic_array(arr);
 
-	destroy_dynamic_array(arr);
+	dynamic_array_destroy(arr);
 }
 
 char *char_str_to_string(void *data)
@@ -63,7 +63,7 @@ void test_str_array()
 	buf = init_mem_buf(0);
 	assert(buf);
 
-	arr = create_dynamic_array(2);
+	arr = dynamic_array_create(2);
 	assert(arr);
 
 	//arr->compare = strcmp;
@@ -82,7 +82,7 @@ void test_str_array()
 
 	dump_dynamic_array(arr);
 
-	destroy_dynamic_array(arr);
+	dynamic_array_destroy(arr);
 	// dump_dynamic_array(arr);
 }
 

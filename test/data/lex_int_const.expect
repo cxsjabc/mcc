@@ -1,0 +1,5 @@
+int
+ID i 1
+=
+LITERAL NumberConst 10ull 5 ulonglong
+;

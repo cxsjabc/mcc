@@ -117,7 +117,7 @@ void cstr_show(Cstr p)
 	always("Cstr(%p): %s, len: %d, maxlen: %d\n", p, p->str ? p->str : "NULL", p->len, p->maxlen);
 }
 
-void str_dump_with_len(char *str, int len, const char *prefix)
+void str_dump_with_len(const char *str, int len, const char *prefix)
 {
 	int i;
 
@@ -181,6 +181,23 @@ void str_skip_blanks(char **pp)
 	while (is_whitespace(*s))
 		++s;
 	*pp = s;
+}
+
+int str_compare_ignore_postfix_whitespace(const char *s1, const char *s2)
+{
+	while (*s1 && *s2) {
+		if (*s1 < *s2)
+			return -1;
+		else if (*s1 > *s2)
+			return 1;
+		else
+			++s1, ++s2;
+	}
+
+	if (is_whitespace(*s1) || is_whitespace(*s2))
+		return 0;
+	else
+		return *s1 < *s2 ? -1 : 1;
 }
 
 char *mcc_strdup(char *s, int len)

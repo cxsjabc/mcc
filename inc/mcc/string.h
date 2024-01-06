@@ -25,7 +25,7 @@ int cstr_maxlen(Cstr str);
 
 void cstr_show(Cstr p);
 
-void str_dump_with_len(char *str, int len, const char *prefix);
+void str_dump_with_len(const char *str, int len, const char *prefix);
 
 void str_replace_with(char *s, const char orig, const char dest);
 int str_get_until_char(const char *s, char **pstart, char delim);
@@ -33,6 +33,8 @@ int str_get_until_char(const char *s, char **pstart, char delim);
 int str_copy_ignore_ch(char *d, const char *s, const int size, const char ignore);
 
 void str_skip_blanks(char **pp);
+
+int str_compare_ignore_postfix_whitespace(const char *s1, const char *s2);
 
 char *mcc_strdup(char *s, int len);
 

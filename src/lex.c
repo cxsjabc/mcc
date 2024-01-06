@@ -158,6 +158,7 @@ int parse_identifier(File f, Token *ppt)
 	memcpy(data, b, pt->len);
 	data[pt->len] = '\0';
 	pt->val.v.p = data;
+	pt->name = data;
 	*ppt = pt;
 	debug("Identifier/Keyword \"%s\", len: %d\n", (char *)pt->val.v.p, pt->len);
 	LHD;
@@ -172,6 +173,7 @@ int parse_number(File f, Token *pt)
 	int base = 10;
 	unsigned long long v = 0ULL;
 	char c;
+	char *data;
 
 	assert(sizeof(t->val.v.i) >= sizeof(v));
 	c = next_char(f);
@@ -273,6 +275,13 @@ hex_scan_done:
 	t->type = TOK_LITERAL;
 	t->sub_type = TK_SUB_TYPE_NUMBER | TK_SUB_TYPE_CONSTANT;
 	t->val.v.i = (uint64_t)v;
+
+	data = allocm(t->len + 1);
+	assert(data);
+	memcpy(data, s, t->len);
+	data[t->len] = '\0';
+	t->name = data;
+
 	*pt = t;
 	debug("Number \"%ld\", len: %d\n", t->val.v.i, t->len);
 	LHD;
@@ -285,6 +294,7 @@ int parse_other_token(File f, Token *pt)
 	int tok;
 	int c;
 	char *s = f->buf - 1;
+	char *data;
 
 	LHD;
 	t = token_alloc();
@@ -421,6 +431,13 @@ int parse_other_token(File f, Token *pt)
 
 	t->len = f->buf - s; // TODO
 	t->type = tok;
+
+	data = allocm(t->len + 1);
+	assert(data);
+	memcpy(data, s, t->len);
+	data[t->len] = '\0';
+	t->name = data;
+
 	*pt = t;
 	debug("Token \"%s(%d)\", len: %d\n", token_enum_to_name(tok), tok, t->len);
 

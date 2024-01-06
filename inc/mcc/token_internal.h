@@ -38,12 +38,6 @@ DEF_TOK(TOK_VOID, "void")
 DEF_TOK(TOK_VOLATILE, "volatile")
 DEF_TOK(TOK_WHILE, "while")
 
-// literal number or string
-DEF_TOK(TOK_LITERAL, "")
-
-// identifiers
-DEF_TOK(TOK_IDENTIFIER, "identifier")
-
 // preprocess token
 DEF_TOK(TOK_PREP, "#")
 DEF_TOK(TOK_INCLUDE, "include")
@@ -78,6 +72,12 @@ DEF_TOK(TOK_LBRACE, "{")
 DEF_TOK(TOK_OR, "|")
 DEF_TOK(TOK_RBRACE, "}")
 DEF_TOK(TOK_TILDE, "~")
+
+// literal number or string
+DEF_TOK(TOK_LITERAL, "LITERAL")
+
+// identifiers
+DEF_TOK(TOK_IDENTIFIER, "ID")
 
 // End of File
 DEF_TOK(TOK_EOF, "EOF")

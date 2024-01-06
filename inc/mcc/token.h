@@ -53,6 +53,7 @@ typedef struct token
 
 	unsigned int len; // the token's length
 	struct token_value val;
+	char *name;
 } *Token;
 
 #define APPEND_TYPE(pt, sub_type) ((pt)->sub_type |= (sub_type))
@@ -70,9 +71,11 @@ void token_dump(Token pt);
 const char *token_enum_to_name(Token_enum t);
 Cstr token_sub_type_enum_to_name(Token_sub_type sub_type);
 
-char *token_get_name(Token pt);
+const char *token_get_name(Token pt);
 
 void show_all_tokens();
+
+const char *token_get_type_name(Token t);
 
 __END_DECLS
 
