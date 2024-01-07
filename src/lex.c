@@ -109,6 +109,8 @@ Token next(File f)
 		r = parse_identifier(f, &pt);
 	else if (is_digit(c))
 		r = parse_number(f, &pt);
+	else if (c == '"')
+		r = parse_string(f, &pt);
 	else
 		r = parse_other_token(f, &pt);
 
@@ -147,7 +149,9 @@ int parse_identifier(File f, Token *ppt)
 		c = next_char(f);
 	}
 
-	pt->len = f->buf - 1 - s;
+	if (c != EOF)
+		--f->buf;
+	pt->len = f->buf - s;
 	if ((tok = is_keyword_with_len(b, pt->len)))
 		pt->type = tok;
 	else {
@@ -285,6 +289,70 @@ hex_scan_done:
 
 	*pt = t;
 	debug("Number \"%ld\", len: %d\n", t->val.v.i, t->len);
+	LHD;
+	return OK;
+}
+
+int parse_string(File f, Token *ppt)
+{
+	Token pt = *ppt;
+	char *s = f->buf - 1;
+	char *b = s;
+	int c;
+	char *data;
+	Cstr rs; // real string
+	int r;
+
+	LHD;
+	pt = token_alloc();
+	assert(pt);
+	LHD;
+	rs = cstr_alloc(1);
+	assert(rs);
+
+	c = next_char(f);
+	while (c != '\"') {
+		if ( c == '\\') {
+			c = next_char(f);
+			if (c == EOF) {
+				cerror("Unterminated string.\n");
+				return ERR_INVALID_FORMAT;
+			}
+			if (c == 'n')
+				c = '\n';
+			else if (c == '\\')
+				c = '\\';
+			else {
+				cerror("Invalid escape sequence \\%c.\n", c);
+				return ERR_INVALID_FORMAT;
+			}
+			r = cstr_append_ch(rs, c);
+			assert(r == OK);
+		} else {
+			r = cstr_append(rs, f->buf - 1, 1);
+			assert(r == OK);
+		}
+		c = next_char(f);
+	}
+	if (c != '\"') {
+		cerror("Unterminated string.\n");
+		return ERR_INVALID_FORMAT;
+	}
+
+	pt->len = f->buf - s;
+	pt->type = TOK_LITERAL;
+	pt->sub_type = TK_SUB_TYPE_STRING;
+
+	data = allocm(pt->len + 1);
+	assert(data);
+	memcpy(data, b, pt->len);
+	data[pt->len] = '\0';
+	pt->val.v.p = rs->str;
+	pt->name = data;
+
+	*ppt = pt;
+	debug("String \"%s\", len: %d\n", (char *)pt->name, pt->len);
+	str_dump_decimal_with_len(rs->str, rs->len, "\tDump string: ");
 	LHD;
 	return OK;
 }
@@ -430,6 +498,8 @@ int parse_other_token(File f, Token *pt)
 		break;
 	}
 
+	if (c != EOF)
+		--f->buf;
 	t->len = f->buf - s; // TODO
 	t->type = tok;
 

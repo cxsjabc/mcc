@@ -223,8 +223,9 @@ void test_lex()
 	TEST_BEGIN;
 	// test_parse_preprocess();
 	// test_parse_tokens();
-	// test_chars_from_file("./test/data/lex/lex_int_const1");
-	test_lex_by_folder("./test/data/lex", NULL);
+
+	test_chars_from_file("./test/data/lex/lex_string");
+	// test_lex_by_folder("./test/data/lex", NULL);
 	TEST_END;
 	return;
 }

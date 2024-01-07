@@ -19,6 +19,7 @@ int next_char(File f);
 Token next(File f);
 int parse_identifier(File f, Token *pt);
 int parse_number(File f, Token *pt);
+int parse_string(File f, Token *ppt);
 int parse_other_token(File f, Token *pt);
 int skip_blanks(File f);
 

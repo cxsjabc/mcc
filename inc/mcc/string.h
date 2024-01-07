@@ -15,6 +15,7 @@ __BEGIN_DECLS
 Cstr cstr_alloc(const int maxlen);
 int cstr_init(Cstr p, const char *src, int len);
 int cstr_append(Cstr p, const char *src, int len);
+int cstr_append_ch(Cstr p, const char c);
 void cstr_free(Cstr str);
 
 Cstr cstr_alloc_with(const char *src, int len);
@@ -26,6 +27,7 @@ int cstr_maxlen(Cstr str);
 void cstr_show(Cstr p);
 
 void str_dump_with_len(const char *str, int len, const char *prefix);
+void str_dump_decimal_with_len(const char *str, int len, const char *prefix);
 
 void str_replace_with(char *s, const char orig, const char dest);
 int str_get_until_char(const char *s, char **pstart, char delim);

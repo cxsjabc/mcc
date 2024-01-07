@@ -102,6 +102,29 @@ int cstr_append(Cstr p, const char *src, int len)
 	return OK;
 }
 
+int cstr_append_ch(Cstr p, const char c)
+{
+	int new_len;
+
+	if (!p)
+		fatal("passing NULL parameter or length <= 0.\n");
+
+	new_len = p->len + 1;
+	if (new_len + 1 > p->maxlen) {
+		char *rs = (char *)mcc_realloc(p->str, new_len + 1);
+		if (!rs) {
+			error("No enough memory!\n");
+			return ERR_NO_MEM;
+		}
+		p->str = rs;
+	}
+
+	p->str[p->len] = c;
+	p->str[new_len] = '\0';
+	p->len = new_len;
+	return OK;
+}
+
 int cstr_len(Cstr str)
 {
 	return str->len;
@@ -124,6 +147,15 @@ void str_dump_with_len(const char *str, int len, const char *prefix)
 	always("%s", prefix);
 	for (i = 0; i < len; i++)
 		always("%c", str[i]);
+}
+
+void str_dump_decimal_with_len(const char *str, int len, const char *prefix)
+{
+	int i;
+
+	always("%s", prefix);
+	for (i = 0; i < len; i++)
+		always("%d ", str[i]);
 }
 
 void str_replace_with(char *s, const char orig, const char dest)
