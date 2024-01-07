@@ -159,7 +159,7 @@ int verify_token(DynArray a, const char *expect_file)
 	return ret;
 }
 
-void test_chars_from_file(const char *file)
+void test_lex_from_file(const char *file)
 {
 	const char *s = file; // "./test/data/lex_int_const"
 	Cstr expect_file;
@@ -214,7 +214,7 @@ void test_lex_by_folder(const char *folder, const char *file_prefix)
 		r = cstr_append(path, entry->d_name, strlen(entry->d_name));
 		assert(r == OK);
 
-		test_chars_from_file(path->str);
+		test_lex_from_file(path->str);
 	}
 }
 
@@ -224,7 +224,7 @@ void test_lex()
 	// test_parse_preprocess();
 	// test_parse_tokens();
 
-	test_chars_from_file("./test/data/lex/lex_string");
+	test_lex_from_file("./test/data/lex/lex_string");
 	// test_lex_by_folder("./test/data/lex", NULL);
 	TEST_END;
 	return;
