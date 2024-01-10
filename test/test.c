@@ -91,6 +91,10 @@ int main(int argc, char *argv[])
 	test_type();
 #endif
 
+#if ENABLE_TEST_STACK
+	test_stack();
+#endif
+
 	test_postprocessing();
 
 	always("Test end.\n");
