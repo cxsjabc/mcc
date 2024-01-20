@@ -31,7 +31,7 @@
 #define LOG_INFO(...)   do { if (LOG_LEVEL <= LOG_LEVEL_INFO)  { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
 #define LOG_WARN(...)   do { if (LOG_LEVEL <= LOG_LEVEL_WARN)  { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
 #define LOG_ERROR(...)  do { if (LOG_LEVEL <= LOG_LEVEL_ERROR) { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
-#define LOG_FATAL(...)  do { if (LOG_LEVEL <= LOG_LEVEL_FATAL) { if (!NO_LOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); abort(); } } while(0)
+#define LOG_FATAL(...)  do { if (LOG_LEVEL <= LOG_LEVEL_FATAL) { LOG_FILE_LINE; log_print(__VA_ARGS__); abort(); } } while(0)
 
 #define LOG_LEVEL   LOG_LEVEL_DEBUG
 

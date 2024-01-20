@@ -15,6 +15,7 @@ enum
 	ERR_INVALID_FORMAT = -5,
 	ERR_INVALID_PARAM = -6,
 	ERR_EMPTY_PARAM = -7,
+	ERR_EXIST = -8,
 };
 
 #define TRUE 1

@@ -35,7 +35,7 @@ int token_hash_insert(Token t)
 	while (ht) {
 		if (ht->name && strcmp(ht->name, s) == 0) {
 			info("Already exists in hash table[%d]: %s\n", index, ht->name);
-			return OK;
+			return ERR_EXIST;
 		}
 		ht = ht->next;
 	}

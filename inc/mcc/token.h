@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#include "mcc/array.h"
 #include "mcc/mcc_base.h"
 #include "mcc/string.h"
 #include "mcc/type.h"
@@ -55,7 +56,10 @@ typedef struct token
 	struct token_value val;
 	char *name;
 
+	int tk_index;
 	struct token *next;
+
+	struct sym *identifier; // links to the identifier
 } *Token;
 
 #define APPEND_TYPE(pt, sub_type) ((pt)->sub_type |= (sub_type))
@@ -64,8 +68,12 @@ typedef struct token
 __BEGIN_DECLS
 
 Token token_alloc();
+
 void token_set_pointer(Token pt, void *p);
 void token_set_str(Token pt, char *s);
+int token_hash_arr_update(Token t, DynArray tok_arr);
+const char *token_get_name_by_index(int tok_index);
+
 void token_free();
 
 void token_dump(Token pt);

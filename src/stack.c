@@ -56,9 +56,11 @@ void stack_destroy(Stack st)
 int stack_push(Stack st, void *data)
 {
 	if (st->size == st->capacity) {
-		void **new_data = (void **)mcc_realloc(st->data, sizeof(void *) * (st->capacity * 2));
+		size_t orig_size = sizeof(void *) * st->capacity;
+		size_t new_size = orig_size << 1;
+		void **new_data = (void **)mcc_realloc_safe(st->data, orig_size, new_size);
 		if (!new_data)
-			return 0;
+			fatal("No enough memory, crash!\n");
 
 		st->data = new_data;
 		st->capacity *= 2;
@@ -73,6 +75,13 @@ void *stack_pop(Stack st)
 	if (st->size < 1)
 		return NULL;
 	return st->data[--st->size];
+}
+
+void *stack_top(Stack st)
+{
+	if (st->size < 1)
+		return NULL;
+	return st->data[st->size - 1];
 }
 
 inline int stack_is_empty(Stack st)

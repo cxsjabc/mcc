@@ -7,6 +7,8 @@
 
 __BEGIN_DECLS
 
+extern DynArray TokenArray;
+
 Token str_next_token(char **s);
 
 int str_parse_identifier(char **ps, Token *pt);

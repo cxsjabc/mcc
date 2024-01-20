@@ -19,19 +19,20 @@ typedef struct stack
 } *Stack;
 
 Stack stack_create(unsigned int size);
-void stack_destroy(Stack arr);
+void stack_destroy(Stack st);
 
-int stack_push(Stack arr, void *data);
-void *stack_pop(Stack arr);
+int stack_push(Stack st, void *data);
+void *stack_pop(Stack st);
+void *stack_top(Stack st);
 
-int stack_is_empty(Stack arr);
-int stack_size(Stack arr);
+int stack_is_empty(Stack st);
+int stack_size(Stack st);
 
-void *stack_get(Stack arr, int index);
-void *stack_set(Stack arr, int index, void *data);
-int is_stack_equal(Stack arr, Stack expect_arr);
+void *stack_get(Stack st, int index);
+void *stack_set(Stack st, int index, void *data);
+int is_stack_equal(Stack st, Stack expect_arr);
 
-void dump_stack(Stack arr);
+void dump_stack(Stack st);
 
 __END_DECLS
 

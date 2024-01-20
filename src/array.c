@@ -104,7 +104,9 @@ void dynamic_array_destroy(DynArray arr)
 int dynamic_array_push(DynArray arr, void *data)
 {
 	if (arr->size == arr->capacity) {
-		void **new_data = (void **)mcc_realloc(arr->data, sizeof(void *) * (arr->capacity * 2));
+		size_t orig_size = sizeof(void *) * arr->capacity;
+		size_t new_size = orig_size << 1;
+		void **new_data = (void **)mcc_realloc_safe(arr->data, orig_size, new_size);
 		if (!new_data) {
 			fatal("No enough memory, crash!\n");
 			return ERR_NO_MEM;
@@ -115,7 +117,7 @@ int dynamic_array_push(DynArray arr, void *data)
 	}
 
 	arr->data[arr->size++] = data;
-	return 1;
+	return OK;
 }
 
 void *dynamic_array_pop(DynArray arr)

@@ -6,8 +6,11 @@
 #include "mcc/size.h"
 #include "mcc/string.h"
 #include "mcc/token.h"
+#include "mcc/token_hash.h"
 
 __BEGIN_DECLS
+
+extern DynArray TokenArray;
 
 const char *TokenNames[] =
 {
@@ -72,6 +75,28 @@ void token_set_str(Token pt, char *s)
 {
 	token_set_pointer(pt, s);
 	pt->sub_type |= TK_SUB_TYPE_STRING;
+}
+
+int token_hash_arr_update(Token t, DynArray tok_arr)
+{
+	int r;
+
+	r = token_hash_insert(t);
+	if (r != OK && r != ERR_EXIST)
+		return ERR_FAIL;
+	if (r != ERR_EXIST) {
+		dynamic_array_push(tok_arr, t);
+		t->tk_index = dynamic_array_size(tok_arr) - 1;
+	}
+	return r;
+}
+
+const char *token_get_name_by_index(int tok_index)
+{
+	Token t;
+
+	t = (Token)dynamic_array_get(TokenArray, tok_index);
+	return t->name;
 }
 
 void token_free()

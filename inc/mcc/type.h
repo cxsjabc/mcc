@@ -3,6 +3,8 @@
 
 #include "mcc/mcc_base.h"
 
+struct sym;
+
 enum {
 	BOOLEAN_T,
 	CHAR_T, UCHAR_T,
@@ -22,6 +24,8 @@ typedef struct type
 	unsigned int is_long : 2; // b'11 means "long long"
 	int size;   // int: 4 bytes
 	int align;  // int: 4 bytes
+
+	struct sym *sym; // used for pointer types...
 } Type, *PType;
 
 __BEGIN_DECLS

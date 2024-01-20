@@ -158,19 +158,19 @@ int skip_blanks(File f)
 	return c;
 }
 
-int parse_identifier(File f, Token *ppt)
+int parse_identifier(File f, Token *pt)
 {
-	Token pt = *ppt;
+	Token t = *pt;
 	char *s = f->buf - 1;
 	char *b = s;
 	int tok;
 	int c;
 	char *data;
-	int r;
+	int r = OK;
 
 	LHD;
-	pt = token_alloc();
-	assert(pt);
+	t = token_alloc();
+	assert(t);
 	LHD;
 	c = next_char(f);
 	while (is_id(c)) {
@@ -179,28 +179,23 @@ int parse_identifier(File f, Token *ppt)
 
 	if (c != EOF)
 		--f->buf;
-	pt->len = f->buf - s;
-	if ((tok = is_keyword_with_len(b, pt->len)))
-		pt->type = tok;
+	t->len = f->buf - s;
+	if ((tok = is_keyword_with_len(b, t->len)))
+		t->type = tok;
 	else {
-		pt->type = TOK_IDENTIFIER;
+		t->type = TOK_IDENTIFIER;
 	}
-	data = allocm(pt->len + 1);
+	data = allocm(t->len + 1);
 	assert(data);
-	memcpy(data, b, pt->len);
-	data[pt->len] = '\0';
-	pt->val.v.p = data;
-	pt->name = data;
-	*ppt = pt;
-	debug("Identifier/Keyword \"%s\", len: %d\n", (char *)pt->val.v.p, pt->len);
+	memcpy(data, b, t->len);
+	data[t->len] = '\0';
+	t->val.v.p = data;
+	t->name = data;
+	*pt = t;
+	debug("Identifier/Keyword \"%s\", len: %d\n", (char *)t->val.v.p, t->len);
 
-	// Add to token hash table
-	r = token_hash_insert(pt);
-	if (r != OK)
-		return ERR_FAIL;
-	dynamic_array_push(TokenArray, pt);
-	LHD;
-	return OK;
+	r = token_hash_arr_update(t, TokenArray);
+	return r;
 }
 
 int parse_number(File f, Token *pt)
@@ -327,16 +322,13 @@ hex_scan_done:
 	LHD;
 
 	// Add to token hash table
-	r = token_hash_insert(t);
-	if (r != OK)
-		return ERR_FAIL;
-	dynamic_array_push(TokenArray, t);
-	return OK;
+	r = token_hash_arr_update(t, TokenArray);
+	return r;
 }
 
-int parse_string(File f, Token *ppt)
+int parse_string(File f, Token *pt)
 {
-	Token pt = *ppt;
+	Token t = *pt;
 	char *s = f->buf - 1;
 	char *b = s;
 	int c;
@@ -345,8 +337,8 @@ int parse_string(File f, Token *ppt)
 	int r;
 
 	LHD;
-	pt = token_alloc();
-	assert(pt);
+	t = token_alloc();
+	assert(t);
 	LHD;
 	rs = cstr_alloc(1);
 	assert(rs);
@@ -380,29 +372,25 @@ int parse_string(File f, Token *ppt)
 		return ERR_INVALID_FORMAT;
 	}
 
-	pt->len = f->buf - s;
-	pt->type = TOK_LITERAL;
-	pt->sub_type = TK_SUB_TYPE_STRING;
+	t->len = f->buf - s;
+	t->type = TOK_LITERAL;
+	t->sub_type = TK_SUB_TYPE_STRING;
 
-	data = allocm(pt->len + 1);
+	data = allocm(t->len + 1);
 	assert(data);
-	memcpy(data, b, pt->len);
-	data[pt->len] = '\0';
-	pt->val.v.p = rs->str;
-	pt->name = data;  // i.e. name: "hello\n", val.v.p: "hello\0xA"
-	pt->t.category = STR_T;
+	memcpy(data, b, t->len);
+	data[t->len] = '\0';
+	t->val.v.p = rs->str;
+	t->name = data;  // i.e. name: "hello\n", val.v.p: "hello\0xA"
+	t->t.category = STR_T;
 
-	*ppt = pt;
-	debug("String \"%s\", len: %d\n", (char *)pt->name, pt->len);
+	*pt = t;
+	debug("String \"%s\", len: %d\n", (char *)t->name, t->len);
 	str_dump_decimal_with_len(rs->str, rs->len, "\tDump string: ");
 
 	// Add to token hash table
-	r = token_hash_insert(pt);
-	if (r != OK)
-		return ERR_FAIL;
-	dynamic_array_push(TokenArray, pt);
-	LHD;
-	return OK;
+	r = token_hash_arr_update(t, TokenArray);
+	return r;
 }
 
 int parse_other_token(File f, Token *pt)
@@ -561,11 +549,8 @@ int parse_other_token(File f, Token *pt)
 	debug("Token \"%s(%d)\", len: %d\n", token_enum_to_name(tok), tok, t->len);
 
 	// Add to token hash table
-	r = token_hash_insert(t);
-	if (r != OK)
-		return ERR_FAIL;
-	dynamic_array_push(TokenArray, t);
-	return OK;
+	r = token_hash_arr_update(t, TokenArray);
+	return r;
 }
 
 int str_parse_other_token(char **ps, Token *pt)
