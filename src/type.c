@@ -23,6 +23,7 @@ static const char * type_names[] = {
 	"float", "double", "ldouble", "lldouble",
 	"pointer", "void",
 	"function", "array", "union","struct",
+	"string",
 };
 
 void init_types()

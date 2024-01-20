@@ -1,0 +1,10 @@
+ID printf 6
+(
+LITERAL String "Hello,mcc!\n" 14 string
+)
+;
+ID printf 6
+(
+LITERAL String "hello,cat" 11 string
+)
+;

@@ -156,6 +156,7 @@ void str_dump_decimal_with_len(const char *str, int len, const char *prefix)
 	always("%s", prefix);
 	for (i = 0; i < len; i++)
 		always("%d ", str[i]);
+	always("\n");
 }
 
 void str_replace_with(char *s, const char orig, const char dest)

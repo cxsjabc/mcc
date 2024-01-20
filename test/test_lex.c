@@ -1,4 +1,4 @@
-#define NO_DEBUG 0
+#define NO_DEBUG 1
 
 #include <assert.h>
 #include <dirent.h>
@@ -15,6 +15,7 @@
 #include "mcc/mcc_arch.h"
 #include "mcc/string.h"
 #include "mcc/token.h"
+#include "mcc/token_hash.h"
 
 #include "test.h"
 
@@ -115,9 +116,9 @@ int verify_token(DynArray a, const char *expect_file)
 			break;
 		}
 		
-		always("Read line: |%s|\n", buf);
+		debug("Read line: |%s|\n", buf);
 		token_get_name(t);
-		always("Token name: |%s|\n", t->name);
+		debug("Token name: |%s|\n", t->name);
 		if (t->type >= TOK_AUTO && t->type <= TOK_TILDE) {
 			char name[128];
 			sscanf(buf, "%s", name);
@@ -179,6 +180,8 @@ void test_lex_from_file(const char *file)
 	r = verify_token(a, expect_file->str);
 	debug("ret: %d\n", r);
 	assert(r > 0);
+
+	token_hash_dump(-1);
 	dynamic_array_destroy(a);
 	TEST_END;
 }

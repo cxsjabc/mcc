@@ -11,14 +11,14 @@
 #define ENABLE_TEST_HASH 0
 #define ENABLE_TEST_ID 0
 #define ENABLE_TEST_KEYWORD 0
-#define ENABLE_TEST_LEX 0
+#define ENABLE_TEST_LEX 1
 #define ENABLE_TEST_MCC_STATE 0
 #define ENABLE_TEST_MEM_BUF 0
 #define ENABLE_TEST_SIZE 0
 #define ENABLE_TEST_STRING 0
 #define ENABLE_TEST_TOKEN 0
 #define ENABLE_TEST_TYPE 0
-#define ENABLE_TEST_STACK 1
+#define ENABLE_TEST_STACK 0
 
 #define TEST_BEGIN always("Test %s begin.\n", __func__)
 #define TEST_END always("Test %s end.\n", __func__)

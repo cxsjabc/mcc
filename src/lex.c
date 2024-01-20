@@ -1,3 +1,5 @@
+#define NO_DEBUG 1
+
 #include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -12,6 +14,7 @@
 #include "mcc/mem.h"
 #include "mcc/preprocess.h"
 #include "mcc/string.h"
+#include "mcc/token_hash.h"
 
 __BEGIN_DECLS
 
@@ -139,6 +142,7 @@ int parse_identifier(File f, Token *ppt)
 	int tok;
 	int c;
 	char *data;
+	int r;
 
 	LHD;
 	pt = token_alloc();
@@ -165,6 +169,11 @@ int parse_identifier(File f, Token *ppt)
 	pt->name = data;
 	*ppt = pt;
 	debug("Identifier/Keyword \"%s\", len: %d\n", (char *)pt->val.v.p, pt->len);
+
+	// Add to token hash table
+	r = token_hash_insert(pt);
+	if (r != OK)
+		return ERR_FAIL;
 	LHD;
 	return OK;
 }
@@ -178,6 +187,7 @@ int parse_number(File f, Token *pt)
 	unsigned long long v = 0ULL;
 	char c;
 	char *data;
+	int r;
 
 	assert(sizeof(t->val.v.i) >= sizeof(v));
 	c = next_char(f);
@@ -290,6 +300,11 @@ hex_scan_done:
 	*pt = t;
 	debug("Number \"%ld\", len: %d\n", t->val.v.i, t->len);
 	LHD;
+
+	// Add to token hash table
+	r = token_hash_insert(t);
+	if (r != OK)
+		return ERR_FAIL;
 	return OK;
 }
 
@@ -348,11 +363,17 @@ int parse_string(File f, Token *ppt)
 	memcpy(data, b, pt->len);
 	data[pt->len] = '\0';
 	pt->val.v.p = rs->str;
-	pt->name = data;
+	pt->name = data;  // i.e. name: "hello\n", val.v.p: "hello\0xA"
+	pt->t.category = STR_T;
 
 	*ppt = pt;
 	debug("String \"%s\", len: %d\n", (char *)pt->name, pt->len);
 	str_dump_decimal_with_len(rs->str, rs->len, "\tDump string: ");
+
+	// Add to token hash table
+	r = token_hash_insert(pt);
+	if (r != OK)
+		return ERR_FAIL;
 	LHD;
 	return OK;
 }
@@ -361,7 +382,7 @@ int parse_other_token(File f, Token *pt)
 {
 	Token t = *pt;
 	int tok;
-	int c;
+	int c, r;
 	char *s = f->buf - 1;
 	char *data;
 
@@ -512,6 +533,10 @@ int parse_other_token(File f, Token *pt)
 	*pt = t;
 	debug("Token \"%s(%d)\", len: %d\n", token_enum_to_name(tok), tok, t->len);
 
+	// Add to token hash table
+	r = token_hash_insert(t);
+	if (r != OK)
+		return ERR_FAIL;
 	return OK;
 }
 

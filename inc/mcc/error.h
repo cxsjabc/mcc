@@ -13,6 +13,8 @@ enum
 	ERR_UNKNOWN = -3,
 	ERR_FORK = -4,
 	ERR_INVALID_FORMAT = -5,
+	ERR_INVALID_PARAM = -6,
+	ERR_EMPTY_PARAM = -7,
 };
 
 #define TRUE 1

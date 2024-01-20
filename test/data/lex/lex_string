@@ -1,7 +1,2 @@
-#include <stdio.h>
-
-int main()
-{
-	printf("Hello, mcc!\n");
-	return 0;
-}
+printf("Hello,mcc!\n");
+printf("hello,cat");

@@ -54,6 +54,8 @@ typedef struct token
 	unsigned int len; // the token's length
 	struct token_value val;
 	char *name;
+
+	struct token *next;
 } *Token;
 
 #define APPEND_TYPE(pt, sub_type) ((pt)->sub_type |= (sub_type))

@@ -43,5 +43,6 @@ char *mcc_strdup(char *s, int len);
 __END_DECLS
 
 #define STR_EQL(s1, s2) (strcmp((s1), (s2)) == 0)
+#define STR_EMPTY(s) ((s) == NULL || (s)[0] == '\0')
 
 #endif

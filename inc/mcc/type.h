@@ -12,6 +12,7 @@ enum {
 	FLOAT_T, DOUBLE_T, LDOUBLE_T, LLDOUBLE_T,
 	PTR_T, VOID_T,
 	FUNC_T, ARRAY_T, UNION_T, STRUCT_T,
+	STR_T,
 };
 
 typedef struct type
