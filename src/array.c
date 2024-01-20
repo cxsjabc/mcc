@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "mcc/array.h"
+#include "mcc/error.h"
 #include "mcc/log.h"
 #include "mcc/mem.h"
 #include "mcc/print.h"
@@ -104,8 +105,10 @@ int dynamic_array_push(DynArray arr, void *data)
 {
 	if (arr->size == arr->capacity) {
 		void **new_data = (void **)mcc_realloc(arr->data, sizeof(void *) * (arr->capacity * 2));
-		if (!new_data)
-			return 0;
+		if (!new_data) {
+			fatal("No enough memory, crash!\n");
+			return ERR_NO_MEM;
+		}
 
 		arr->data = new_data;
 		arr->capacity *= 2;
@@ -166,7 +169,7 @@ int is_dynamic_array_equal(DynArray arr, DynArray expect_arr)
 	return 1;
 }
 
-void dump_dynamic_array(DynArray arr)
+void dynamic_array_dump(DynArray arr)
 {
 	int i;
 

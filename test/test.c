@@ -4,6 +4,7 @@
 
 #include "mcc/env.h"
 #include "mcc/id.h"
+#include "mcc/lex.h"
 #include "mcc/log.h"
 #include "mcc/mem_buf.h"
 #include "test.h"
@@ -18,6 +19,7 @@ void test_prepare()
 	setup_global_mem_buf();
 
 	init_char_type_table();
+	lex_init();
 }
 
 void test_postprocessing()

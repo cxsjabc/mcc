@@ -14,9 +14,33 @@
 #include "mcc/mem.h"
 #include "mcc/preprocess.h"
 #include "mcc/string.h"
+#include "mcc/token.h"
 #include "mcc/token_hash.h"
 
 __BEGIN_DECLS
+
+// global token array
+DynArray TokenArray;
+
+static char *(token_to_string)(void *tok)
+{
+	Token t = (Token)tok;
+	return t->name;
+}
+
+int lex_init()
+{
+	TokenArray = dynamic_array_create(64);
+	if (!TokenArray)
+		return ERR_NO_MEM;
+	TokenArray->to_string = token_to_string;
+	return OK;
+}
+
+void lex_dump_token_array()
+{
+	dynamic_array_dump(TokenArray);
+}
 
 int process_eob(File f)
 {
@@ -174,6 +198,7 @@ int parse_identifier(File f, Token *ppt)
 	r = token_hash_insert(pt);
 	if (r != OK)
 		return ERR_FAIL;
+	dynamic_array_push(TokenArray, pt);
 	LHD;
 	return OK;
 }
@@ -305,6 +330,7 @@ hex_scan_done:
 	r = token_hash_insert(t);
 	if (r != OK)
 		return ERR_FAIL;
+	dynamic_array_push(TokenArray, t);
 	return OK;
 }
 
@@ -374,6 +400,7 @@ int parse_string(File f, Token *ppt)
 	r = token_hash_insert(pt);
 	if (r != OK)
 		return ERR_FAIL;
+	dynamic_array_push(TokenArray, pt);
 	LHD;
 	return OK;
 }
@@ -537,6 +564,7 @@ int parse_other_token(File f, Token *pt)
 	r = token_hash_insert(t);
 	if (r != OK)
 		return ERR_FAIL;
+	dynamic_array_push(TokenArray, t);
 	return OK;
 }
 

@@ -84,10 +84,10 @@ void dump_mcc_state(MccState ms)
 
 	debug("Mcc state: %p, tid: %ld, global_buf: %p\n", ms, PTHREAD_T_TO_LONG(ms->tid), ms->global_buf);
 	dump_mem_buf(ms->global_buf);
-	dump_dynamic_array(ms->include_paths);
-	dump_dynamic_array(ms->src_files);
-	dump_dynamic_array(ms->lib_paths);
-	dump_dynamic_array(ms->obj_files);
+	dynamic_array_dump(ms->include_paths);
+	dynamic_array_dump(ms->src_files);
+	dynamic_array_dump(ms->lib_paths);
+	dynamic_array_dump(ms->obj_files);
 }
 
 int mcc_state_add_files(MccState ms, const char *path, FileType type)

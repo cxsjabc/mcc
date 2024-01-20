@@ -42,7 +42,7 @@ void test_int_array()
 		assert(r > 0);
 	}
 
-	dump_dynamic_array(arr);
+	dynamic_array_dump(arr);
 
 	dynamic_array_destroy(arr);
 }
@@ -80,10 +80,10 @@ void test_str_array()
 		assert(r > 0);
 	}
 
-	dump_dynamic_array(arr);
+	dynamic_array_dump(arr);
 
 	dynamic_array_destroy(arr);
-	// dump_dynamic_array(arr);
+	// dynamic_array_dump(arr);
 }
 
 void test_array()

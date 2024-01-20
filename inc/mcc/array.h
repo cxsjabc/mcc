@@ -35,7 +35,7 @@ void *dynamic_array_get(DynArray arr, int index);
 void *dynamic_array_set(DynArray arr, int index, void *data);
 int is_dynamic_array_equal(DynArray arr, DynArray expect_arr);
 
-void dump_dynamic_array(DynArray arr);
+void dynamic_array_dump(DynArray arr);
 
 __END_DECLS
 

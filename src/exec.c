@@ -45,7 +45,7 @@ int preprocess(const char *file, const char *prog)
 #endif
 	dynamic_array_push(arr, (void *)file);
 	dynamic_array_push(arr, NULL);
-	dump_dynamic_array(arr);
+	dynamic_array_dump(arr);
 
 	cmds = (char **)arr->data;
 	argv = cmds;
@@ -90,7 +90,7 @@ int preprocess(const char *file, const char *prog)
 		dynamic_array_push(arr, (void *)"-o");
 		dynamic_array_push(arr, (void *)pp_file);
 		dynamic_array_push(arr, NULL);
-		dump_dynamic_array(arr);
+		dynamic_array_dump(arr);
 
 		cmds = (char **)arr->data;
 		argv = cmds;

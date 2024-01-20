@@ -182,6 +182,7 @@ void test_lex_from_file(const char *file)
 	assert(r > 0);
 
 	token_hash_dump(-1);
+	lex_dump_token_array();
 	dynamic_array_destroy(a);
 	TEST_END;
 }
