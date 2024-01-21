@@ -53,7 +53,6 @@ void test_args_include_lib_src()
 	assert(STR_EQL(SRC_FILE(ms, 1), "1.c"));
 	assert(STR_EQL(SRC_FILE(ms, 2), "2.c"));
 
-
 	// dump_mcc_state(ms);
 	destroy_mcc_state(ms);
 

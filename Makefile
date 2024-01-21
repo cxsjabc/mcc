@@ -93,6 +93,9 @@ OBJS := $(patsubst %.c, %.o, $(SRCS))
 BUILD_OBJS := $(patsubst %.o, $(BUILD_OBJ_DIR)/%.o, $(OBJS))
 BUILD_OBJS_DEPENDS := $(patsubst %.o, %.o.d, $(BUILD_OBJS))
 
+TOUCH_VER_UPDATE := 0
+VER_FILE := src/ver.c
+
 all: os_check srcs_depend prepare $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ) $(OUT_FILE)
 
 $(OUT_FILE): $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
@@ -101,6 +104,8 @@ $(OUT_FILE): $(BUILD_OBJS) $(BUILD_OBJ_DIR)/$(MAIN_OBJ)
 
 $(BUILD_OBJ_DIR)/%.o : %.c
 	$(CC) $(C_FLAGS) -MMD -MF $@.d -MT $@ -c $< -o $@
+	@# update version if compiled other files
+	@ if [ "$<" != "$(VER_FILE)" ] && [ $(TOUCH_VER_UPDATE) -eq 0 ]; then touch $(VER_FILE); set TOUCH_VER_UPDATE=1; fi
 
 -include $(BUILD_OBJ_DIR)/$(SRC_DIR)/*.d
 -include $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d
