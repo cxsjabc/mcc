@@ -316,11 +316,11 @@ int check_build_environment()
 
 void check_running_environment()
 {
-	prepare();
+	os_prepare();
 }
 
 #ifndef _MSC_VER
-__WEAK int prepare()
+__WEAK int os_prepare()
 {
 	warn("Weak function %s is called.\n", __func__);
 	return 0;

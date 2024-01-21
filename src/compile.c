@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 
 #include "mcc/args.h"
@@ -6,15 +7,38 @@
 #include "mcc/compile_log.h"
 #include "mcc/error.h"
 #include "mcc/help.h"
+#include "mcc/lex.h"
 #include "mcc/log.h"
 #include "mcc/mcc_state.h"
 #include "mcc/string.h"
+#include "mcc/token.h"
 
 __BEGIN_DECLS
 
-int comp_source_file(MccState ms, char *f)
+int comp_source_file_internal(MccState ms, char *name)
 {
 	int r = OK;
+	File f;
+	Token t;
+
+	f = file_open(name);
+	assert(f);
+
+	do {
+		t = next(f);
+		if (t != NULL) {
+			token_dump(t);
+		}
+		// sleep(1);
+	} while (t != NULL);
+
+	file_close(f);
+
+	return r;
+}
+
+int comp_source_file(MccState ms, char *name)
+{
 	Args_option opt;
 
 	opt = ms->opt;
@@ -33,10 +57,10 @@ int comp_source_file(MccState ms, char *f)
 
 	cdebug("output file: \"%s\"\n", opt->out_file.str);
 
-	return r;
+	return comp_source_file_internal(ms, name);
 }
 
-int comp_obj_file(MccState ms, char *f)
+int comp_obj_file(MccState ms, char *name)
 {
 	int r = OK;
 
@@ -78,13 +102,13 @@ int compile(MccState ms)
 
 	for (i = 0; i < srcs_cnt; i++) {
 		r = comp_source(ms, i);
-		if (r)
+		if (r < OK)
 			return r;
 	}
 
 	for (i = 0; i < objs_cnt; i++) {
 		r = comp_obj(ms, i);
-		if (r)
+		if (r < OK)
 			return r;
 	}
 	return r;

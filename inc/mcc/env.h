@@ -7,7 +7,7 @@ __BEGIN_DECLS
 
 int check_build_environment();
 void check_running_environment();
-int prepare();
+int os_prepare();
 
 __END_DECLS
 

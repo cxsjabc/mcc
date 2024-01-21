@@ -7,7 +7,7 @@
 __BEGIN_DECLS
 
 // TODO: no effect?
-int prepare()
+int os_prepare()
 {
 	BOOL r = SetDllDirectory(TEXT("./external/pthreads-w32-2-9-1/dll/x64"));
 	if (!r) {

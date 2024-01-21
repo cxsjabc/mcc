@@ -7,8 +7,10 @@
 #include "mcc/env.h"
 #include "mcc/error.h"
 #include "mcc/help.h"
+#include "mcc/lex.h"
 #include "mcc/log.h"
 #include "mcc/mcc_state.h"
+#include "mcc/prepare.h"
 #include "mcc/ver.h"
 
 __BEGIN_DECLS
@@ -19,16 +21,12 @@ int main(int argc, char *argv[])
 
 	always("Mcc ver: %s\n", VERSION);
 
-	check_build_environment();
-	check_running_environment();
-
 	if (argc < 2) {
 		show_help();
 		OK_RETURN(0);
 	}
 
-	init_from_exist_mcc_state(&MS, 0);
-	setup_global_mem_buf();
+	prepare();
 
 	// now, use global mcc state
 	r = parse_args(--argc, ++argv, &MS);

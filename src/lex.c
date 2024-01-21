@@ -1,4 +1,4 @@
-#define NO_DEBUG 1
+#define NO_DEBUG 0
 
 #include <assert.h>
 #include <stdio.h>
@@ -31,8 +31,10 @@ static char *(token_to_string)(void *tok)
 int lex_init()
 {
 	TokenArray = dynamic_array_create(64);
-	if (!TokenArray)
+	if (!TokenArray) {
+		fatal("No enough memory\n");
 		return ERR_NO_MEM;
+	}
 	TokenArray->to_string = token_to_string;
 	return OK;
 }
@@ -129,9 +131,7 @@ Token next(File f)
 	else
 		return NULL;
 	(void)s;
-	LHD;
-	
-	LHD;
+
 	if (is_id_start(c))
 		r = parse_identifier(f, &pt);
 	else if (is_digit(c))
@@ -142,7 +142,7 @@ Token next(File f)
 		r = parse_other_token(f, &pt);
 
 	LHD;
-	if (r != OK)
+	if (r < OK)
 		return NULL;
 	LHD;
 	return pt;
@@ -169,6 +169,7 @@ int parse_identifier(File f, Token *pt)
 	int r = OK;
 
 	LHD;
+	debug("%s Token start: %c\n", __func__, *s);
 	t = token_alloc();
 	assert(t);
 	LHD;
@@ -210,6 +211,7 @@ int parse_number(File f, Token *pt)
 	int r;
 
 	assert(sizeof(t->val.v.i) >= sizeof(v));
+	debug("%s Token start: %c\n", __func__, *s);
 	c = next_char(f);
 	LHD;
 	t = token_alloc();
@@ -343,6 +345,7 @@ int parse_string(File f, Token *pt)
 	rs = cstr_alloc(1);
 	assert(rs);
 
+	debug("%s Token start: %c\n", __func__, *s);
 	c = next_char(f);
 	while (c != '\"') {
 		if ( c == '\\') {
@@ -406,7 +409,7 @@ int parse_other_token(File f, Token *pt)
 	assert(t);
 	LHD;
 	c = *s;
-	debug("Token start: %c\n", c);
+	debug("%s Token start: %c\n", __func__, c);
 	switch (c) {
 	case '#':
 		tok = TOK_PREP;
@@ -550,6 +553,7 @@ int parse_other_token(File f, Token *pt)
 
 	// Add to token hash table
 	r = token_hash_arr_update(t, TokenArray);
+	LHD;
 	return r;
 }
 

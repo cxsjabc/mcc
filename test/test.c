@@ -8,21 +8,11 @@
 #include "mcc/log.h"
 #include "mcc/mcc_state.h"
 #include "mcc/mem_buf.h"
+#include "mcc/prepare.h"
+
 #include "test.h"
 
 __BEGIN_DECLS
-
-void test_prepare()
-{
-	check_build_environment();
-	check_running_environment();
-
-	setup_global_mem_buf();
-	init_from_exist_mcc_state(&MS, 0);
-
-	init_char_type_table();
-	lex_init();
-}
 
 void test_postprocessing()
 {
@@ -33,7 +23,7 @@ int main(int argc, char *argv[])
 {
 	always("Test starting.\n");
 
-	test_prepare();
+	prepare();
 
 #if ENABLE_TEST_ARGS
 	test_args();
