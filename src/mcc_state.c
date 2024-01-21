@@ -25,14 +25,16 @@ MccState create_mcc_state()
 	MccState ms = (MccState)mcc_calloc(1, sizeof(struct mcc_state));
 	NULL_RETURN(ms, "Alloc mcc_state failed.\n");
 
+	ms->need_free = 1;
 	setup_mcc_state(ms);
 
 	return ms;
 }
 
-int init_from_exist_mcc_state(MccState ms)
+int init_from_exist_mcc_state(MccState ms, int need_free)
 {
 	memset(ms, 0, sizeof(*ms));
+	ms->need_free = need_free;
 
 	setup_mcc_state(ms);
 
@@ -43,7 +45,8 @@ void destroy_mcc_state(MccState ms)
 {
 	if (ms) {
 		clean_mcc_state(ms);
-		mcc_free(ms);
+		if (ms->need_free)
+			mcc_free(ms);
 	} else {
 		ms = &MS;
 		clean_mcc_state(ms);

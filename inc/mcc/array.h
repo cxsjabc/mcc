@@ -39,9 +39,10 @@ void dynamic_array_dump(DynArray arr);
 void dynamic_array_dump_prepostfix(DynArray arr, const char *prefix, const char *postfix);
 
 // Here, use lower case macro names for easily coding
+#define vec_at(arr, i) dynamic_array_get((arr), (i))
 #define vec_size(arr) dynamic_array_size(arr)
 #define vec_dump(arr) dynamic_array_dump(arr)
-#define vec_dump1(arr, prefix, postfix) dynamic_array_dump_prepostfix(arr, prefix, postfix)
+#define vec_dump1(arr, prefix, postfix) dynamic_array_dump_prepostfix((arr), (prefix), (postfix))
 
 __END_DECLS
 

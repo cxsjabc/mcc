@@ -45,4 +45,7 @@ __END_DECLS
 #define STR_EQL(s1, s2) (strcmp((s1), (s2)) == 0)
 #define STR_EMPTY(s) ((s) == NULL || (s)[0] == '\0')
 
+#define STR(s) ((s) == NULL ? "null" : (s))
+#define STR_LEN(s) ((s) == NULL ? 0 : strlen(s))
+
 #endif

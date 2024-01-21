@@ -18,7 +18,7 @@ void test_prepare()
 	check_running_environment();
 
 	setup_global_mem_buf();
-	init_from_exist_mcc_state(&MS);
+	init_from_exist_mcc_state(&MS, 0);
 
 	init_char_type_table();
 	lex_init();

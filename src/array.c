@@ -135,12 +135,12 @@ void *dynamic_array_pop(DynArray arr)
 
 inline int dynamic_array_is_empty(DynArray arr)
 {
-	return arr->size == 0;
+	return arr ? arr->size == 0 : 1;
 }
 
 inline int dynamic_array_size(DynArray arr)
 {
-	return arr->size;
+	return arr ? arr->size : 0;
 }
 
 void *dynamic_array_get(DynArray arr, int index)

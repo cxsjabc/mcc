@@ -6,8 +6,10 @@
 // but it can't support pthread.h!!
 #include <pthread.h>
 
-#include "mcc/array.h"
 #include "mcc/mcc_base.h"
+
+#include "mcc/args.h"
+#include "mcc/array.h"
 #include "mcc/file.h"
 #include "mcc/mem.h"
 #include "mcc/mem_buf.h"
@@ -35,10 +37,17 @@ typedef struct mcc_state
 	DynArray src_files;	 // files to compile
 	DynArray obj_files;	 // objects to compile
 
+	int curr_idx;  // current compiled file index (index in src_files array)
+	int curr_obj_idx; // current object index (index in obj_files array)
+
+	Args_option opt;
+	int target_file; // PE, ELF ...
+
+	unsigned int need_free; // if global variable, no need to free
 } *MccState;
 
 MccState create_mcc_state();
-int init_from_exist_mcc_state(MccState ms);
+int init_from_exist_mcc_state(MccState ms, int need_free);
 void destroy_mcc_state(MccState ms);
 
 void setup_mcc_state(MccState ms);

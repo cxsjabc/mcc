@@ -46,16 +46,15 @@ int parse_args(int argc, char *argv[], MccState ms)
 			ARG_VAR_ASSEMBLE_ONLY0 = 1;
 		} else if (strcmp(*argv, "-o") == 0) { // output file
 			LHD;
-			ARG_VAR_HAS_OUTPUT_FILE0 = 1;
 			++argv, --argc;
-			if (*argv) {
+			if (*argv && (*argv)[0] != '-') {
 				r = cstr_init(&GloArgOption.out_file, *argv, strlen(*argv));
 				if (r != ERR_NONE)
 					ERR_RETURN(r);
 				debug("Output file name: %s\n", get_output_file_name());
 				ARG_VAR_HAS_OUTPUT_FILE0 = 1;
 			} else {
-				cerror("No output file specified\n");
+				cerror("No output file or wrong file name specified: %s\n", STR(*argv));
 				return ERR_INVALID_PARAM;
 			}
 		} else if (strncmp(*argv, "-I", 2) == 0 || strncmp(*argv, "-L", 2) == 0) {  // include pathes or library pathes
@@ -108,6 +107,8 @@ int parse_args(int argc, char *argv[], MccState ms)
 	if (r >= OK)
 		r = args_post_process(ms);
 
+	ms->opt = &GloArgOption;
+	debug("output file: \"%s\"\n", ms->opt->out_file.str);
 	return r;
 }
 
@@ -122,10 +123,15 @@ static int args_post_process(MccState ms)
 	if (ARG_VAR_HAS_OUTPUT_FILE0) {
 		if (srcs_size > 1) {
 			if (ARG_VAR_PREPROCESS_ONLY0 || ARG_VAR_COMPILE_ONLY0 || ARG_VAR_ASSEMBLE_ONLY0) {
-				cerror("-o can't be used with -E -S -c with multiple files\n");
+				cerror("-o can't be used with -E or -S or -c and with multiple files\n");
 				r = ERR_INVALID_PARAM;
 			}
 		}
+	}
+
+	if (ARG_VAR_PREPROCESS_ONLY0 + ARG_VAR_COMPILE_ONLY0 + ARG_VAR_ASSEMBLE_ONLY0 > 1) {
+		cerror("-E, -S and -c can't be used together\n");
+		r = ERR_INVALID_PARAM;
 	}
 
 	args_dump_info(ms);

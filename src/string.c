@@ -40,6 +40,7 @@ int cstr_init(Cstr p, const char *src, int len)
 		fatal("passing NULL parameter or length <= 0.\n");
 
 	if (!p->str) {
+		LHD;
 		p->str = (char *)mcc_malloc(len);
 		if (!p->str) {
 			error("No enough memory!\n");
