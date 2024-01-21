@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
         ERR_RETURN(r);
 	// dump_mcc_state(&MS);
 
-	if (is_show_build_version)
+	if (ARG_VAR_BUILD_VER0)
 		always("Build version: %s\n", gen_build_ver());
-	if (is_show_help)
+	if (ARG_VAR_HELP0)
 		show_help();
 
 	uninit_global_mem_buf();

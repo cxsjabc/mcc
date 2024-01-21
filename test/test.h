@@ -3,7 +3,7 @@
 
 #include "mcc/mcc_base.h"
 
-#define ENABLE_TEST_ARGS 0
+#define ENABLE_TEST_ARGS 1
 #define ENABLE_TEST_ARRAY 0
 #define ENABLE_TEST_COMPILE_LOG 0
 #define ENABLE_TEST_EXEC 0
@@ -11,7 +11,7 @@
 #define ENABLE_TEST_HASH 0
 #define ENABLE_TEST_ID 0
 #define ENABLE_TEST_KEYWORD 0
-#define ENABLE_TEST_LEX 1
+#define ENABLE_TEST_LEX 0
 #define ENABLE_TEST_MCC_STATE 0
 #define ENABLE_TEST_MEM_BUF 0
 #define ENABLE_TEST_SIZE 0

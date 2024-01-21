@@ -1,4 +1,4 @@
-#define NO_DEBUG 1
+#define NO_DEBUG 0
 
 #include <assert.h>
 #include <stdio.h>
@@ -15,7 +15,16 @@
 
 __BEGIN_DECLS
 
+void test_args_include_lib_src();
+void test_args1();
+
 void test_args()
+{
+	test_args_include_lib_src();
+	test_args1();
+}
+
+void test_args_include_lib_src()
 {
 	int r;
 	const char *argv[] = {"-I", ".", "-I/usr/xxx", "3.c", "-L./lib", "-L", "abc", "-Iabc/d", "-I", "..", "1.c", "2.c"};
@@ -26,7 +35,7 @@ void test_args()
 	assert(ms);
 
 	r = parse_args(argc, (char **)argv, ms);
-	assert(r == ERR_NONE);
+	assert(r >= OK);
 
 	assert(ms->include_paths->size == 4);
 	assert(ms->src_files->size == 3);
@@ -47,6 +56,25 @@ void test_args()
 
 	// dump_mcc_state(ms);
 	destroy_mcc_state(ms);
+
+	always("%s pass.\n", __func__);
+	return;
+}
+
+void test_args1()
+{
+	int r;
+	char *argv1[] = { "-c", "1.c", "2.c", "-o", "main" };
+	char *argv2[] = { "1.c", "2.c", "-o", "main.exe" };
+
+	r = parse_args(asize(argv1), (char **)argv1, NULL);
+	assert(r != OK);
+	args_clean_state(), clean_mcc_state(NULL);
+
+	setup_mcc_state(NULL);
+	r = parse_args(asize(argv2), (char **)argv2, NULL);
+	assert(r >= OK);
+	args_clean_state(), clean_mcc_state(NULL);
 
 	always("%s pass.\n", __func__);
 	return;

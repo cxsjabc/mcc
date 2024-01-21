@@ -44,11 +44,16 @@ void destroy_mcc_state(MccState ms)
 	if (ms) {
 		clean_mcc_state(ms);
 		mcc_free(ms);
+	} else {
+		ms = &MS;
+		clean_mcc_state(ms);
 	}
 }
 
 void setup_mcc_state(MccState ms)
 {
+	if (!ms)
+		ms = &MS;
 	assert(ms);
 
 	ms->global_buf = init_mem_buf(4096); // default 4KB buffer
@@ -70,16 +75,23 @@ void setup_mcc_state(MccState ms)
 
 void clean_mcc_state(MccState ms)
 {
+	if (!ms)
+		ms = &MS;
 	assert(ms);
 
 	dynamic_array_destroy(ms->include_paths);
 	dynamic_array_destroy(ms->src_files);
 	dynamic_array_destroy(ms->lib_paths);
 	dynamic_array_destroy(ms->obj_files);
+
+	free_mem_buf(ms->global_buf);
+	ms->global_buf = NULL;
 }
 
 void dump_mcc_state(MccState ms)
 {
+	if (!ms)
+		ms = &MS;
 	assert(ms);
 
 	debug("Mcc state: %p, tid: %ld, global_buf: %p\n", ms, PTHREAD_T_TO_LONG(ms->tid), ms->global_buf);
@@ -94,6 +106,8 @@ int mcc_state_add_files(MccState ms, const char *path, FileType type)
 {
 	int r = ERR_FAIL;
 
+	if (!ms)
+		ms = &MS;
 	assert(ms);
 
 	if (type == FILE_TYPE_UNK)
@@ -118,7 +132,7 @@ int mcc_state_add_files(MccState ms, const char *path, FileType type)
 		break;
 	}
 
-	return r;
+	return r | type;
 }
 
 MccState *mcc_state_multi_thread_create(int thread_num, pthread_func func)

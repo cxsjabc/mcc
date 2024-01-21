@@ -36,6 +36,12 @@ void *dynamic_array_set(DynArray arr, int index, void *data);
 int is_dynamic_array_equal(DynArray arr, DynArray expect_arr);
 
 void dynamic_array_dump(DynArray arr);
+void dynamic_array_dump_prepostfix(DynArray arr, const char *prefix, const char *postfix);
+
+// Here, use lower case macro names for easily coding
+#define vec_size(arr) dynamic_array_size(arr)
+#define vec_dump(arr) dynamic_array_dump(arr)
+#define vec_dump1(arr, prefix, postfix) dynamic_array_dump_prepostfix(arr, prefix, postfix)
 
 __END_DECLS
 

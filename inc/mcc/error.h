@@ -18,6 +18,9 @@ enum
 	ERR_EXIST = -8,
 };
 
+// Add preserved right return values are no more than 0xFF.
+#define ERR_MASK 0xFF
+
 #define TRUE 1
 #define FALSE 0
 

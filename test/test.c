@@ -6,6 +6,7 @@
 #include "mcc/id.h"
 #include "mcc/lex.h"
 #include "mcc/log.h"
+#include "mcc/mcc_state.h"
 #include "mcc/mem_buf.h"
 #include "test.h"
 
@@ -17,6 +18,7 @@ void test_prepare()
 	check_running_environment();
 
 	setup_global_mem_buf();
+	init_from_exist_mcc_state(&MS);
 
 	init_char_type_table();
 	lex_init();

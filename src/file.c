@@ -1,3 +1,5 @@
+#define NO_DEBUG 1
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +45,7 @@ void file_close(File f)
 	}
 }
 
-// Matched with FileType
+// **Should be matched with FileType(starting from FILE_TYPE_C) **
 const char *FileTypeNames[] = {
 	"C File",
 	"Header File",
@@ -61,15 +63,15 @@ int get_file_type(const char *path)
 	const char *ext = get_file_extension(path);
 
 	LHD;
-	if (strcmp(ext, ".c") == 0)
+	if (strcmp(ext, "c") == 0)
 		return FILE_TYPE_C;
-	else if (strcmp(ext, ".h") == 0)
+	else if (strcmp(ext, "h") == 0)
 		return FILE_TYPE_HEADER;
-	else if (strcmp(ext, ".o") == 0)
+	else if (strcmp(ext, "o") == 0 || strcmp(ext, "obj") == 0)
 		return FILE_TYPE_OBJECT;
-	else if (strcmp(ext, ".s") == 0 || strcmp(ext, ".S") == 0)
+	else if (strcmp(ext, "s") == 0 || strcmp(ext, "S") == 0)
 		return FILE_TYPE_ASM;
-	else if (strcmp(ext, ".exe") == 0)
+	else if (strcmp(ext, "exe") == 0)
 		return FILE_TYPE_EXE;
 	else
 		return FILE_TYPE_UNK;

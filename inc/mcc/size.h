@@ -49,6 +49,7 @@
 #define ULLONG_T_ALIGN LLONG_T_ALIGN
 
 #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+#define asize ARRAY_SIZE
 
 #define SIZEOF(type) ((unsigned int)(sizeof(type)))
 

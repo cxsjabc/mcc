@@ -4,6 +4,8 @@
 #include <stdlib.h>
 
 #include "mcc/mcc_base.h"
+
+#include "mcc/args.h"
 #include "mcc/log.h"
 
 __BEGIN_DECLS
@@ -29,11 +31,8 @@ __BEGIN_DECLS
 
 // verbose log
 // It's used for '-v' option verbose logging
-#define CLOG_VERBOSE(...)   do { if (is_verbose_enabled)  { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
+#define CLOG_VERBOSE(...)   do { if (ARG_VAR_VERBOSED0)  { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
 #define verbose CLOG_VERBOSE
-
-extern int is_verbose_enabled;
-void set_verbose_enabled(int enabled);
 
 __END_DECLS
 
