@@ -44,7 +44,7 @@ int comp_source_file(MccState ms, char *name)
 	opt = ms->opt;
 	if (ARG_VAR_PURE_EXE(opt)) {
 		ms->target_file = TARGET_EXE;
-	} if (ARG_VAR_PREPROCESS_ONLY(opt)) {
+	} else if (ARG_VAR_PREPROCESS_ONLY(opt)) {
 		debug_nofl("only preprocess\n");
 		ms->target_file = TARGET_PPFILE;
 	} else if (ARG_VAR_COMPILE_ONLY(opt)) {
