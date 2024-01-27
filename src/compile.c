@@ -5,6 +5,7 @@
 #include "mcc/array.h"
 #include "mcc/compile.h"
 #include "mcc/compile_log.h"
+#include "mcc/decl.h"
 #include "mcc/error.h"
 #include "mcc/help.h"
 #include "mcc/lex.h"
@@ -12,6 +13,8 @@
 #include "mcc/mcc_state.h"
 #include "mcc/string.h"
 #include "mcc/token.h"
+
+File Cfile;
 
 __BEGIN_DECLS
 
@@ -21,9 +24,14 @@ int comp_source_file_internal(MccState ms, char *name)
 	File f;
 	Token t;
 
+	// TODO: ignore ms now, for global processing
+	ms = &MS;
+
 	f = file_open(name);
 	assert(f);
+	Cfile = f;
 
+#if 0
 	do {
 		t = next(f);
 		if (t != NULL) {
@@ -31,6 +39,15 @@ int comp_source_file_internal(MccState ms, char *name)
 		}
 		// sleep(1);
 	} while (t != NULL);
+#endif
+
+	t = next(f);
+	while (t != NULL) {
+		r = parse_global_decl();
+		if (r < OK)
+			break;
+		t = next(f);
+	}
 
 	file_close(f);
 

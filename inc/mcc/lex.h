@@ -5,9 +5,12 @@
 #include "mcc/mcc_base.h"
 #include "mcc/token.h"
 
+#define NEXT next(Cfile)
+
 __BEGIN_DECLS
 
 extern DynArray TokenArray;
+extern Token Tok; // global token
 
 Token str_next_token(char **s);
 

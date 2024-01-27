@@ -11,13 +11,13 @@
 __BEGIN_DECLS
 
 #ifndef NO_CLOG_FILE_LINE
-#define NO_CLOG_FILE_LINE 1
+#define NO_CLOG_FILE_LINE 0
 #endif
 
 #define CLOG_DEBUG(...)   do { if (CLOG_LEVEL <= LOG_LEVEL_DEBUG)  { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
 #define CLOG_INFO(...)   do { if (CLOG_LEVEL <= LOG_LEVEL_INFO)  { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
 #define CLOG_WARN(...)   do { if (CLOG_LEVEL <= LOG_LEVEL_WARN)  { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
-#define CLOG_ERROR(...)  do { if (CLOG_LEVEL <= LOG_LEVEL_ERROR) { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); } } while(0)
+#define CLOG_ERROR(...)  do { if (CLOG_LEVEL <= LOG_LEVEL_ERROR) { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); abort(); } } while(0)
 #define CLOG_FATAL(...)  do { if (CLOG_LEVEL <= LOG_LEVEL_FATAL) { if (!NO_CLOG_FILE_LINE) LOG_FILE_LINE; log_print(__VA_ARGS__); abort(); } } while(0)
 
 #define CLOG_LEVEL LOG_LEVEL_DEBUG

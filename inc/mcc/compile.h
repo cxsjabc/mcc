@@ -12,6 +12,8 @@ enum {
 	TARGET_ASM,
 };
 
+extern File Cfile;
+
 __BEGIN_DECLS
 
 int compile(MccState ms);

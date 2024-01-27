@@ -21,6 +21,7 @@ __BEGIN_DECLS
 
 // global token array
 DynArray TokenArray;
+Token Tok; // global token
 
 static char *(token_to_string)(void *tok)
 {
@@ -145,6 +146,7 @@ Token next(File f)
 	if (r < OK)
 		return NULL;
 	LHD;
+	// Tok = pt;
 	return pt;
 }
 
@@ -186,6 +188,8 @@ int parse_identifier(File f, Token *pt)
 	else {
 		t->type = TOK_IDENTIFIER;
 	}
+	Tok = t; // global token
+
 	data = allocm(t->len + 1);
 	assert(data);
 	memcpy(data, b, t->len);
@@ -310,6 +314,7 @@ hex_scan_done:
 	t->len = f->buf - s;
 	lex_cal_tok_type(t);
 	t->type = TOK_LITERAL;
+	Tok = t; // global token
 	t->sub_type = TK_SUB_TYPE_NUMBER | TK_SUB_TYPE_CONSTANT;
 	t->val.v.i = (uint64_t)v;
 
@@ -377,6 +382,7 @@ int parse_string(File f, Token *pt)
 
 	t->len = f->buf - s;
 	t->type = TOK_LITERAL;
+	Tok = t; // global token
 	t->sub_type = TK_SUB_TYPE_STRING;
 
 	data = allocm(t->len + 1);
@@ -549,6 +555,7 @@ int parse_other_token(File f, Token *pt)
 	t->name = data;
 
 	*pt = t;
+	Tok = t; // global token
 	debug("Token \"%s(%d)\", len: %d\n", token_enum_to_name(tok), tok, t->len);
 
 	// Add to token hash table

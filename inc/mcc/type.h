@@ -6,6 +6,27 @@
 struct sym;
 
 enum {
+	MT_CHAR = 1,
+	MT_SHORT = 2,
+	MT_INT = 3,
+	MT_LONG = 4,
+	MT_FLOAT = 5,
+	MT_DOUBLE = 6,
+	MT_VOID = 7,
+
+	MT_SIGNED = 0x10,
+	MT_UNSIGNED = 0x20,
+
+	MT_EXTERN = 0x100,
+	MT_STATIC = 0x200,
+	MT_REGISTER = 0x400,
+
+	MT_LLONG = 0x1000,
+};
+
+#define BASIC_TYPE(t) (t & 0xF)
+
+enum {
 	BOOLEAN_T,
 	CHAR_T, UCHAR_T,
 	SHORT_T, USHORT_T,
@@ -19,6 +40,7 @@ enum {
 
 typedef struct type
 {
+	int t;
 	int category; // INT_T or UINT_T or LONG_T ...
 	unsigned int is_unsigned : 1;
 	unsigned int is_long : 2; // b'11 means "long long"
