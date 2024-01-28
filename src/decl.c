@@ -5,6 +5,7 @@
 #include "mcc/decl.h"
 #include "mcc/error.h"
 #include "mcc/lex.h"
+#include "mcc/symbol.h"
 #include "mcc/token.h"
 #include "mcc/type.h"
 
@@ -73,13 +74,46 @@ end:
 	return type_found;
 }
 
+int parse_declarator(Type *t, int *val)
+{
+	if (Tok->type == TOK_IDENTIFIER) {
+		*val = Tok->tk_index;
+		NEXT;
+	} else
+		expect("identifier");
+	return OK;
+}
+
 int parse_global_decl()
 {
 	int r = OK;
+	int val;
 	Type t;
 
 	r = find_type_specifier(&t);
 	debug("type specifier found: %d, type: 0x%x\n", r, t.t);
+	if (!r)
+		expect("type specifier");
+
+	while (1) {
+		r = parse_declarator(&t, &val);
+		if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
+			NEXT;
+			break;
+		} else if (Tok->type == TOK_COMMA) { // declaration list
+			NEXT;
+			continue;
+		} else if (Tok->type == TOK_LBRACE) { // function definition
+			;
+		} else { // variable or function decalration
+			if (IS_FUNC(t.t)) {
+				if (sym_find_identifier(val) == NULL)
+					sym_push(val, &t, STORE_GLOBAL);
+			} else {
+				;
+			}
+		}
+	}
 
 	return r;
 }

@@ -13,6 +13,7 @@ enum {
 	MT_FLOAT = 5,
 	MT_DOUBLE = 6,
 	MT_VOID = 7,
+	MT_FUNC = 8,
 
 	MT_SIGNED = 0x10,
 	MT_UNSIGNED = 0x20,
@@ -25,6 +26,7 @@ enum {
 };
 
 #define BASIC_TYPE(t) (t & 0xF)
+#define IS_FUNC(t) (((t) & 0xF) == MT_FUNC)
 
 enum {
 	BOOLEAN_T,

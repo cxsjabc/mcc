@@ -56,7 +56,7 @@ typedef struct token
 	struct token_value val;
 	char *name;
 
-	int tk_index;
+	int tk_index; // use token index is the fastest way to find the token
 	struct token *next;
 
 	struct sym *identifier; // links to the identifier
