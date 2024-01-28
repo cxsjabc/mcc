@@ -158,16 +158,7 @@ int parse_global_decl()
 		LHD;
 		r = parse_declarator(&t, &val);
 		LHD;
-		if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
-			LHD;
-			NEXT;
-			LHD;
-			break;
-		} else if (Tok->type == TOK_COMMA) { // declaration list
-			LHD;
-			NEXT;
-			continue;
-		} else if (Tok->type == TOK_LBRACE) { // function definition
+		if (Tok->type == TOK_LBRACE) { // function definition
 			LHD;
 			sym = sym_find_identifier(val);
 			if (!sym) {
@@ -189,8 +180,19 @@ int parse_global_decl()
 				LHD;
 				if (sym_find_identifier(val) == NULL)
 					sym_push(val, &t, STORE_GLOBAL);
-			} else {
+			} else { // variable decalration or initialization
 				;
+			}
+
+			if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
+				LHD;
+				NEXT;
+				LHD;
+				break;
+			} else if (Tok->type == TOK_COMMA) { // declaration list
+				LHD;
+				NEXT;
+				continue;
 			}
 		}
 	}
