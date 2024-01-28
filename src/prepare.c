@@ -9,6 +9,7 @@
 #include "mcc/mcc_state.h"
 #include "mcc/mem_buf.h"
 #include "mcc/prepare.h"
+#include "mcc/symbol.h"
 
 __BEGIN_DECLS
 
@@ -22,6 +23,7 @@ void prepare()
 	setup_global_mem_buf();
 	init_char_type_table();
 	lex_init();
+	sym_global_init();
 }
 
 __END_DECLS

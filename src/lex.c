@@ -404,10 +404,8 @@ int parse_other_token(File f, Token *pt)
 	char *s = f->buf - 1;
 	char *data;
 
-	LHD;
 	t = token_alloc();
 	assert(t);
-	LHD;
 	c = *s;
 	debug("%s Token start: %c\n", __func__, c);
 	switch (c) {

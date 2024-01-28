@@ -38,7 +38,7 @@ __BEGIN_DECLS
 #define EXPECT "expect"
 
 // void expect(const char *s);
-#define expect(s, ...) cerror(EXPECT s, ##__VA_ARGS__)
+#define expect(s, ...) cerror(EXPECT " " s, ##__VA_ARGS__)
 
 __END_DECLS
 

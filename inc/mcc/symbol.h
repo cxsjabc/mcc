@@ -37,6 +37,8 @@ Sym sym_push_func(int tok_index, PType pt);
 Sym sym_push_var(int tok_index, PType pt, int st);
 Sym sym_find_identifier(int tok_index);
 
+void sym_dump(Sym s);
+
 __END_DECLS
 
 #endif

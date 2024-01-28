@@ -9,7 +9,7 @@ enum {
 	MT_CHAR = 1,
 	MT_SHORT = 2,
 	MT_INT = 3,
-	MT_LONG = 4,
+	MT_LLONG = 4,
 	MT_FLOAT = 5,
 	MT_DOUBLE = 6,
 	MT_VOID = 7,
@@ -22,7 +22,7 @@ enum {
 	MT_STATIC = 0x200,
 	MT_REGISTER = 0x400,
 
-	MT_LLONG = 0x1000,
+	MT_LONG = 0x1000,
 };
 
 #define BASIC_TYPE(t) (t & 0xF)
@@ -58,6 +58,8 @@ void init_types();
 
 PType get_type_info(int type);
 const char * get_type_names(int i);
+
+const char *type_basic_info(Type *t);
 
 __END_DECLS
 

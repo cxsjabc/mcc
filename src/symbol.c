@@ -94,4 +94,32 @@ Sym sym_find_identifier(int tok_index)
 	return t->identifier;
 }
 
+const char *sym_get_name(Sym s)
+{
+	const char *name;
+
+	if (s->tk_index >= STORE_FUNC_TEMP)
+		name = "";
+	else
+		name = token_get_name_by_index(s->tk_index);
+	return name;
+}
+
+void sym_dump(Sym s)
+{
+	const char *name;
+
+	debug("%p tk_index: %d\n", s, s->tk_index);
+	
+	name = sym_get_name(s);
+	always("Symbol: %s(%s) ", name, type_basic_info(&s->t));
+	s = s->slib;
+	while (s) {
+		name = sym_get_name(s);
+		always("%s(%s) ", name, type_basic_info(&s->t));
+		s = s->slib;
+	}
+	always("\n");
+}
+
 __END_DECLS

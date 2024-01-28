@@ -94,24 +94,31 @@ void parse_parameter(Type *t)
 
 	last = &temp;
 	while (1) {
+		LHD;
 		if (!parse_type_specifier(&lt))
 			expect("type specifier");
+		LHD;
 		parse_declarator(&lt, &val);
+		LHD;
 		s = sym_push(val, &lt, STORE_LOCAL);
+		LHD;
 		*last = s;
 		last = &s->slib;
 
+		LHD;
 		if (Tok->type == TOK_RPAREN)
 			break;
 		skip(TOK_COMMA);
+		LHD;
 	}
 	skip(TOK_RPAREN);
 
 	// add the function symbol
-	s = sym_push(STORE_FUNC_TEMP, &lt, STORE_GLOBAL);
+	s = sym_push(STORE_FUNC_TEMP, t, STORE_GLOBAL);
 	s->slib = temp;
 	t->t = MT_FUNC;
 	t->sym = s;
+	sym_dump(s);
 }
 
 int parse_declarator(Type *t, int *val)
@@ -129,11 +136,17 @@ int parse_declarator(Type *t, int *val)
 	return OK;
 }
 
+void parse_function_body()
+{
+
+}
+
 int parse_global_decl()
 {
 	int r = OK;
 	int val;
 	Type t;
+	Sym sym;
 
 	LHD;
 	r = parse_type_specifier(&t);
@@ -156,7 +169,20 @@ int parse_global_decl()
 			continue;
 		} else if (Tok->type == TOK_LBRACE) { // function definition
 			LHD;
-			;
+			sym = sym_find_identifier(val);
+			if (!sym) {
+				sym = sym_push_func(val, &t);
+				sym->slib = t.sym;
+			} else {
+				if ((t.t & 0xF) == MT_FUNC)
+					cerror("duplicate function define\n");
+				else
+					sym->slib = t.sym;
+			}
+			// dump function parameter list
+			sym_dump(sym);
+			parse_function_body();
+			break;
 		} else { // variable or function decalration
 			LHD;
 			if (IS_FUNC(t.t)) {

@@ -64,4 +64,28 @@ const char *get_type_names(int i)
 	return type_names[i];
 }
 
+const char *type_basic_info(Type *t)
+{
+	int a = t->t;
+
+	if ((a & 0xF) == MT_CHAR)
+		return "char";
+	else if ((a & 0xF) == MT_SHORT)
+		return "short";
+	else if ((a & 0xF) == MT_INT)
+		return "int";
+	else if ((a & 0xF) == MT_LLONG)
+		return "long";
+	else if ((a & 0xF) == MT_FLOAT)
+		return "float";
+	else if ((a & 0xF) == MT_DOUBLE)
+		return "double";
+	else if ((a & 0xF) == MT_VOID)
+		return "void";
+	else if ((a & 0xF) == MT_FUNC)
+		return "function";
+	
+	return "<NA>";
+}
+
 __END_DECLS

@@ -56,9 +56,16 @@ void stack_destroy(Stack st)
 int stack_push(Stack st, void *data)
 {
 	if (st->size == st->capacity) {
-		size_t orig_size = sizeof(void *) * st->capacity;
-		size_t new_size = orig_size << 1;
-		void **new_data = (void **)mcc_realloc_safe(st->data, orig_size, new_size);
+		size_t orig_size;
+		size_t new_size;
+		void **new_data;
+
+		LHD;
+		orig_size = sizeof(void *) * st->capacity;
+		if (orig_size == 0)
+			orig_size = 1;
+		new_size  = orig_size << 1;
+		new_data = (void **)mcc_realloc_safe(st->data, orig_size, new_size);
 		if (!new_data)
 			fatal("No enough memory, crash!\n");
 
