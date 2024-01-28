@@ -188,7 +188,7 @@ int is_keyword_with_len(const char *str, int len)
 
 	while (key && key->name) {
 		if (key->len == len && strncmp(key->name, str, len) == 0) {
-			debug("Found keyword: %s\n", key->name);
+			silence("Found keyword: %s\n", key->name);
 			return key->token;
 		}
 		silence("str: %s\n", key->name);

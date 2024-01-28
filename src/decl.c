@@ -11,7 +11,15 @@
 
 __BEGIN_DECLS
 
-int find_type_specifier(Type *t)
+void skip(int tok)
+{
+	if (Tok->type != tok)
+		expect("%s", token_enum_to_name(tok));
+	debug("skip %s\n", token_enum_to_name(tok));
+	NEXT;
+}
+
+int parse_type_specifier(Type *t)
 {
 	int type_found = 0;
 	int tok_type;
@@ -31,6 +39,7 @@ int find_type_specifier(Type *t)
 		case TOK_INT:
 			if (BASIC_TYPE(b))
 				cerror("Multiple type specifier\n");
+			LHD;
 			b |= MT_INT;
 			type_found = 1;
 			break;
@@ -39,12 +48,14 @@ int find_type_specifier(Type *t)
 			if (b & MT_SIGNED || b & MT_UNSIGNED)
 				cerror("Multiple signed or unsigned specifier\n");
 			b |= MT_SIGNED;
+			b |= MT_INT;
 			type_found = 1;
 			break;
 		case TOK_UNSIGNED:
 			if (b & MT_SIGNED || b & MT_UNSIGNED)
 				cerror("Multiple signed or unsigned specifier\n");
 			b |= MT_UNSIGNED;
+			b |= MT_INT;
 			type_found = 1;
 			break;
 
@@ -74,6 +85,35 @@ end:
 	return type_found;
 }
 
+void parse_parameter(Type *t)
+{
+	Type lt;
+	int val;
+	Sym s;
+	Sym *last, temp = NULL;
+
+	last = &temp;
+	while (1) {
+		if (!parse_type_specifier(&lt))
+			expect("type specifier");
+		parse_declarator(&lt, &val);
+		s = sym_push(val, &lt, STORE_LOCAL);
+		*last = s;
+		last = &s->slib;
+
+		if (Tok->type == TOK_RPAREN)
+			break;
+		skip(TOK_COMMA);
+	}
+	skip(TOK_RPAREN);
+
+	// add the function symbol
+	s = sym_push(STORE_FUNC_TEMP, &lt, STORE_GLOBAL);
+	s->slib = temp;
+	t->t = MT_FUNC;
+	t->sym = s;
+}
+
 int parse_declarator(Type *t, int *val)
 {
 	if (Tok->type == TOK_IDENTIFIER) {
@@ -81,6 +121,11 @@ int parse_declarator(Type *t, int *val)
 		NEXT;
 	} else
 		expect("identifier");
+
+	if (Tok->type == TOK_LPAREN) {
+		NEXT;
+		parse_parameter(t);
+	}
 	return OK;
 }
 
@@ -90,23 +135,32 @@ int parse_global_decl()
 	int val;
 	Type t;
 
-	r = find_type_specifier(&t);
+	LHD;
+	r = parse_type_specifier(&t);
 	debug("type specifier found: %d, type: 0x%x\n", r, t.t);
 	if (!r)
 		expect("type specifier");
 
 	while (1) {
+		LHD;
 		r = parse_declarator(&t, &val);
+		LHD;
 		if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
+			LHD;
 			NEXT;
+			LHD;
 			break;
 		} else if (Tok->type == TOK_COMMA) { // declaration list
+			LHD;
 			NEXT;
 			continue;
 		} else if (Tok->type == TOK_LBRACE) { // function definition
+			LHD;
 			;
 		} else { // variable or function decalration
+			LHD;
 			if (IS_FUNC(t.t)) {
+				LHD;
 				if (sym_find_identifier(val) == NULL)
 					sym_push(val, &t, STORE_GLOBAL);
 			} else {

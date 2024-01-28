@@ -121,14 +121,12 @@ Token next(File f)
 	Token pt = NULL;
 
 	s = f->buf;
-	debug("next: %p\n", s);
-	debug("token start: %c\n", s != NULL ? *s : ' ');
-	LHD;
+	silence("next: %p\n", s);
+	silence("token start: %c\n", s != NULL ? *s : ' ');
 	c = skip_blanks(f);
-	LHD;
-	debug("c: %c(%d)\n", c, c);
+	silence("c: %c(%d)\n", c, c);
 	if (c != EOF)
-		debug("after skip blanks: token start: %c\n", *(f->buf - 1));
+		silence("after skip blanks: token start: %c\n", *(f->buf - 1));
 	else
 		return NULL;
 	(void)s;
@@ -142,10 +140,8 @@ Token next(File f)
 	else
 		r = parse_other_token(f, &pt);
 
-	LHD;
 	if (r < OK)
 		return NULL;
-	LHD;
 	// Tok = pt;
 	return pt;
 }
@@ -170,11 +166,9 @@ int parse_identifier(File f, Token *pt)
 	char *data;
 	int r = OK;
 
-	LHD;
-	debug("%s Token start: %c\n", __func__, *s);
+	silence("%s Token start: %c\n", __func__, *s);
 	t = token_alloc();
 	assert(t);
-	LHD;
 	c = next_char(f);
 	while (is_id(c)) {
 		c = next_char(f);
@@ -449,7 +443,7 @@ int parse_other_token(File f, Token *pt)
 		LHD;
 		tok = TOK_SEMICOLON;
 		c = next_char(f);
-		debug("file buf: %c\n", *(f->buf));
+		silence("file buf: %c\n", *(f->buf));
 		break;
 	case ',':
 		tok = TOK_COMMA;
@@ -560,7 +554,7 @@ int parse_other_token(File f, Token *pt)
 
 	// Add to token hash table
 	r = token_hash_arr_update(t, TokenArray);
-	LHD;
+
 	return r;
 }
 
@@ -571,10 +565,9 @@ int str_parse_other_token(char **ps, Token *pt)
 	char *b = s;
 	int tok;
 
-	LHD;
 	t = token_alloc();
 	assert(t);
-	LHD;
+
 	switch (*s) {
 	case '#':
 		tok = TOK_PREP;

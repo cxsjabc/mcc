@@ -82,17 +82,14 @@ int token_hash_arr_update(Token t, DynArray tok_arr)
 	int r;
 
 	r = token_hash_insert(t);
-	LHD;
+
 	if (r != OK && r != ERR_EXIST)
 		return ERR_FAIL;
 	if (r != ERR_EXIST) {
-		LHD;
 		dynamic_array_push(tok_arr, t);
-		LHD;
 		t->tk_index = dynamic_array_size(tok_arr) - 1;
 	} else
 		r = OK;
-	LHD;
 	return r;
 }
 

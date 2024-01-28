@@ -24,6 +24,7 @@ int comp_source_file_internal(MccState ms, char *name)
 	File f;
 	Token t;
 
+	(void)t;
 	// TODO: ignore ms now, for global processing
 	ms = &MS;
 
@@ -41,12 +42,11 @@ int comp_source_file_internal(MccState ms, char *name)
 	} while (t != NULL);
 #endif
 
-	t = next(f);
-	while (t != NULL) {
+	next(f);
+	while (Tok->type != TOK_EOF) {
 		r = parse_global_decl();
 		if (r < OK)
 			break;
-		t = next(f);
 	}
 
 	file_close(f);
