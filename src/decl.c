@@ -175,13 +175,16 @@ int parse_global_decl()
 			parse_function_body();
 			break;
 		} else { // variable or function decalration
+			int need_init;
 			LHD;
 			if (IS_FUNC(t.t)) {
 				LHD;
 				if (sym_find_identifier(val) == NULL)
 					sym_push(val, &t, STORE_GLOBAL);
 			} else { // variable decalration or initialization
-				;
+				need_init = (Tok->type == TOK_ASSIGN);
+				if (need_init)
+					NEXT;
 			}
 
 			if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
@@ -193,7 +196,8 @@ int parse_global_decl()
 				LHD;
 				NEXT;
 				continue;
-			}
+			} else
+				expect(";");
 		}
 	}
 
