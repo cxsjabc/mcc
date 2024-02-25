@@ -6,6 +6,7 @@
 #include "mcc/error.h"
 #include "mcc/mem.h"
 #include "mcc/section.h"
+#include "mcc/symbol.h"
 #include "mcc/type.h"
 
 #define SECTION_INIT_SIZE 64
@@ -111,6 +112,18 @@ Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr
 	s->offset += size;
 
 	return s;
+}
+
+Section section_alloc_data_space(Type *t, int store_type, int need_init, unsigned int *addr)
+{
+	int sec_type = SECTION_TYPE_BSS;
+
+	if (need_init)
+		sec_type = SECTION_TYPE_DATA;
+
+	if (LOCAL_VARIABLE(store_type))
+		; // TODO
+	return section_alloc_global_space(t, sec_type, addr);
 }
 
 __END_DECLS

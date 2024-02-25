@@ -9,15 +9,19 @@ __BEGIN_DECLS
 
 enum
 {
-	STORE_GLOBAL,
-	STORE_LOCAL,
-	STORE_LVAL = 0x1000,
-	STORE_SYM = 0x2000,
+	STORE_GLOBAL = 0x0,
+	STORE_LOCAL = 0x1,
+	STORE_MASK = 0xF,
+
+	STORE_LEFT_VAL = 0x10,
 
 	STORE_FUNC_TEMP = 0x10000000,
 	STORE_PARAM_TEMP = 0x20000000,
 	STORE_TEMP = 0x40000000,
 };
+
+#define LOCAL_VARIABLE(store_type) (((store_type) & STORE_MASK) == STORE_LOCAL)
+#define GLOBAL_VARIABLE(store_type) (((store_type) & STORE_MASK) == STORE_GLOBAL)
 
 typedef struct sym
 {

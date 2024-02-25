@@ -5,6 +5,7 @@
 #include "mcc/decl.h"
 #include "mcc/error.h"
 #include "mcc/lex.h"
+#include "mcc/section.h"
 #include "mcc/symbol.h"
 #include "mcc/token.h"
 #include "mcc/type.h"
@@ -141,12 +142,14 @@ void parse_function_body()
 
 }
 
-int parse_global_decl()
+int parse_global_decl(int curr_level)
 {
 	int r = OK;
 	int val;
+	unsigned int addr;
 	Type t;
 	Sym sym;
+	Section s;
 
 	LHD;
 	r = parse_type_specifier(&t);
@@ -182,9 +185,16 @@ int parse_global_decl()
 				if (sym_find_identifier(val) == NULL)
 					sym_push(val, &t, STORE_GLOBAL);
 			} else { // variable decalration or initialization
+				int store = 0;
+
+				store |= STORE_LEFT_VAL;
+				store |= curr_level;
 				need_init = (Tok->type == TOK_ASSIGN);
 				if (need_init)
 					NEXT;
+
+				s = section_alloc_data_space(&t, store, need_init, &addr);
+				(void) s;
 			}
 
 			if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
