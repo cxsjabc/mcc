@@ -3,7 +3,7 @@
 
 #include "mcc/mcc_base.h"
 
-#define ENABLE_TEST_ARGS 1
+#define ENABLE_TEST_ARGS 0
 #define ENABLE_TEST_ARRAY 0
 #define ENABLE_TEST_COMPILE_LOG 0
 #define ENABLE_TEST_EXEC 0
@@ -17,7 +17,7 @@
 #define ENABLE_TEST_SIZE 0
 #define ENABLE_TEST_STRING 0
 #define ENABLE_TEST_TOKEN 0
-#define ENABLE_TEST_TYPE 0
+#define ENABLE_TEST_TYPE 1
 #define ENABLE_TEST_STACK 0
 
 #define TEST_BEGIN always("Test %s begin.\n", __func__)

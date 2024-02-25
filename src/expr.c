@@ -4,7 +4,9 @@
 #include "mcc/compile_log.h"
 #include "mcc/decl.h"
 #include "mcc/error.h"
+#include "mcc/expr.h"
 #include "mcc/lex.h"
+#include "mcc/operand.h"
 #include "mcc/symbol.h"
 #include "mcc/token.h"
 #include "mcc/type.h"
@@ -20,7 +22,6 @@ void expr()
 		assignment_expr();
 		if (Tok->type != TOK_COMMA)
 			break;
-		operand_pop();
 		NEXT;
 	}
 }
@@ -30,10 +31,8 @@ void assignment_expr()
 	cond_expr();
 	if (Tok->type == TOK_ASSIGN) 
 	{
-		check_lvalue();
 		NEXT;
 		assignment_expr();
-		store0_1();
 	}
 }
 
@@ -108,66 +107,50 @@ void equality_expr()
 	while (Tok->type == TOK_EQUAL || Tok->type == TOK_NEQ) 
 	{
 		t = Tok;
+		(void)t;
 		NEXT;
 		relational_expr();
-		gen_op(t);
 	}
 }
 
 void relational_expr()
 {
-	int t;
-
 	shift_expr();
 	while ((Tok->type == TOK_LESS || Tok->type == TOK_GREATER) ||
 		Tok->type == TOK_LESS_EQ || Tok->type == TOK_GREATER_EQ) 
 	{
-		t = token;
 		NEXT;
 		shift_expr();
-		gen_op(t);
 	}
 }
 
 void shift_expr()
 {
-	Token t;
-
 	additive_expr();
 	while (Tok->type == TOK_LSHIFT || Tok->type == TOK_RSHIFT) 
 	{
-		t = Tok;
 		NEXT;
 		additive_expr();
-		gen_op(t);
 	}
 }
 
 void additive_expr()
 {
-	Token t;
-
 	multiple_expr();
 	while (Tok->type == TOK_PLUS || Tok->type == TOK_MINUS) 
 	{
-		t = Tok;
 		NEXT;
 		multiple_expr();
-		gen_op(t);
 	}
 }
 
 void multiple_expr()
 {
-	Token t;
-
 	unary_expr();
 	while (Tok->type == TOK_STAR || Tok->type == TOK_DIV || Tok->type == TOK_MOD) 
 	{
-		t = Tok;
 		NEXT;
 		unary_expr();
-		gen_op(t);
 	}
 }
 
@@ -176,9 +159,7 @@ void unary_expr()
 	switch (Tok->type) {
 	case TOK_MINUS:
 		NEXT;
-		operand_push();
 		unary_expr();
-		gen_op(TOK_MINUS);
 		break;
 	case TOK_SIZEOF:
 		sizeof_expr();
@@ -202,7 +183,6 @@ void sizeof_expr()
 	size = type_size(&t);
 	if (size < 0)
 		cerror("sizeof size is negative\n");
-	operand_push();
 }
 
 void postfix_expr()
@@ -222,17 +202,11 @@ void prim_expr()
 
 	type = Tok->t;
 	if (IS_INT(type.t)) {
-		operand_push();
 		NEXT;
 	} else if (Tok->sub_type == TK_SUB_TYPE_STRING) {
 		int t = MT_CHAR;
 		type.t = t;
-		mk_pointer(&type);
-		type.t |= MT_ARRAY;
-		
-		allocate_storage(&type, SC_GLOBAL, 2, 0, &addr);
-		var_sym_put(&type, SC_GLOBAL, 0, addr);
-		initializer(&type, addr, sec);
+		// TODO
 	} else {
 		if (Tok->type != TOK_IDENTIFIER)
 			expect("identifier");
@@ -241,17 +215,19 @@ void prim_expr()
 
 void args_list()
 {
-	Operand ret;
-	Sym *s,*sa;
+	Operand ret = NULL, optop = NULL; // TODO
+	Sym s, sa;
 	int nb_args;
 
-	s = optop->type.ref;
+	s = optop->type.sym;
 	NEXT;
-	sa = s->next; 
+	sa = s->slib; 
 	nb_args = 0;
-	ret.type = s->type;
-	ret.r = REG_IRET;
-	ret.value = 0;
+	ret->type = s->t;
+	ret->r = 0;
+	ret->value = 0;
+
+	(void) ret;
 
 	if (Tok->type != TOK_RPAREN) 
 	{
@@ -260,8 +236,8 @@ void args_list()
 			assignment_expr();
 			nb_args++;
 			if (sa)
-				sa = sa->next;
-			if (token == TOK_RPAREN)
+				sa = sa->slib;
+			if (Tok->type == TOK_RPAREN)
 				break;
 			skip(TOK_COMMA);
 		}
@@ -269,9 +245,6 @@ void args_list()
 	if (sa)
 		cerror("arguments is less than paramters\n");
 	skip(TOK_RPAREN);
-	gen_invoke(nb_args);
-
-	operand_push(&ret.type, ret.r, ret.value);
 }
 
 __END_DECLS

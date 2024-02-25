@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "mcc/compile_log.h"
 #include "mcc/env.h"
 #include "mcc/id.h"
 #include "mcc/lex.h"
@@ -47,43 +48,6 @@ void operand_swap()
 	
 	dynamic_array_set(opstack, vec_size(opstack) - 2, tmp);
 	dynamic_array_set(opstack, vec_size(opstack) - 1, tmp1);
-}
-
-void check_lvalue()
-{
-	if (!(optop->r & STORE_LVAL))
-		expect("L-value");
-}
-
-void operand_assign(Operand opd, int t, int r, int value)
-{
-	opd->type.t = t;
-	opd->r = r;
-	opd->value = value;
-}
-
-void cancel_lvalue()
-{
-	check_lvalue();
-	optop->r &= ~STORE_LVAL;
-}
-
-void indirection()
-{
-	if ((optop->type.t & MT_BTYPE) != MT_PTR)
-	{
-		if ((optop->type.t & MT_BTYPE) == MT_FUNC)
-			return;
-		expect("pointer");
-	}
-	if ((optop->r & STORE_LVAL))
-		load_1(REG_ANY, optop);
-	optop->type = *pointed_type(&optop->type);
-
-	if (!(optop->type.t & MT_ARRAY) && (optop->type.t & MT_BTYPE) != MT_FUNC)
-	{
-		optop->r |= STORE_LVAL;
-	}
 }
 
 __END_DECLS

@@ -29,7 +29,7 @@ enum {
 	MT_LONG = 0x10000,
 };
 
-#define BASIC_TYPE(t) (t & 0xF)
+#define BASIC_TYPE(t) (t & MT_BTYPE)
 #define IS_INT(t) (((t) & 0xF) == MT_INT)
 #define IS_FUNC(t) (((t) & 0xF) == MT_FUNC)
 
@@ -66,6 +66,8 @@ const char * get_type_names(int i);
 
 const char *type_basic_info(Type *t);
 
+unsigned int type_size(Type *t);
+unsigned int type_align(Type *t);
 __END_DECLS
 
 #endif

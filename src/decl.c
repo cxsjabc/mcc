@@ -189,7 +189,7 @@ int parse_global_decl()
 
 			if (Tok->type == TOK_SEMICOLON) { // declaration ends with ';'
 				LHD;
-				NEXT;
+				skip(TOK_SEMICOLON);
 				LHD;
 				break;
 			} else if (Tok->type == TOK_COMMA) { // declaration list

@@ -8,6 +8,15 @@
 
 __BEGIN_DECLS
 
+void test_type_size()
+{
+	Type t = { MT_INT };
+	int size;
+
+	size = type_size(&t);
+	assert(size == 4);
+}
+
 void test_type()
 {
 	int i;
@@ -27,6 +36,8 @@ void test_type()
 		always("Type: %s --> %d, size: %d, align: %d\n", type_name, i, p->size, p->align);
 		assert(p->size != 0 && p->align != 0);
 	}
+
+	test_type_size();
 
 	return;
 }

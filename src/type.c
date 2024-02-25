@@ -88,4 +88,80 @@ const char *type_basic_info(Type *t)
 	return "<NA>";
 }
 
+unsigned int type_size(Type *t)
+{
+	int base_type = BASIC_TYPE(t->t);
+	int size;
+
+	switch (base_type) {
+	case MT_CHAR:
+		size = 1;
+		break;
+	case MT_SHORT:
+		size = 2;
+		break;
+	case MT_INT:
+		size = 4;
+		break;
+	case MT_LLONG:
+		size = 8;
+		break;
+	case MT_FLOAT:
+		size = 4;
+		break;
+	case MT_DOUBLE:
+		size = 8;
+		break;
+	case MT_VOID:
+		size = 1;
+		break;
+	case MT_FUNC:
+		size = 4;
+		break;
+	default:
+		size = 1;
+		break;
+	}
+
+	return size;
+}
+
+unsigned int type_align(Type *t)
+{
+	int base_type = BASIC_TYPE(t->t);
+	int align;
+
+	switch (base_type) {
+	case MT_CHAR:
+		align = 1;
+		break;
+	case MT_SHORT:
+		align = 2;
+		break;
+	case MT_INT:
+		align = 4;
+		break;
+	case MT_LLONG:
+		align = 8;
+		break;
+	case MT_FLOAT:
+		align = 4;
+		break;
+	case MT_DOUBLE:
+		align = 8;
+		break;
+	case MT_VOID:
+		align = 1;
+		break;
+	case MT_FUNC:
+		align = 4;
+		break;
+	default:
+		align = 1;
+		break;
+	}
+
+	return align;
+}
+
 __END_DECLS
