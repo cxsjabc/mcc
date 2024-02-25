@@ -18,6 +18,8 @@ mcc
 *.pdb
 mcc_test
 
+*.log
+
 # cmake
 CMakeFiles
 Debug

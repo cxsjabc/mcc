@@ -3,25 +3,21 @@
 
 #include "mcc/mcc_base.h"
 
-typedef struct section_header
-{
-#ifdef _WINDOWS || defined(_MSC_VER)
-	IMAGE_SECTION_HEADER hdr;
+#if defined(_WINDOWS) || defined(_MSC_VER) || 1
+#include "mcc/win/section_header.h"
 #else
-	Elf64_Shdr hdr;
+#include "mcc/section_header.h"
 #endif
-} *Sec_Hdr;
-
-typedef struct section
-{
-	char *data;
-	unsigned int max_size;
-	unsigned int offset;
-
-	struct section_header hdr;
-} *Section;
 
 __BEGIN_DECLS
+
+void __need_init global_section_init();
+void global_section_free();
+
+Section section_alloc(const char *name, int charactics);
+void section_update_header(Section s, const char *name, int charactics);
+
+void section_free(Section sec);
 
 __END_DECLS
 

@@ -3,8 +3,8 @@
 
 #include "mcc/mcc_base.h"
 
+#include <windows.h>
 #include <winnt.h>
-__BEGIN_DECLS
 
 #ifdef NO_WINNT
 /* Copied from: C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\winnt.h */
@@ -33,5 +33,19 @@ typedef struct section
 
 	IMAGE_SECTION_HEADER hdr;
 } *Section;
+
+enum {
+	SECTION_TYPE_TEXT,
+	SECTION_TYPE_DATA,
+	SECTION_TYPE_BSS,
+	SECTION_TYPE_RDATA,
+	SECTION_TYPE_IDATA,
+
+	SECTION_TYPE_MAX,
+};
+
+__BEGIN_DECLS
+
+__END_DECLS
 
 #endif
