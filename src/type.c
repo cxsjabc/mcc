@@ -91,7 +91,7 @@ const char *type_basic_info(Type *t)
 unsigned int type_size(Type *t)
 {
 	int base_type = BASIC_TYPE(t->t);
-	int size;
+	int size = 0;
 
 	switch (base_type) {
 	case MT_CHAR:

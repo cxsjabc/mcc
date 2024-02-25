@@ -27,11 +27,12 @@ typedef struct _IMAGE_SECTION_HEADER {
 
 typedef struct section
 {
-	int offset;
-	unsigned char *data;
-	unsigned int size;
+	int offset; // the first element, because it is used more frequently
 
 	IMAGE_SECTION_HEADER hdr;
+
+	unsigned char *data;
+	unsigned int size;
 } *Section;
 
 enum {
@@ -43,6 +44,8 @@ enum {
 
 	SECTION_TYPE_MAX,
 };
+
+#define SEC_DATA_NEED_INIT(sec) ((sec)->hdr.Characteristics & IMAGE_SCN_CNT_INITIALIZED_DATA)
 
 __BEGIN_DECLS
 
