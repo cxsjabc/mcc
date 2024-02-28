@@ -11,6 +11,8 @@
 #include "mcc/section_header.h"
 #endif
 
+extern Section Secs[SECTION_TYPE_MAX];
+
 __BEGIN_DECLS
 
 void __need_init global_section_init();

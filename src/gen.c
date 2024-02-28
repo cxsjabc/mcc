@@ -3,28 +3,33 @@
 #include <string.h>
 
 #include "mcc/log.h"
+#include "mcc/section.h"
 #include "mcc/type.h"
 
 __BEGIN_DECLS
 
-int ind = 0;
-
-void gen_byte(char c)
+void gen_byte(unsigned char c)
 {
+	Section s = Secs[SECTION_TYPE_TEXT];
+	int orig_offset;
 
+	orig_offset = s->offset;
+	section_realloc(s, orig_offset + 1);
+	s->data[orig_offset] = c;
+	s->offset = orig_offset + 1;
 }
 
-void gen_prefix(char opcode)
+inline void gen_prefix(unsigned char opcode)
 {
 	gen_byte(opcode);
 }
 
-void gen_opcode1(char opcode)
+inline void gen_opcode1(unsigned char opcode)
 {
 	gen_byte(opcode);
 }
 
-void gen_opcode2(char first, char second)
+void gen_opcode2(unsigned char first, unsigned char second)
 {
 	gen_byte(first);
 	gen_byte(second);
