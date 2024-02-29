@@ -72,6 +72,9 @@ C_FLAGS += $(TEST_C_FLAGS)
 
 SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)
+ifeq ($(OS),Windows_NT)
+SRCS += $(wildcard $(SRC_DIR)/win/*.c)
+endif
 
 BUILD_OBJ_DIR := out
 
@@ -108,6 +111,9 @@ $(BUILD_OBJ_DIR)/%.o : %.c
 	@ if [ "$<" != "$(VER_FILE)" ] && [ $(TOUCH_VER_UPDATE) -eq 0 ]; then touch $(VER_FILE); set TOUCH_VER_UPDATE=1; fi
 
 -include $(BUILD_OBJ_DIR)/$(SRC_DIR)/*.d
+ifeq ($(OS),Windows_NT)
+-include $(BUILD_OBJ_DIR)/$(SRC_DIR)/win/*.d
+endif
 -include $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d
 
 clean:
@@ -124,6 +130,8 @@ srcs_depend:
 prepare:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
+	@ # TODO: Try to more compatible if add new folder! 
+	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)/win" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR)/win; fi
 
 mcc: all
 

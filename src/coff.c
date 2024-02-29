@@ -13,4 +13,9 @@
 
 __BEGIN_DECLS
 
+void coff_gen_obj(const char *name)
+{
+	// get coff section count
+}
+
 __END_DECLS

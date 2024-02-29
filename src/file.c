@@ -1,5 +1,6 @@
 #define NO_DEBUG 1
 
+#include <assert.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +20,7 @@ File file_open(const char *name)
 	int fd;
 	File f;
 
-	f = allocm(sizeof(struct file));
+	f = mcc_malloc(sizeof(struct file));
 	NULL_RETURN(f, "open file failed\n");
 
 	fd = open(name, O_RDONLY);
@@ -41,7 +42,7 @@ void file_close(File f)
 	if (f) {
 		if (f->fd >= 0)
 			close(f->fd);
-		freem(f);
+		mcc_free(f);
 	}
 }
 
@@ -172,6 +173,19 @@ char *read_file(const char *path)
 	fclose(file);
 	buffer[size] = '\0';
 	return buffer;
+}
+
+void file_fill(FILE *f, unsigned char c, int start, int end)
+{
+	assert(end >= start);
+        fseek(f, start, SEEK_SET);
+	while (start++ <= end)
+		fputc(c, f);
+}
+
+void file_fill_zero(FILE *f, int start, int end)
+{
+	file_fill(f, 0, start, end);
 }
 
 __END_DECLS

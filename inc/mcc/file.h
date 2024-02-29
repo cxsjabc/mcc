@@ -63,6 +63,10 @@ char *read_file(const char *path);
 
 int get_file_type(const char *path);
 
+// fill the file from start to end: [start, end]
+void file_fill(FILE *f, unsigned char c, int start, int end);
+void file_fill_zero(FILE *f, int start, int end);
+
 __END_DECLS
 
 #endif

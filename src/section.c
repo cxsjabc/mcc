@@ -73,27 +73,51 @@ unsigned int section_cal_type_offset(Section s, Type *t)
 	return offset;
 }
 
-int section_realloc(Section s, unsigned int new_size)
+void *section_realloc(Section s, unsigned int new_size)
 {
 	void *p;
 
 	if (s->size >= new_size)
-		return OK;
+		return s->data + s->offset;
 
 	p = mcc_realloc_safe(s->data, s->size, new_size);
 	if (p == NULL)
-		return ERR_NO_MEM;
+		return NULL;
 	s->data = p;
 	s->size = new_size;
 
-	return OK;
+	return s->data + s->offset;
+}
+
+void *section_use(Section s, unsigned int size)
+{
+	unsigned int new_size;
+	void *p;
+
+	new_size = s->offset + size;
+	p = section_realloc(s, new_size);
+	assert(p != NULL);
+
+	s->offset += new_size;
+	return p;
+}
+
+char *section_use_str(Section sec, const char *str)
+{
+	int len;
+	char *p;
+
+	len = strlen(str);
+	p = section_use(sec, len + 1);
+	strncpy(p, str, len + 1);
+	return p;
 }
 
 Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr)
 {
 	Section s;
 	unsigned int size, new_offset;
-	int r;
+	void *r;
 
 	size = type_size(t);
 	assert(size > 0);
@@ -105,7 +129,7 @@ Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr
 	s->offset = new_offset;
 	if (SEC_DATA_NEED_INIT(s)) {
 		r = section_realloc(s, new_offset + size);
-		assert(r == OK);
+		assert(r != NULL);
 	}
 
 	*addr = s->offset;
