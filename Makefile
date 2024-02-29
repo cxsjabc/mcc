@@ -10,6 +10,9 @@ CUR_DIR := .
 
 .PHONY : prepare all clean mcc test clean_test mcc_test
 
+# use bash to avoid "[: unexpected operator" error
+SHELL := /bin/bash
+
 # Default use gcc
 CC := gcc
 
@@ -74,6 +77,8 @@ SRC_DIR := src
 SRCS := $(wildcard $(SRC_DIR)/*.c)
 ifeq ($(OS),Windows_NT)
 SRCS += $(wildcard $(SRC_DIR)/win/*.c)
+else
+SRCS += $(wildcard $(SRC_DIR)/linux/*.c)
 endif
 
 BUILD_OBJ_DIR := out
@@ -113,6 +118,8 @@ $(BUILD_OBJ_DIR)/%.o : %.c
 -include $(BUILD_OBJ_DIR)/$(SRC_DIR)/*.d
 ifeq ($(OS),Windows_NT)
 -include $(BUILD_OBJ_DIR)/$(SRC_DIR)/win/*.d
+else
+-include $(BUILD_OBJ_DIR)/$(SRC_DIR)/linux/*.d
 endif
 -include $(BUILD_OBJ_DIR)/$(MAIN_OBJ).d
 
@@ -131,7 +138,8 @@ prepare:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)" ]; then mkdir $(BUILD_OBJ_DIR); fi
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
 	@ # TODO: Try to more compatible if add new folder! 
-	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)/win" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR)/win; fi
+	-@ if [ "$(OS)" == "Windows_NT" ] && [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)/win" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR)/win; fi
+	-@ if [ "$(OS)" != "Windows_NT" ] && [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)/linux" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR)/linux; fi
 
 mcc: all
 
