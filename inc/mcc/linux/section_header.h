@@ -7,6 +7,7 @@ typedef struct section
 {
 	int offset; // the first element, because it is used more frequently
 
+	void *hdr;
 	unsigned char *data;
 	unsigned int size;
 } *Section;

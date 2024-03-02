@@ -4,6 +4,7 @@
 #include "mcc/mcc_base.h"
 
 #include "mcc/coff.h"
+#include "mcc/error.h"
 #include "mcc/log.h"
 #include "mcc/mem.h"
 
@@ -34,16 +35,24 @@ inline unsigned int coff_get_data_offset(Coff coff)
 	return coff_get_file_header_size(coff) + coff_get_section_header_size(coff) * coff->sec_cnt;
 }
 
-void coff_write_file_header(Coff coff)
+int coff_write_file_header(Coff coff)
 {
 	IMAGE_FILE_HEADER *hdr;
+	FILE *f;
+	int r = OK;
 
+	f = coff->f;
 	hdr = (IMAGE_FILE_HEADER *)coff->file_hdr;
 
 	hdr->Machine = (WORD)coff->machine;
 	hdr->NumberOfSections = coff->sec_cnt;
 	hdr->PointerToSymbolTable = SECTION_SYMBOL_OFFSET(coff->sec_sym);
 	hdr->NumberOfSymbols = SECTION_SYM_CNT(coff->sec_sym);
+
+	fseek(f, 0, SEEK_SET);
+	r = fwrite(hdr, coff->file_hdr_size, 1, f);
+
+	return r == 1;
 }
 
 __END_DECLS

@@ -43,4 +43,12 @@ enum
 	} \
 }
 
+#define COND_GOTO(cond, label, info_str, ...) \
+{ \
+	if (cond) { \
+		LOG_HERE_ARGS(info_str, ##__VA_ARGS__); \
+		goto label; \
+	} \
+}
+
 #endif

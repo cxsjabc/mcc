@@ -51,6 +51,15 @@ void *mcc_realloc_safe(void *p, size_t orig_size, size_t new_size)
 	return p1;
 }
 
+void *mcc_mallocz(size_t size)
+{
+	void *p = mcc_malloc(size);
+
+	if (p)
+		memset(p, 0, size);
+	return p;
+}
+
 __END_DECLS
 
 #ifdef __cplusplus

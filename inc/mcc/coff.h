@@ -11,6 +11,8 @@ typedef struct coff
 {
 	int machine;
 	int sec_cnt;
+
+	FILE *f;
 	void *file_hdr;
 	unsigned int file_hdr_size;
 
@@ -36,8 +38,9 @@ unsigned int coff_get_file_header_size(Coff coff);
 unsigned int coff_get_section_header_size(Coff coff);
 unsigned int coff_get_data_offset(Coff coff);
 
-void coff_write_file_header(Coff coff);
-unsigned int coff_write_section_data(Coff coff, Section s, FILE *f, unsigned int data_offset);
+int coff_write_file_header(Coff coff);
+int coff_write_section_data(Coff coff);
+int coff_write_section_header(Coff coff);
 
 __END_DECLS
 

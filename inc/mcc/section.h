@@ -5,7 +5,7 @@
 
 #include "mcc/type.h"
 
-#if defined(_WINDOWS) || defined(_MSC_VER) || 1
+#if defined(_WINDOWS) || defined(_MSC_VER)
 #include "mcc/win/section_header.h"
 #else
 #include "mcc/linux/section_header.h"
