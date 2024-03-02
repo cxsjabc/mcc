@@ -26,4 +26,14 @@ void section_update_header(Section s, const char *name, int charactics)
 	s->hdr.Characteristics = charactics;
 }
 
+void section_update_header_pointer(Section s, unsigned int data_offset)
+{
+	IMAGE_SECTION_HEADER hdr;
+
+	(void)hdr;
+	hdr = s->hdr;
+	hdr.PointerToRawData = data_offset;
+	hdr.SizeOfRawData = s->offset;
+}
+
 __END_DECLS

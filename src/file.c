@@ -21,7 +21,7 @@ File file_open(const char *name)
 	File f;
 
 	f = mcc_malloc(sizeof(struct file));
-	NULL_RETURN(f, "open file failed\n");
+	NULL_RETURN(f, NULL, "open file failed\n");
 
 	fd = open(name, O_RDONLY);
 	if (fd < 0) {
@@ -133,7 +133,7 @@ char *alloc_preprocessed_file_name(const char *path)
 	char *pf;
 
 	pf = (char *)allocm(non_ext_len + pp_ext_len + 1);
-	NULL_RETURN(pf, "Alloc preprocessed file name failed");
+	NULL_RETURN(pf, NULL, "Alloc preprocessed file name failed");
 	
 	strncpy(pf, path, non_ext_len);
 	strncpy(pf + non_ext_len, get_preprocessed_ext(), pp_ext_len);

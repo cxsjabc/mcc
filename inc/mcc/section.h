@@ -5,11 +5,18 @@
 
 #include "mcc/type.h"
 
-#if defined(_WINDOWS) || defined(_MSC_VER)
+#if defined(_WINDOWS) || defined(_MSC_VER) || 1
 #include "mcc/win/section_header.h"
 #else
-#include "mcc/section_header.h"
+#include "mcc/linux/section_header.h"
 #endif
+
+#define OBJ_SECTION_COUNT (SECTION_TYPE_RELOC - SECTION_TYPE_TEXT + 1)
+#define EXE_SECTION_COUNT (SECTION_TYPE_LINKSYM_STR - SECTION_TYPE_TEXT + 1)
+#define SECTION_AT(idx) (Secs[(idx)])
+
+#define SECTION_SYM_CNT(section) _SECTOIN_SYM_CNT(section)
+#define SECTION_SYMBOL_OFFSET(section) _SECTOIN_SYMBOL_OFFSET(section)
 
 extern Section Secs[SECTION_TYPE_MAX];
 
@@ -31,6 +38,8 @@ char *section_use_str(Section sec, const char *str);
 
 Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr);
 Section section_alloc_data_space(Type *t, int store_type, int need_init, unsigned int *addr);
+
+void section_update_header_pointer(Section s, unsigned int data_offset);
 
 __END_DECLS
 

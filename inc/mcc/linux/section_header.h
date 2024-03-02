@@ -17,6 +17,13 @@ enum {
 	SECTION_TYPE_BSS,
 	SECTION_TYPE_RDATA,
 	SECTION_TYPE_IDATA,
+	SECTION_TYPE_SYMBOL,
+	SECTION_TYPE_SYMBOL_STR,
+	SECTION_TYPE_RELOC,
+	// the above sections are used for object file
+	// the below sections are used for final executable file
+	SECTION_TYPE_LINKSYM,
+	SECTION_TYPE_LINKSYM_STR,
 
 	SECTION_TYPE_MAX,
 };

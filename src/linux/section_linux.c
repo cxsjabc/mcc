@@ -22,4 +22,9 @@ void section_update_header(Section s, const char *name, int charactics)
 	// TODO
 }
 
+void section_update_header_pointer(Section s, unsigned int data_offset)
+{
+	
+}
+
 __END_DECLS

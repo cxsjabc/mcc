@@ -23,7 +23,7 @@ static pthread_key_t _Mcc_thread_key;
 MccState create_mcc_state()
 {
 	MccState ms = (MccState)mcc_calloc(1, sizeof(struct mcc_state));
-	NULL_RETURN(ms, "Alloc mcc_state failed.\n");
+	NULL_RETURN(ms, NULL, "Alloc mcc_state failed.\n");
 
 	ms->need_free = 1;
 	setup_mcc_state(ms);
