@@ -10,6 +10,8 @@ typedef struct section
 	void *hdr;
 	unsigned char *data;
 	unsigned int size;
+
+	struct section *str_sec;
 } *Section;
 
 enum {

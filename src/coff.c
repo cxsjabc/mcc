@@ -32,6 +32,8 @@ Coff coff_alloc()
 		mcc_free(coff);
 		return NULL;
 	}
+
+	coff->sec_sym = Secs[SECTION_TYPE_SYMBOL];
 	return coff;
 }
 
@@ -97,6 +99,7 @@ int coff_gen_obj(const char *name)
 
 	r = coff_write_section_header(coff);
 	COND_GOTO(r != OK, fail_write_section_header, "failed to write section header\n");
+	goto success;
 
 fail_write_section_header:
 fail_write_header:
@@ -104,6 +107,7 @@ fail_write_section_data:
 	fclose(coff->f);
 	coff->f = NULL;
 fail_fopen:
+success:
 	coff_free(coff);
 	return r;
 }

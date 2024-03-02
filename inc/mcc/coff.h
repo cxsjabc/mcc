@@ -19,6 +19,9 @@ typedef struct coff
 	Section sec_sym;
 } *Coff;
 
+#define CoffSym IMAGE_SYMBOL
+#define RelInfo IMAGE_RELOCATION
+
 __BEGIN_DECLS
 
 Coff coff_alloc();

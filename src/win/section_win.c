@@ -13,8 +13,18 @@ void __need_init global_section_init()
 	Secs[SECTION_TYPE_TEXT] = section_alloc(".text", IMAGE_SCN_CNT_CODE | IMAGE_SCN_MEM_EXECUTE);
 	Secs[SECTION_TYPE_DATA] = section_alloc(".data", IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE);
 	Secs[SECTION_TYPE_BSS] = section_alloc(".bss", IMAGE_SCN_CNT_UNINITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE);
-	Secs[SECTION_TYPE_RDATA] = section_alloc(".rdata", IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ);
+	Secs[SECTION_TYPE_RDATA] = section_alloc(".rodata", IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ);
 	Secs[SECTION_TYPE_IDATA] = section_alloc(".idata", IMAGE_SCN_CNT_INITIALIZED_DATA | IMAGE_SCN_MEM_READ | IMAGE_SCN_MEM_WRITE);
+
+	Secs[SECTION_TYPE_RELOC] = section_alloc(".reloc", IMAGE_SCN_MEM_READ | IMAGE_SCN_LNK_REMOVE);
+
+	Secs[SECTION_TYPE_SYMBOL] = section_alloc(".symbol", IMAGE_SCN_MEM_READ | IMAGE_SCN_LNK_REMOVE);
+	Secs[SECTION_TYPE_SYMBOL_STR] = section_alloc(".symstr", IMAGE_SCN_MEM_READ | IMAGE_SCN_LNK_REMOVE);
+	Secs[SECTION_TYPE_SYMBOL]->str_sec = Secs[SECTION_TYPE_SYMBOL_STR];
+
+	Secs[SECTION_TYPE_LINKSYM] = section_alloc(".link", IMAGE_SCN_MEM_READ | IMAGE_SCN_LNK_REMOVE);
+	Secs[SECTION_TYPE_LINKSYM_STR] = section_alloc(".lnkstr", IMAGE_SCN_MEM_READ | IMAGE_SCN_LNK_REMOVE);
+	Secs[SECTION_TYPE_LINKSYM]->str_sec = Secs[SECTION_TYPE_LINKSYM_STR];
 }
 
 void section_update_header(Section s, const char *name, int charactics)
