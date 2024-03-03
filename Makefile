@@ -165,7 +165,7 @@ prepare_test:
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(SRC_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(SRC_DIR); fi
 	-@ if [ ! -d "$(BUILD_OBJ_DIR)/$(TEST_DIR)" ]; then mkdir $(BUILD_OBJ_DIR)/$(TEST_DIR); fi
 
-test: os_check prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
+test: os_check srcs_depend prepare prepare_test $(BUILD_OBJS) $(TEST_BUILD_OBJS)
 	$(CC) -o $(TEST_OUT) $(TEST_BUILD_OBJS) $(BUILD_OBJS) $(C_FLAGS)
 	echo $(CC) > $(BUILD_OBJ_DIR)/previous_build
 
