@@ -1,3 +1,19 @@
+
+
+microsoft linker reference:
+    https://learn.microsoft.com/zh-cn/cpp/build/reference/linking?view=msvc-170
+
+
+https://learn.microsoft.com/en-us/Dotnet/visual-basic/reference/command-line-compiler/subsystemversion
+Windows version	                    Subsystem version
+Windows XP(32bit)                   5.01
+Windows XP(32bit) / Server 2003	    5.02
+Windows Vista	                    6.00
+Windows 7	                        6.01
+Windows Server 2008	                6.01
+Windows 8	                        6.02
+
+
              C/C++ 编译器选项
 
 

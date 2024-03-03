@@ -10,62 +10,64 @@ __BEGIN_DECLS
 
 // This comes from any .exe file!
 IMAGE_DOS_HEADER golden_dos_header = { // Fixed value!
-	.e_magic = 0x5A4D,         /* WORD   e_magic;    Magic number */
+	.e_magic = 0x5A4D,         /* WORD   e_magic;    ** Magic number */
 	// ..... ..... ..... ..... ..... ..... ..... ..... (Don't care!)
-	.e_lfanew = 0x00000080,    /* LONG   e_lfanew;   File address of new exe header */
+	.e_lfanew = 0x00000080,    /* LONG   e_lfanew;   ** File address of new exe header */
 };
 
 // Actually, can clear dos stub to zeros, also works normally on Windows i386.
-BYTE golden_dos_stub[0x40] = { 0x0 }; // Don't care, use fixed values!
+BYTE golden_dos_stub[0x40] = { 0x0 }; // Don't care, use fixed zero values!
 
 // The header may be changed!
 IMAGE_NT_HEADERS32 golden_nt_header = {
-	0x00004550, /* DWORD Signature */
+	0x00004550, /* DWORD Signature ** */
 	{
 		/* IMAGE_FILE_HEADER FileHeader */
-		0x0000,		/* WORD    Machine; // Updated! */
-		0x0000,		/* WORD    NumberOfSections; // Updated! */
-		0x00000000,	/* DWORD   TimeDateStamp; */
-		0x00000000,	/* DWORD   PointerToSymbolTable; // Updated! */
-		0x00000000,	/* DWORD   NumberOfSymbols; // Updated! */
-		0x00E0,		/* WORD    SizeOfOptionalHeader;  // Fixed on PE32 */
-		0x0000,		/* WORD    Characteristics; // Updated! */
+		0x0000,		/* WORD    Machine; ** Updated! */
+		0x0000,		/* WORD    NumberOfSections; ** Updated! */
+		0x00000000,	/* DWORD   TimeDateStamp; ? */
+		0x00000000,	/* DWORD   PointerToSymbolTable; ? */
+		0x00000000,	/* DWORD   NumberOfSymbols;  ? */
+		0x00E0,		/* WORD    SizeOfOptionalHeader;  **  Fixed on PE32 */
+		0x0000,		/* WORD    Characteristics; ** Updated! */
 	},
 	{
 		/* IMAGE_OPTIONAL_HEADER OptionalHeader */
-		0x010B,		/*WORD    Magic; // PE32 */
-		0x00,		/*BYTE    MajorLinkerVersion; // Updated? */
-		0x00,		/*BYTE    MinorLinkerVersion; // Updated? */
-		0x00000000,	/*DWORD   SizeOfCode; */
+		0x010B,		/*WORD    Magic; ** PE32 +0x18H */
+		0x00,		/*BYTE    MajorLinkerVersion; ? */
+		0x00,		/*BYTE    MinorLinkerVersion; ? */
+		0x00000000,	/*DWORD   SizeOfCode; ** */
 		0x00000000,	/*DWORD   SizeOfInitializedData; */
 		0x00000000,	/*DWORD   SizeOfUninitializedData; */
-		0x00000000,	/*DWORD   AddressOfEntryPoint; */
-		0x00000000,	/*DWORD   BaseOfCode; */
-		0x00000000,	/*DWORD   BaseOfData; */
+		0x00000000,	/*DWORD   AddressOfEntryPoint; +0x28H */
+		0x00000000,	/*DWORD   BaseOfCode; ** */
+		0x00000000,	/*DWORD   BaseOfData; ** */
 		
-		0x00400000,	/*DWORD   ImageBase; */
-		0x00001000,	/*DWORD   SectionAlignment; */
-		0x00000200,	/*DWORD   FileAlignment; */
-		0x0004,		/*WORD    MajorOperatingSystemVersion; */
-		0x0000,		/*WORD    MinorOperatingSystemVersion; */
-		0x0000,		/*WORD    MajorImageVersion; */
-		0x0000,		/*WORD    MinorImageVersion; */
-		0x0004,		/*WORD    MajorSubsystemVersion; */
-		0x0000,		/*WORD    MinorSubsystemVersion; */
-		0x00000000,	/*DWORD   Win32VersionValue; */
-		0x00000000,	/*DWORD   SizeOfImage; */
-		0x00000200,	/*DWORD   SizeOfHeaders; */
-		0x00000000,	/*DWORD   CheckSum; */
-		0x0003,		/*WORD    Subsystem; */
-		0x0000,		/*WORD    DllCharacteristics; */
-		0x00100000,	/*DWORD   SizeOfStackReserve; */
-		0x00001000,	/*DWORD   SizeOfStackCommit; */
-		0x00100000,	/*DWORD   SizeOfHeapReserve; */
-		0x00001000,	/*DWORD   SizeOfHeapCommit; */
-		0x00000000,	/*DWORD   LoaderFlags; */
-		0x00000010,	/*DWORD   NumberOfRvaAndSizes; */
+		0x00400000,	/*DWORD   ImageBase; ** EXE base +0x34H */
+		0x00001000,	/*DWORD   SectionAlignment; ** 4KB */
+		0x00000200,	/*DWORD   FileAlignment; ** 512B */
+		0x0004,		/*WORD    MajorOperatingSystemVersion; Phased out? +0x40H */
+		0x0000,		/*WORD    MinorOperatingSystemVersion; Phased out? */
+		0x0000,		/*WORD    MajorImageVersion; ? */
+		0x0000,		/*WORD    MinorImageVersion; ? */
+		// Refer to: https://learn.microsoft.com/en-us/Dotnet/visual-basic/reference/command-line-compiler/subsystemversion
+		// Use: 5.1 for Windows XP 32bit compatibility
+		0x0005,		/*WORD    MajorSubsystemVersion; ** On Win10, > 06, applicaton crash */
+		0x0001,		/*WORD    MinorSubsystemVersion; ** On Win10, > 02, applicaton crash */
+		0x00000000,	/*DWORD   Win32VersionValue; ** Must 0 */
+		0x00000000,	/*DWORD   SizeOfImage; ** +0x50H */
+		0x00000200,	/*DWORD   SizeOfHeaders; ** */
+		0x00000000,	/*DWORD   CheckSum; ** */
+		0x0003,		/*WORD    Subsystem; ** IMAGE_SUBSYSTEM_WINDOWS_CUI: 3 */
+		0x0000,		/*WORD    DllCharacteristics; For exe, ? */
+		0x00000000,	/*DWORD   SizeOfStackReserve; ? +0x60H  */
+		0x00000000,	/*DWORD   SizeOfStackCommit; ? */
+		0x00000000,	/*DWORD   SizeOfHeapReserve; ? */
+		0x00000000,	/*DWORD   SizeOfHeapCommit; ? */
+		0x00000000,	/*DWORD   LoaderFlags; Phased out */
+		0x00000010,	/*DWORD   NumberOfRvaAndSizes; ** */
 				
-		/* IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]; */
+		/* IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]; ** */
 		{ { 0 } },
 	},
 };
