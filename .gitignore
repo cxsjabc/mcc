@@ -16,13 +16,19 @@ mcc
 
 *.ilk
 *.pdb
+*.tlog
+*.iobj
+*.ipdb
+*.recipe
 mcc_test
 
 *.log
 
+Debug
+Release
+
 # cmake
 CMakeFiles
-Debug
 mcc.dir
 .vs
 CMakeCache.txt

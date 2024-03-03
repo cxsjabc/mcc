@@ -15,7 +15,7 @@ IMAGE_DOS_HEADER golden_dos_header = { // Fixed value!
 	.e_lfanew = 0x00000080,    /* LONG   e_lfanew;   ** File address of new exe header */
 };
 
-// Actually, can clear dos stub to zeros, also works normally on Windows i386.
+// Actually, can clear dos stub to zeros, also works normally on Windows XP+ 32bit.
 BYTE golden_dos_stub[0x40] = { 0x0 }; // Don't care, use fixed zero values!
 
 // The header may be changed!
