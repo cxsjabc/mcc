@@ -8,8 +8,7 @@
 __BEGIN_DECLS
 
 // This comes from one .exe file!
-// Fixed value!
-IMAGE_DOS_HEADER golden_dos_header = {
+IMAGE_DOS_HEADER golden_dos_header = { // Fixed value!
 	0x5A4D,         /* WORD   e_magic;          Magic number */
 	0x0090,         /* WORD   e_cblp;           Bytes on last page of file */
 	0x0003,         /* WORD   e_cp;             Pages in file */
@@ -31,13 +30,8 @@ IMAGE_DOS_HEADER golden_dos_header = {
 	0x00000080,     /* LONG   e_lfanew;         File address of new exe header */
 };
 
-// Fixed value!
-BYTE golden_dos_stub[0x40] = {
-	0x0E, 0x1F, 0xBA, 0x0E, 0x00, 0xB4, 0x09, 0xCD, 0x21, 0xB8, 0x01, 0x4C, 0xCD, 0x21, 0x54, 0x68,
-	0x69, 0x73, 0x20, 0x70, 0x72, 0x6F, 0x67, 0x72, 0x61, 0x6D, 0x20, 0x63, 0x61, 0x6E, 0x6E, 0x6F,
-	0x74, 0x20, 0x62, 0x65, 0x20, 0x72, 0x75, 0x6E, 0x20, 0x69, 0x6E, 0x20, 0x44, 0x4F, 0x53, 0x20,
-	0x6D, 0x6F, 0x64, 0x65, 0x2E, 0x0D, 0x0D, 0x0A, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-};
+// Actually, can clear dos stub to zeros, also works normal on Windows i386.
+BYTE golden_dos_stub[0x40] = { 0x0 }; // Fixed value!
 
 // The header may be changed!
 IMAGE_NT_HEADERS32 golder_nt_header = {
@@ -55,8 +49,8 @@ IMAGE_NT_HEADERS32 golder_nt_header = {
 	{
 		/* IMAGE_OPTIONAL_HEADER OptionalHeader */
 		0x010B,		/*WORD    Magic; // Fixed */
-		0x06,		/*BYTE    MajorLinkerVersion; // Updated! */
-		0x00,		/*BYTE    MinorLinkerVersion; // Updated! */
+		0x00,		/*BYTE    MajorLinkerVersion; // Updated? */
+		0x00,		/*BYTE    MinorLinkerVersion; // Updated? */
 		0x00000000,	/*DWORD   SizeOfCode; */
 		0x00000000,	/*DWORD   SizeOfInitializedData; */
 		0x00000000,	/*DWORD   SizeOfUninitializedData; */
