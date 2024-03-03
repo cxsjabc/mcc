@@ -34,6 +34,7 @@ endif
 # 1.1. Winows 64bit: use Mingw gcc generate 32bit program (10.2.0)
 # CC := i686-w64-mingw32-gcc.exe
   # If Windows 32bit, can use mingw32-gcc.exe (This is for 32bit system)
+  # For simple compile: i686-w64-mingw32-gcc.exe xxx.c
 
 # 1.2. Winows 64bit: use Mingw gcc generate 64bit program (10.2.0)
 # CC := x86_64-w64-mingw32-gcc.exe
