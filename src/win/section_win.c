@@ -29,8 +29,8 @@ void __need_init global_section_init()
 
 void section_update_header(Section s, const char *name, int charactics)
 {
-	if (strlen(name) >= IMAGE_SIZEOF_SHORT_NAME - 1)
-		error("section name(%s) is too long", name);
+	if (strlen(name) > IMAGE_SIZEOF_SHORT_NAME - 1)
+		error("section name(%s) is too long\n", name);
 
 	strcpy((char *)s->hdr.Name, name);
 	s->hdr.Characteristics = charactics;

@@ -6,6 +6,7 @@
 #define ENABLE_TEST_ARGS 0
 #define ENABLE_TEST_ARRAY 0
 #define ENABLE_TEST_COMPILE_LOG 0
+#define ENABLE_TEST_EXE 1
 #define ENABLE_TEST_EXEC 0
 #define ENABLE_TEST_FILE 0
 #define ENABLE_TEST_HASH 0
@@ -17,7 +18,7 @@
 #define ENABLE_TEST_SIZE 0
 #define ENABLE_TEST_STRING 0
 #define ENABLE_TEST_TOKEN 0
-#define ENABLE_TEST_TYPE 1
+#define ENABLE_TEST_TYPE 0
 #define ENABLE_TEST_STACK 0
 
 #define TEST_BEGIN always("Test %s begin.\n", __func__)
@@ -28,6 +29,7 @@ __BEGIN_DECLS
 void test_args();
 void test_array();
 void test_compile_log();
+void test_exe();
 void test_exec();
 void test_file();
 void test_hash();

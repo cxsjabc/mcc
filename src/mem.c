@@ -60,6 +60,70 @@ void *mcc_mallocz(size_t size)
 	return p;
 }
 
+void mem_print(void *p, int unit_len, const char *prefix)
+{
+	unsigned char *pc;
+	unsigned short *ps;
+	unsigned int *pi;
+	unsigned long long *pl;
+
+	if (unit_len != 1 && unit_len % 2 != 0) {
+		error("unit_len(%d) must be 1 or multiple of 2\n", unit_len);
+		return;
+	}
+
+	if (unit_len <= 0 || unit_len > 8) {
+		error("should be: 1 <= unit_len(%d) <= 8\n", unit_len);
+		return;
+	}
+
+	if (unit_len == 1) {
+		pc = (unsigned char *)p;
+		always("%s", prefix), always("0x%02x", *pc);
+	}
+	else if (unit_len == 4) {
+		pi = (unsigned int *)p;
+		always("%s", prefix), always("0x%08x", *pi);
+	}
+	else if (unit_len == 8) {
+		pl = (unsigned long long *)p;
+		always("%s", prefix), always("0x%016llx", *pl);
+	}
+	else {
+		ps = (unsigned short *)p;
+		always("%s", prefix), always("0x%04x", *ps);
+	}
+}
+
+void mem_dump(void *p, int size, int unit, int line_element_size)
+{
+	char *pc = (char *)p;
+	int i;
+
+	if (unit != 1 && unit % 2 != 0) {
+		error("unit(%d) must be 1 or multiple of 2\n", unit);
+		return;
+	}
+
+	if (unit <= 0 || unit > 8) {
+		error("should be: 1 <= unit(%d) <= 8\n", unit);
+		return;
+	}
+
+	if (line_element_size < 1)
+		line_element_size = 16;
+
+	for (i = 0; i * unit < size; i++) {
+		if (i % line_element_size == 0)
+			mem_print(pc + i * unit, unit, "");
+		else
+			mem_print(pc + i * unit, unit, " ");
+		if ((i + 1) % line_element_size == 0)
+			always("\n");
+	}
+	always("\n");
+}
+
 __END_DECLS
 
 #ifdef __cplusplus

@@ -43,4 +43,7 @@ void *mcc_realloc_safe(void *p, size_t orig_size, size_t new_size);
 
 void *mcc_mallocz(size_t size);
 
+void mem_dump(void *p, int size, int unit, int line_element_size);
+void mem_print(void *p, int unit_len, const char *prefix);
+
 #endif

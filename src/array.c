@@ -40,7 +40,7 @@ int is_array_element_equal(void *arr, int size, int unit)
 	return 1;
 }
 
-void dump_array(void *arr, int size)
+void array_dump(void *arr, int size)
 {
 	unsigned long *pi = (unsigned long *)arr;
 	int i;

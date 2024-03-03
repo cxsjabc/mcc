@@ -32,7 +32,7 @@ void verify_mem_buf(MccState *pms, int num)
 		unsigned long *p = (unsigned long *)saved_buffer_addr[i];
 		unsigned long *p1 = (unsigned long *)saved_buffer_addr[i + 1];
 
-		dump_array(p, size);
+		array_dump(p, size);
 		assert(is_array_element_equal(p, size, unit));
 		if (i < num - 1)
 			assert(*p != *p1);
