@@ -3,6 +3,7 @@
 
 #include "mcc/mcc_base.h"
 
+#include "mcc/error.h"
 #include "mcc/exe.h"
 #include "mcc/log.h"
 
@@ -92,6 +93,27 @@ void __need_init pe_verify_nt_header()
 		fatal("NT header: signature != 0x%x\n", 0x4550);
 	if (golden_nt_header.OptionalHeader.Magic != 0x010B)
 		fatal("NT header: machine != 0x%x\n", 0x010B);
+}
+
+int _exe_write_file_header(Exe exe)
+{
+	FILE *f;
+	int r = OK;
+
+	f = exe->f;
+
+	fseek(f, 0, SEEK_SET);
+	r = fwrite(&golden_dos_header, sizeof(golden_dos_header), 1, f);
+	if (r != 1)
+		return ERR_FAIL;
+	r = fwrite(&golden_dos_stub, sizeof(golden_dos_stub), 1, f);
+	if (r != 1)
+		return ERR_FAIL;
+	r = fwrite(&golden_nt_header, sizeof(golden_nt_header), 1, f);
+	if (r != 1)
+		return ERR_FAIL;
+
+	return r == 1;
 }
 
 __END_DECLS

@@ -24,7 +24,7 @@ enum {
 	SECTION_TYPE_SYMBOL_STR,
 	SECTION_TYPE_RELOC,
 	// the above sections are used for object file
-	// the below sections are used for final executable file
+	// together with the below sections are used for final executable file
 	SECTION_TYPE_LINKSYM,
 	SECTION_TYPE_LINKSYM_STR,
 

@@ -31,7 +31,7 @@ void section_update_header(Section s, const char *name, int charactics);
 void section_free(Section sec);
 
 unsigned int section_cal_type_offset(Section s, Type *t);
-void *section_realloc(Section s, unsigned int new_size);
+void *section_realloc(Section s, unsigned long new_size);
 
 void *section_use(Section s, unsigned int size);
 char *section_use_str(Section sec, const char *str);

@@ -35,16 +35,16 @@ void *allocmz(size_t size)
 	return p;
 }
 
-void *mcc_realloc_safe(void *p, size_t orig_size, size_t new_size)
+void *mcc_realloc_safe(void *p, size_t orig_size, size_t *new_size)
 {
 	void *p1;
 	size_t diff;
 
-	diff = new_size - orig_size;
-	assert(new_size >= orig_size);
-	while ((p1 = mcc_realloc(p, new_size)) == NULL) {
-		new_size -= (diff >> 1);
-		diff = new_size - orig_size;
+	diff = *new_size - orig_size;
+	assert(*new_size >= orig_size);
+	while ((p1 = mcc_realloc(p, *new_size)) == NULL) {
+		*new_size -= (diff >> 1);
+		diff = *new_size - orig_size;
 		if (diff <= 8)
 			fatal("Seems no any memory, crash!\n");
 	}

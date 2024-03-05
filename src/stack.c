@@ -65,12 +65,12 @@ int stack_push(Stack st, void *data)
 		if (orig_size == 0)
 			orig_size = 1;
 		new_size  = orig_size << 1;
-		new_data = (void **)mcc_realloc_safe(st->data, orig_size, new_size);
+		new_data = (void **)mcc_realloc_safe(st->data, orig_size, &new_size);
 		if (!new_data)
 			fatal("No enough memory, crash!\n");
 
 		st->data = new_data;
-		st->capacity *= 2;
+		st->capacity = new_size;
 	}
 
 	st->data[st->size++] = data;

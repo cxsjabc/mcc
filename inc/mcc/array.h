@@ -26,6 +26,7 @@ DynArray dynamic_array_create(unsigned int size);
 void dynamic_array_destroy(DynArray arr);
 
 int dynamic_array_push(DynArray arr, void *data);
+int dynamic_array_push_arr(DynArray arr, void **pushed_arr, unsigned int size);
 void *dynamic_array_pop(DynArray arr);
 
 int dynamic_array_is_empty(DynArray arr);

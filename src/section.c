@@ -65,14 +65,14 @@ unsigned int section_cal_type_offset(Section s, Type *t)
 	return offset;
 }
 
-void *section_realloc(Section s, unsigned int new_size)
+void *section_realloc(Section s, unsigned long new_size)
 {
 	void *p;
 
 	if (s->size >= new_size)
 		return s->data + s->offset;
 
-	p = mcc_realloc_safe(s->data, s->size, new_size);
+	p = mcc_realloc_safe(s->data, s->size, &new_size);
 	if (p == NULL)
 		return NULL;
 	s->data = p;

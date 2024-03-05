@@ -39,7 +39,7 @@ void *allocm(size_t size);
 #endif
 
 void *allocmz(size_t size);
-void *mcc_realloc_safe(void *p, size_t orig_size, size_t new_size);
+void *mcc_realloc_safe(void *p, size_t orig_size, size_t *new_size);
 
 void *mcc_mallocz(size_t size);
 

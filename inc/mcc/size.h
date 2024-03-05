@@ -3,6 +3,9 @@
 
 #include "mcc/mcc_base.h"
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
 // This is compiler-dependent.
 
 #define BOOLEAN_T_SIZE 1

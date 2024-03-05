@@ -7,6 +7,7 @@
 #include "mcc/log.h"
 #include "mcc/mem.h"
 #include "mcc/print.h"
+#include "mcc/size.h"
 
 __BEGIN_DECLS
 
@@ -112,17 +113,43 @@ int dynamic_array_push(DynArray arr, void *data)
 			arr->capacity = 1;
 		orig_size = sizeof(void *) * arr->capacity;
 		new_size = orig_size << 1;
-		new_data = (void **)mcc_realloc_safe(arr->data, orig_size, new_size);
+		new_data = (void **)mcc_realloc_safe(arr->data, orig_size, &new_size);
 		if (!new_data) {
 			fatal("No enough memory, crash!\n");
 			return ERR_NO_MEM;
 		}
 
 		arr->data = new_data;
-		arr->capacity *= 2;
+		arr->capacity = new_size;
 	}
 
 	arr->data[arr->size++] = data;
+	return OK;
+}
+
+int dynamic_array_push_arr(DynArray arr, void **pushed_arr, unsigned int size)
+{
+	if (arr->size + size > arr->capacity) {
+		size_t orig_size;
+		size_t new_size;
+		void **new_data;
+
+		if (arr->capacity == 0)
+			arr->capacity = MAX(1, size);
+		orig_size = sizeof(void *) * arr->capacity;
+		new_size = orig_size << 1;
+		new_data = (void **)mcc_realloc_safe(arr->data, orig_size, &new_size);
+		if (!new_data) {
+			fatal("No enough memory, crash!\n");
+			return ERR_NO_MEM;
+		}
+
+		arr->data = new_data;
+		arr->capacity = new_size;
+	}
+
+	for (int i = 0; i < size; ++i)
+		arr->data[arr->size++] = pushed_arr[i];
 	return OK;
 }
 
