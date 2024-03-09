@@ -17,6 +17,12 @@
 #define SEC_SYMBOL_OFFSET(section) _SECTOIN_SYMBOL_OFFSET(section)
 
 #define SEC_NAME(sec) _SEC_NAME(sec)
+#define SEC_SIZE(sec) ((sec)->offset)
+#define SEC_IS_CODE(sec) ((sec)->sec_type == SEC_TYPE_TEXT)
+#define SEC_IS_DATA(sec) ((sec)->sec_type == SEC_TYPE_DATA)
+#define SEC_IS_RDATA(sec) ((sec)->sec_type == SEC_TYPE_RDATA)
+#define SEC_IS_BSS(sec) ((sec)->sec_type == SEC_TYPE_BSS)
+#define SEC_IS_IDATA(sec) ((sec)->sec_type == SEC_TYPE_IDATA)
 
 extern Section Secs[SEC_TYPE_MAX];
 
@@ -25,7 +31,7 @@ __BEGIN_DECLS
 void __need_init global_section_init();
 void global_section_free();
 
-Section section_alloc(const char *name, int charactics);
+Section section_alloc(const char *name, int sec_type, int charactics);
 void section_update_header(Section s, const char *name, int charactics);
 
 void section_free(Section sec);

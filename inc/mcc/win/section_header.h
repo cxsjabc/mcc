@@ -39,6 +39,7 @@ typedef struct section
 	unsigned int size;
 
 	struct section *str_sec;
+	int sec_type;
 } *Section;
 
 enum {

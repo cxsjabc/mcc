@@ -14,6 +14,7 @@ extern IMAGE_NT_HEADERS golden_nt_headers;
 
 #define NTHDR_FILE_ALIGN(nt_hdr) ((nt_hdr)->OptionalHeader.FileAlignment)
 #define NTHDR_SEC_ALIGN(nt_hdr) ((nt_hdr)->OptionalHeader.SectionAlignment)
+#define NTHDR_IMG_BASE(nt_hdr) ((nt_hdr)->OptionalHeader.ImageBase)
 
 __BEGIN_DECLS
 

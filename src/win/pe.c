@@ -7,6 +7,7 @@
 #include "mcc/error.h"
 #include "mcc/exe.h"
 #include "mcc/log.h"
+#include "mcc/section.h"
 
 __BEGIN_DECLS
 
@@ -101,6 +102,13 @@ unsigned int exe_get_file_align(Exe exe)
 	return NTHDR_FILE_ALIGN(&golden_nt_header);
 }
 
+unsigned int exe_get_section_virt_addr_offset(Section sec)
+{
+	unsigned int virt_addr = sec->hdr.VirtualAddress;
+	unsigned int img_base = NTHDR_IMG_BASE(&golden_nt_header);
+	return virt_addr - img_base;
+}
+
 unsigned int exe_get_header_aligned(Exe exe)
 {
 	unsigned int hdr_size, r;
@@ -109,6 +117,16 @@ unsigned int exe_get_header_aligned(Exe exe)
 
 	r = ALIGN(hdr_size, NTHDR_FILE_ALIGN(&golden_nt_header));
 	return r;
+}
+
+void exe_preprocess_section(Section sec)
+{
+	unsigned int addr = exe_get_section_virt_addr_offset(sec);
+	unsigned int size = SEC_SIZE(sec);
+	if (SEC_IS_CODE(sec))
+		golden_nt_header.OptionalHeader.BaseOfCode = addr;
+	
+	section_update_virt_addr_size(sec, addr, size);
 }
 
 int _exe_write_file_header(Exe exe)

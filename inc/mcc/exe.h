@@ -48,6 +48,9 @@ int exe_write_section_header(Exe exe);
 unsigned int exe_get_file_align(Exe exe);
 unsigned int exe_get_header_aligned(Exe exe);
 
+unsigned int exe_get_section_virt_addr_offset(Section sec);
+void exe_preprocess_section(Section sec);
+
 __END_DECLS
 
 #endif

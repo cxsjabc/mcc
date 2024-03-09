@@ -124,9 +124,10 @@ int exe_write_section_data(Exe exe)
 	fseek(exe->f, data_offset, SEEK_SET);
 	// write section data
 	for (int i = 0; i < exe->sec_cnt; i++) {
-		Section s = SEC_AT(i);
+		Section s = EXE_SEC(exe, i);
 		int written_size;
 
+		exe_preprocess_section(s);
 		written_size = _exe_write_section_data(exe, s, data_offset);
 		if (written_size < 0)
 			return ERR_FAIL;

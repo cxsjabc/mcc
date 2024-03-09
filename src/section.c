@@ -29,7 +29,7 @@ void global_section_free()
 	}
 }
 
-Section section_alloc(const char *name, int charactics)
+Section section_alloc(const char *name, int sec_type, int charactics)
 {
 	Section s = allocmz(sizeof(struct section));
 	NULL_RETURN(s, NULL, "alloc section failed");
@@ -37,6 +37,7 @@ Section section_alloc(const char *name, int charactics)
 	s->data = mcc_malloc(SEC_INIT_SIZE);
 	NULL_RETURN(s->data, NULL, "alloc section data failed");
 	s->size = SEC_INIT_SIZE;
+	s->sec_type = sec_type;
 
 	section_update_header(s, name, charactics);
 	
