@@ -48,8 +48,10 @@ fail_alloc_array:
 
 void exe_free(Exe c)
 {
-	if (c->f)
+	if (c->f) {
 		fclose(c->f);
+		c->f = NULL;
+	}
 	mcc_free(c);
 }
 
@@ -65,6 +67,8 @@ int exe_gen(const char *name)
 	f = fopen(name, "wb");
 	COND_GOTO(!f, fail_fopen, "open file %s failed\n", name);
 	exe->f = f;
+
+	exe->file_align = exe_get_file_align(exe);
 
         // write section data
 	r = exe_write_section_data(exe);

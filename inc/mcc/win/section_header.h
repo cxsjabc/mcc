@@ -27,6 +27,7 @@ typedef struct _IMAGE_SECTION_HEADER {
 
 #define _SECTOIN_SYM_CNT(section) (((Section)(section))->hdr.SizeOfRawData / sizeof(IMAGE_SYMBOL))
 #define _SECTOIN_SYMBOL_OFFSET(section) (((Section)(section))->hdr.PointerToRawData)
+#define _SEC_NAME(sec) ((sec)->hdr.Name)
 
 typedef struct section
 {

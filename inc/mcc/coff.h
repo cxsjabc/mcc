@@ -22,6 +22,8 @@ typedef struct coff
 #define CoffSym IMAGE_SYMBOL
 #define RelInfo IMAGE_RELOCATION
 
+#define OBJ_SECTION_COUNT (SECTION_TYPE_RELOC - SECTION_TYPE_TEXT + 1)
+
 __BEGIN_DECLS
 
 Coff coff_alloc();

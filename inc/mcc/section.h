@@ -11,12 +11,12 @@
 #include "mcc/linux/section_header.h"
 #endif
 
-#define OBJ_SECTION_COUNT (SECTION_TYPE_RELOC - SECTION_TYPE_TEXT + 1)
-#define EXE_SECTION_COUNT (SECTION_TYPE_LINKSYM_STR - SECTION_TYPE_TEXT + 1)
 #define SECTION_AT(idx) (Secs[(idx)])
 
 #define SECTION_SYM_CNT(section) _SECTOIN_SYM_CNT(section)
 #define SECTION_SYMBOL_OFFSET(section) _SECTOIN_SYMBOL_OFFSET(section)
+
+#define SEC_NAME(sec) _SEC_NAME(sec)
 
 extern Section Secs[SECTION_TYPE_MAX];
 
