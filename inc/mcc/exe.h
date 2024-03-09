@@ -26,7 +26,7 @@ typedef struct exe
 
 #define EXE_MACHINE(exe) ((exe)->machine)
 #define EXE_SEC_CNT(exe) ((exe)->sec_cnt)
-#define EXE_SECTION_COUNT (SECTION_TYPE_LINKSYM_STR - SECTION_TYPE_TEXT + 1)
+#define EXE_SEC_COUNT (SEC_TYPE_LINKSYM_STR - SEC_TYPE_TEXT + 1)
 
 #define EXE_SEC(exe, idx) vec_at((exe)->secs, idx)
 

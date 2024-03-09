@@ -10,7 +10,7 @@ __BEGIN_DECLS
 
 void gen_byte(unsigned char c)
 {
-	Section s = Secs[SECTION_TYPE_TEXT];
+	Section s = Secs[SEC_TYPE_TEXT];
 	int orig_offset;
 
 	orig_offset = s->offset;

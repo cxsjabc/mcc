@@ -13,7 +13,7 @@ extern BYTE golden_dos_stub[0x40];
 extern IMAGE_NT_HEADERS golden_nt_headers;
 
 #define NTHDR_FILE_ALIGN(nt_hdr) ((nt_hdr)->OptionalHeader.FileAlignment)
-#define NTHDR_SECTION_ALIGN(nt_hdr) ((nt_hdr)->OptionalHeader.SectionAlignment)
+#define NTHDR_SEC_ALIGN(nt_hdr) ((nt_hdr)->OptionalHeader.SectionAlignment)
 
 __BEGIN_DECLS
 

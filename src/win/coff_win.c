@@ -46,8 +46,8 @@ int coff_write_file_header(Coff coff)
 
 	hdr->Machine = (WORD)coff->machine;
 	hdr->NumberOfSections = coff->sec_cnt;
-	hdr->PointerToSymbolTable = SECTION_SYMBOL_OFFSET(coff->sec_sym);
-	hdr->NumberOfSymbols = SECTION_SYM_CNT(coff->sec_sym);
+	hdr->PointerToSymbolTable = SEC_SYMBOL_OFFSET(coff->sec_sym);
+	hdr->NumberOfSymbols = SEC_SYM_CNT(coff->sec_sym);
 
 	fseek(f, 0, SEEK_SET);
 	r = fwrite(hdr, coff->file_hdr_size, 1, f);

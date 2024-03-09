@@ -33,7 +33,7 @@ Coff coff_alloc()
 		return NULL;
 	}
 
-	coff->sec_sym = Secs[SECTION_TYPE_SYMBOL];
+	coff->sec_sym = Secs[SEC_TYPE_SYMBOL];
 	return coff;
 }
 
@@ -83,7 +83,7 @@ int coff_gen_obj(const char *name)
 
 	coff = coff_alloc();
 	NULL_RETURN(coff, ERR_FAIL, "coff_alloc failed\n");
-	coff_set_sec_cnt(coff, OBJ_SECTION_COUNT);
+	coff_set_sec_cnt(coff, OBJ_SEC_COUNT);
 
 	f = fopen(name, "wb");
 	COND_GOTO(!f, fail_fopen, "open file %s failed\n", name);
@@ -121,7 +121,7 @@ int coff_write_section_header(Coff coff)
 
 	fseek(f, coff_get_file_header_size(coff), SEEK_SET);
 	for (int i = 0; i < coff->sec_cnt; i++) {
-		Section s = SECTION_AT(i);
+		Section s = SEC_AT(i);
 		r = fwrite(&s->hdr, coff_get_section_header_size(coff), 1, f);
 		if (r != 1)
 			return ERR_FAIL;
@@ -138,7 +138,7 @@ int coff_write_section_data(Coff coff)
 	fseek(coff->f, data_offset, SEEK_SET);
 	// write section data
 	for (int i = 0; i < coff->sec_cnt; i++) {
-		Section s = SECTION_AT(i);
+		Section s = SEC_AT(i);
 		int written_size;
 
 		written_size = _coff_write_section_data(coff, s, data_offset);

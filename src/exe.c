@@ -30,7 +30,7 @@ Exe exe_alloc()
 	exe = (Exe)mcc_mallocz(sizeof(struct exe));
 	NULL_RETURN(exe, NULL, "failed to allocate Exe memory");
 
-	EXE_SEC_CNT(exe) = EXE_SECTION_COUNT;
+	EXE_SEC_CNT(exe) = EXE_SEC_COUNT;
 	arr = dynamic_array_create(8);
 	COND_GOTO(!arr, fail_alloc_array, "failed to allocate dynamic array memory");
 	exe->secs = arr;
@@ -107,7 +107,7 @@ int exe_write_section_header(Exe exe)
 
 	fseek(f, EXE_FILE_HDR_SIZE(exe), SEEK_SET);
 	for (int i = 0; i < exe->sec_cnt; i++) {
-		Section s = SECTION_AT(i);
+		Section s = SEC_AT(i);
 		r = fwrite(&s->hdr, EXE_SEC_HDR_SIZE(exe), 1, f);
 		if (r != 1)
 			return ERR_FAIL;
@@ -124,7 +124,7 @@ int exe_write_section_data(Exe exe)
 	fseek(exe->f, data_offset, SEEK_SET);
 	// write section data
 	for (int i = 0; i < exe->sec_cnt; i++) {
-		Section s = SECTION_AT(i);
+		Section s = SEC_AT(i);
 		int written_size;
 
 		written_size = _exe_write_section_data(exe, s, data_offset);

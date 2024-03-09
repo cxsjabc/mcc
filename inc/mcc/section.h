@@ -1,5 +1,5 @@
-#ifndef SECTION_H
-#define SECTION_H
+#ifndef SEC_H
+#define SEC_H
 
 #include "mcc/mcc_base.h"
 
@@ -11,14 +11,14 @@
 #include "mcc/linux/section_header.h"
 #endif
 
-#define SECTION_AT(idx) (Secs[(idx)])
+#define SEC_AT(idx) (Secs[(idx)])
 
-#define SECTION_SYM_CNT(section) _SECTOIN_SYM_CNT(section)
-#define SECTION_SYMBOL_OFFSET(section) _SECTOIN_SYMBOL_OFFSET(section)
+#define SEC_SYM_CNT(section) _SECTOIN_SYM_CNT(section)
+#define SEC_SYMBOL_OFFSET(section) _SECTOIN_SYMBOL_OFFSET(section)
 
 #define SEC_NAME(sec) _SEC_NAME(sec)
 
-extern Section Secs[SECTION_TYPE_MAX];
+extern Section Secs[SEC_TYPE_MAX];
 
 __BEGIN_DECLS
 

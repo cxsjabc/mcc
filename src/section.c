@@ -9,11 +9,11 @@
 #include "mcc/symbol.h"
 #include "mcc/type.h"
 
-#define SECTION_INIT_SIZE 64
+#define SEC_INIT_SIZE 64
 
 __BEGIN_DECLS
 
-Section Secs[SECTION_TYPE_MAX];
+Section Secs[SEC_TYPE_MAX];
 
 void __need_init __WEAK global_section_init()
 {
@@ -24,7 +24,7 @@ void global_section_free()
 {
 	int i;
 
-	for (i = 0; i < SECTION_TYPE_MAX; i++) {
+	for (i = 0; i < SEC_TYPE_MAX; i++) {
 		section_free(Secs[i]);
 	}
 }
@@ -34,9 +34,9 @@ Section section_alloc(const char *name, int charactics)
 	Section s = allocmz(sizeof(struct section));
 	NULL_RETURN(s, NULL, "alloc section failed");
 
-	s->data = mcc_malloc(SECTION_INIT_SIZE);
+	s->data = mcc_malloc(SEC_INIT_SIZE);
 	NULL_RETURN(s->data, NULL, "alloc section data failed");
-	s->size = SECTION_INIT_SIZE;
+	s->size = SEC_INIT_SIZE;
 
 	section_update_header(s, name, charactics);
 	
@@ -114,7 +114,7 @@ Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr
 	size = type_size(t);
 	assert(size > 0);
 
-	assert(section_type < SECTION_TYPE_MAX);
+	assert(section_type < SEC_TYPE_MAX);
 	s = Secs[section_type];
 
 	new_offset = section_cal_type_offset(s, t);
@@ -132,10 +132,10 @@ Section section_alloc_global_space(Type *t, int section_type, unsigned int *addr
 
 Section section_alloc_data_space(Type *t, int store_type, int need_init, unsigned int *addr)
 {
-	int sec_type = SECTION_TYPE_BSS;
+	int sec_type = SEC_TYPE_BSS;
 
 	if (need_init)
-		sec_type = SECTION_TYPE_DATA;
+		sec_type = SEC_TYPE_DATA;
 
 	if (LOCAL_VARIABLE(store_type))
 		; // TODO
